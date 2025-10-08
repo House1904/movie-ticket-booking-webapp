@@ -10,6 +10,7 @@ import java.util.*;
 import model.Cinema;
 import service.CinemaService;
 
+@WebServlet("/cinema")
 public class CinemaController extends HttpServlet{
     private CinemaService cinemaService = new CinemaService();
 
