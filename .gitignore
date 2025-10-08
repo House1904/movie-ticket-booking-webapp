@@ -1,0 +1,81 @@
+# -------------------------------
+# Java build output
+# -------------------------------
+target/                 # Maven
+build/                  # Gradle
+out/                    # IntelliJ / Java compiler
+classes/                # NetBeans build classes
+
+# -------------------------------
+# IntelliJ IDEA
+# -------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# -------------------------------
+# Eclipse
+# -------------------------------
+.project
+.classpath
+.settings/
+bin/
+
+# -------------------------------
+# NetBeans
+# -------------------------------
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# -------------------------------
+# VS Code
+# -------------------------------
+.vscode/
+.history/
+*.code-workspace
+
+# -------------------------------
+# Plugins
+# -------------------------------
+.smarttomcat/           # IntelliJ SmartTomcat plugin
+
+# -------------------------------
+# OS specific
+# -------------------------------
+.DS_Store               # macOS Finder
+Thumbs.db               # Windows thumbnail cache
+
+# -------------------------------
+# Logs & temp files
+# -------------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# -------------------------------
+# Java compiled / packaged
+# -------------------------------
+*.class
+*.jar
+*.war
+*.ear
+
+# -------------------------------
+# Dependency caches
+# -------------------------------
+.mvn/
+.gradle/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# -------------------------------
+# JVM crash logs
+# -------------------------------
+hs_err_pid*
+replay_pid*
+target/

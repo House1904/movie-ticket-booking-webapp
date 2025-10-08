@@ -1,0 +1,258 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Archivo, sans-serif
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 15vh;
+    background-color: #293462;;
+    padding: 10px 100px;
+    position: sticky;
+    top: 0;            /* dính trên cùng */
+    z-index: 1000;     /* nổi lên trên */
+}
+
+/* Logo */
+.logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    /*font-size: 22px;
+    font-weight: bold*/;
+    text-decoration: none;
+}
+
+/* Menu ngang */
+.nav, .cloud {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav li, .cloud li{
+    margin-left: 20px;
+}
+
+.nav li a, .cloud li a{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: 0.3s;
+}
+
+.nav li a:hover, .cloud li a:hover {
+    background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
+    color: #293462;
+    border-radius: 5px;
+    transform: scale(1.05);       /* phóng to nhẹ */
+    box-shadow: 0 0 8px rgba(28, 214, 206, 0.6); /* đổ bóng */
+}
+.nav li a {
+    position: relative;
+}
+
+/* Search box */
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 350px;
+    background-color: #ffffff; /* vàng nhạt */
+    color: #293462;
+    height: 40px;
+}
+.search-box input:focus {
+    box-shadow: 0 0 8px rgba(28, 214, 206, 0.8); /* hiệu ứng glow hồng */
+    transform: translateY(-1px);
+    border: 1px solid #1cd6ce; /* viền màu chủ đạo */
+}
+.search-box input:hover {
+    transform: scale(1.05);
+    border: 1px solid #1cd6ce; /* viền màu chủ đạo */
+}
+.search-box button {
+    padding: 6px 10px;
+    border: none;
+    background-color: #ffffff;
+    color: #293462;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+    transition: 0.3s;
+    height: 40px;
+}
+
+.search-box button:hover {
+    background: linear-gradient(135deg, #9543A7, #1cd6ce);
+    color: #fff;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+/* Style riêng cho nút Login */
+.btn-login {
+    background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);
+
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* đổ bóng */
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+/* Hover hiệu ứng */
+.btn-login:hover {
+    transform: translateY(-10px); /* nổi lên chút */
+    box-shadow: 0 8px 12px rgba(0,0,0,0.3); /* bóng đậm hơn */
+    background: linear-gradient(135deg, #293462, #1cd6ce);
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+}
+
+/* Nút chính */
+.nav .dropdown > a {
+    padding: 8px 12px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #f29f05, #f0e68c);
+    color: #293462;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* Hover nút chính */
+.dropdown > a:hover {
+    background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Menu con */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 160px;
+    z-index: 1000;
+}
+
+/* Item trong menu */
+.dropdown-content li a {
+    display: block;
+    padding: 10px 15px;
+    color: #293462;
+    width: 100%;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+/* Hover item */
+.nav .dropdown-content li a:hover {
+    background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);  /* đỏ */
+    color: #fff;
+}
+
+/* Khi hover vào container thì show menu */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.menu-toggle {
+    display: none;
+}
+@media (max-width: 800px) {
+    .menu-toggle {
+        display: block;
+        font-size: 26px;
+        color: white;
+        cursor: pointer;
+
+    }
+    .menu-toggle:hover {
+        transform: scale(1.2); /* phóng to */
+        color: #4A26AB;
+        /* vàng sáng */
+        text-shadow: 0 0 10px #21244D   ;
+    }
+
+    .header {
+        padding: 10px 30px;
+    }
+    .nav {
+        display: none;              /* Ẩn menu ngang */
+        flex-direction: column;     /* Cho dọc */
+        width: 180px;
+        background: #293462;
+        position: absolute;
+        top: 60px; /* dưới header */
+        padding: 0px;
+        border-radius: 5%;
+        opacity: 0;             /* ẩn lúc đầu */
+        transform: translateY(-20px); /* trượt lên */
+        transition: all 0.3s ease;
+    }
+
+    .nav.active {
+        display: flex;  /* Khi bấm toggle mới hiện */
+        cursor: pointer;
+        padding: 10px 35px 20px 20px;
+        font-size: 16px;
+        opacity: 1;             /* hiện dần */
+        transform: translateY(0); /* trượt xuống */
+    }
+
+    .nav li {
+        justify-content: left;
+        padding: 10px 0;
+        min-width: 150px;
+    }
+
+    .dropdown {
+        position: static; /* bỏ absolute đi */
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .dropdown-content li a {
+        padding: 10px 15px;
+        display: flex;
+        background: #fedb39;
+        color: #293462;
+        border-radius: 4px;
+        margin: 2px 0;
+    }
+
+    .dropdown-content li a:hover {
+        background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
+        color: #fff;
+    }
+}

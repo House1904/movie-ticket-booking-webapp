@@ -1,0 +1,135 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f5f3fa;
+    color: #333;
+    text-align: center;
+    margin: 0;
+ }
+
+h1 {
+    color: #5b2c83;
+    margin-bottom: 20px;
+}
+div > div {
+    display: block;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.booking {
+    display: flex;
+    justify-content: space-between;
+}
+.booking .showtimeInfo {
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.booking .showtimeInfo p {
+    margin-bottom: 20px;
+    margin-top: 20px   ;
+    font-size: 20px;
+}
+.booking .bookSeat {
+    padding: 10px;
+    width: 1000px;
+}
+/* Thanh "màn hình" */
+.screen {
+    background: linear-gradient(to bottom, #c7b8e0, #a286d1);
+    border-radius: 10px;
+    width: 90%;
+    margin: 20px auto;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Container cho từng hàng ghế */
+.seat-row {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+/* Ghế cơ bản */
+.seat {
+    display: inline-flex;
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #7e3ff2;
+    color: #7e3ff2;
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin: 5px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* Hiệu ứng hover cho ghế trống */
+.seat:hover {
+    background-color: #e6dcff;
+    transform: scale(1.1);
+}
+
+/* Ghế đã được đặt */
+.booked {
+    background-color: #666;
+    color: #ccc;
+    border-color: #444;
+    cursor: not-allowed;
+}
+
+/* Ẩn checkbox nhưng vẫn click được */
+input[type="checkbox"] {
+    display: none;
+}
+.seat span {
+    pointer-events: none;
+}
+label.seat.NORMAL { border-color: #888; color: #444; }
+label.seat.VIP { border-color: gold; color: #b58900; }
+label.seat.COUPLE { border-color: hotpink; color: #b30059; }
+label.seat:hover {
+    transform: scale(1.05);
+    border-color: #60a5fa;
+}
+/* Khi checkbox được chọn */
+input[type="checkbox"]:checked + label.seat {
+    background: #c084fc;
+    color: white;
+    border-color: #9333ea;
+    transform: scale(1.1);
+}
+
+/* Hàng chữ ghế (A, B, C...) */
+.row-label {
+    font-weight: bold;
+    color: #7e3ff2;
+    margin-right: 10px;
+    width: 20px;
+}
+.pay-btn {
+    display: block;
+    margin: 30px auto;
+    background: linear-gradient(90deg, #9333ea, #c084fc);
+    color: white;
+    padding: 12px 40px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.pay-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+}
