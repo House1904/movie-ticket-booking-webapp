@@ -15,7 +15,7 @@ body {
     align-items: center;
     height: 15vh;
     background-color: #293462;;
-    padding: 10px 100px;
+    padding: 10px 50px;
     position: sticky;
     top: 0;            /* dính trên cùng */
     z-index: 1000;     /* nổi lên trên */
@@ -184,6 +184,122 @@ body {
 .menu-toggle {
     display: none;
 }
+
+/* ============ POPUP ============== */
+/* Toàn bộ popup bao phủ màn hình */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Hộp nội dung popup */
+.popup-content {
+    color: #fff;
+    background: #21244D;
+    padding: 30px;
+    border-radius: 16px;
+    width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Nút đóng popup */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #444;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #e74c3c;
+}
+
+/* Tiêu đề */
+.popup-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: #fff;
+}
+
+/* Grid danh sách rạp */
+.cinema-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Mỗi rạp là 1 card */
+.cinema-card {
+    background: #f9fafc;
+    border: 1px solid #e1e4ec;
+    border-radius: 12px;
+    width: 220px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cinema-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Tên rạp */
+.cinema-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+/* Thông tin phụ */
+.cinema-info p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+}
+
+/* Nút xem chi tiết */
+.cinema-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+.cinema-btn:hover {
+    background: #2980b9;
+}
+
+/* Hiệu ứng mờ dần khi popup xuất hiện */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
 @media (max-width: 800px) {
     .menu-toggle {
         display: block;
