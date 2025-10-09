@@ -1,3 +1,4 @@
+<%@ page import="model.Customer" %>
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
@@ -54,8 +55,8 @@
         </li>
         <li><a href="contact.jsp">LIÊN HỆ</a></li>
         <%
-            String username = (String) session.getAttribute("username");
-            if (username == null) {
+            Customer customer = (Customer) session.getAttribute("user");
+            if (customer == null) {
         %>
         <li><a href="<%= request.getContextPath() %>/common/login.jsp" class="btn-login">LOGIN</a></li>
         <%
@@ -63,10 +64,10 @@
         %>
         <!-- Nếu đã login -->
         <li class="dropdown">
-            <a href="#" class="dropbtn">👤 <%= username %></a>
+            <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
             <div class="dropdown-content">
                 <a href="profile.jsp">View Profile</a>
-                <a href="logout.jsp">Logout</a>
+                <a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a>
             </div>
         </li>
         <%
