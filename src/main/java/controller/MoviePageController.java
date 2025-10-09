@@ -21,6 +21,7 @@ public class MoviePageController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
+        List<String> genreList = null;
         List<Movie> movies = null;
         System.out.println(action);
         if ("showing".equals(action)) {
@@ -31,6 +32,9 @@ public class MoviePageController extends HttpServlet {
             movies = movieService.getMoviesbyCommingSoon();
             session.setAttribute("movies", movies);
         }
+
+        genreList = movieService.getGenres();
+        session.setAttribute("genreList", genreList);
 
         request.getRequestDispatcher("/view/customer/movie.jsp").forward(request, response);
 

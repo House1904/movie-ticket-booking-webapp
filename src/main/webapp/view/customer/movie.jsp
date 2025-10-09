@@ -15,13 +15,10 @@
 
 <section class="filter-bar">
     <select id="filterSelect">
-        <option value="popular">Phổ biến</option>
-        <option value="newest">Mới nhất</option>
         <option value="all">Tất cả</option>
-        <option value="Hành động">Hành động</option>
-        <option value="Tình cảm">Hài</option>
-        <option value="Gia đình">Gia đình</option>
-        <option value="Kịch tính">Kịch tính</option>
+        <c:forEach var="g" items="${genreList}">
+            <option value="${g}">${g}</option>
+        </c:forEach>
     </select>
 </section>
 
@@ -52,7 +49,7 @@
             // Hiển thị nếu:
             // - Không chọn thể loại (tức là tất cả)
             // - Hoặc list của phim có chứa thể loại được chọn
-            if (!selectedGenre || genres.includes(selectedGenre)) {
+            if (selectedGenre === 'all' || !selectedGenre || genres.includes(selectedGenre)) {
                 card.style.display = 'block';
             } else {
                 card.style.display = 'none';

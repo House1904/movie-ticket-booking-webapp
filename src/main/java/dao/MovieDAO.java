@@ -11,12 +11,12 @@ import javax.persistence.TypedQuery;
 
 public class MovieDAO {
 
-    public List<Movie> getAllMovies() throws SQLException {
+    public List<Movie> getAllMovies() {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
         try {
-            movies = entity.createQuery("SELECT m FROM Movie m", Movie.class)
+            movies = entity.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genre", Movie.class)
                     .getResultList();
         } finally {
             entity.close();
@@ -24,18 +24,19 @@ public class MovieDAO {
 
         return movies;
     }
+
     public Movie getMovieById(long movieId) {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Movie movie = null;
         try {
             movie = entity.find(Movie.class, movieId);
-        }
-        finally {
+        } finally {
             entity.close();
         }
         return movie;
     }
-    public List<Movie> getMovieIsShowing(){
+
+    public List<Movie> getMovieIsShowing() {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
         LocalDateTime now = LocalDateTime.now();
@@ -46,7 +47,8 @@ public class MovieDAO {
         movies = query1.getResultList();
         return movies;
     }
-    public List<Movie> getMovieCommingSoon(){
+
+    public List<Movie> getMovieCommingSoon() {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
         LocalDateTime now = LocalDateTime.now();
@@ -56,12 +58,5 @@ public class MovieDAO {
         query1.setParameter("dateNow", now);
         movies = query1.getResultList();
         return movies;
-    }
-
-    public List<String> getGenreList(){
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        List<String> genreList = null;
-        String query = "SELECT DISTINC m.genre FROM Movie m";
-        return genreList;
     }
 }

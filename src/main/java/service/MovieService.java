@@ -5,7 +5,9 @@ import model.Movie;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
     public List<Movie> getMovies() throws SQLException {
@@ -19,5 +21,17 @@ public class MovieService {
     }
     public List<Movie> getMoviesbyCommingSoon() {
         return movieDAO.getMovieCommingSoon();
+    }
+    public List<String> getGenres() {
+        List<Movie> movies = movieDAO.getAllMovies();
+        Set<String> genres = new HashSet<>();
+        for (Movie m : movies) {
+            if (m.getGenre() != null) {
+                for (String g : m.getGenre()) {
+                    genres.add(g.trim());
+                }
+            }
+        }
+        return new ArrayList<>(genres);
     }
 }
