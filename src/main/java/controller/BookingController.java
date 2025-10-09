@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Auditorium;
 
@@ -50,6 +53,7 @@ public class BookingController extends HttpServlet {
             for(Seat seat : seatList){
                 prices.add(seatService.getPrice(seat));
             }
+
             session.setAttribute("prices", prices);
             session.setAttribute("seatList", seatList);
             session.setAttribute("bookedSeatIds", bookedSeatIds);
@@ -73,19 +77,21 @@ public class BookingController extends HttpServlet {
             Showtime sht = (Showtime) session.getAttribute("st");
             Auditorium au = (Auditorium) session.getAttribute("auditorium");
 
-            long sid = sht.getId();
-            long aid = au.getId();
 
-            // In ra console để kiểm tra (debug)
+            Map<Seat, BigDecimal> seatPrices = new LinkedHashMap<>();
             for (String id : selectedSeatIds) {
                 Seat seat = seatService.getSeats(Integer.parseInt(id));
+                String sID = "seat_" + id;
+                String priceS = request.getParameter(sID);
+                BigDecimal price = new BigDecimal(priceS);
+                seatPrices.put(seat, price);
                 BookingSeat bookingSeat = new BookingSeat(au, seat, sht, SeatBookedFormat.HOLD, LocalDateTime.now());
                 bookingService.insert(bookingSeat);
+
             }
 
-            session.setAttribute("selectedSeats", selectedSeatIds);
+            session.setAttribute("seatPrices", seatPrices);
             session.setAttribute("showtime", sht);
-
 
             url = "/view/customer/payment.jsp";
 

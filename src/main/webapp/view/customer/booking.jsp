@@ -57,6 +57,7 @@
             </c:choose>
 
             <c:if test="${seat == seatList[seatList.size()-1]}"></div></c:if>
+            <input type="hidden" name="seat_${seat.id}" value="${price}" />
         </c:forEach>
 
         <button type="submit" class="pay-btn">Thanh toán</button>

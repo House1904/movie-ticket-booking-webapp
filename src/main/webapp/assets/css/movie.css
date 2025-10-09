@@ -45,9 +45,11 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
     padding: 40px;
+    transition: all 0.3s ease;
 }
 
 .movie-card {
+    display: block;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -87,6 +89,17 @@ body {
 .movie-grid a {
     text-decoration: none;
     color: inherit;
+}
+.movie-card-link {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.movie-card-link.hidden {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
 }
 .rating {
     color: #1db954;

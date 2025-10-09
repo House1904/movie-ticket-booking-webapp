@@ -57,4 +57,11 @@ public class MovieDAO {
         movies = query1.getResultList();
         return movies;
     }
+
+    public List<String> getGenreList(){
+        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        List<String> genreList = null;
+        String query = "SELECT DISTINC m.genre FROM Movie m";
+        return genreList;
+    }
 }
