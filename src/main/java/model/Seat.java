@@ -81,4 +81,6 @@ public class Seat {
     public void setSeatType(SeatType seatType) {
         this.seatType = seatType;
     }
+
+
 }

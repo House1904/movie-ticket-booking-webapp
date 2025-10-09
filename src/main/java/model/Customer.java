@@ -16,8 +16,8 @@ public class Customer extends User {
 
     public Customer() {}
 
-    public Customer(long id, String fullName, String email, String phone, boolean isMemberShip, Date dateOfBirth, String avatarUrl, List<Rating> ratings) {
-        super(id, fullName, email, phone);
+    public Customer(String fullName, String email, String phone, boolean isMemberShip, Date dateOfBirth, String avatarUrl, List<Rating> ratings) {
+        super(fullName, email, phone);
         this.isMemberShip = isMemberShip;
         this.dateOfBirth = dateOfBirth;
         this.avatarUrl = avatarUrl;
