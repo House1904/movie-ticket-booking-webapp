@@ -15,7 +15,7 @@ body {
     align-items: center;
     height: 15vh;
     background-color: #293462;;
-    padding: 10px 100px;
+    padding: 10px 50px;
     position: sticky;
     top: 0;            /* dính trên cùng */
     z-index: 1000;     /* nổi lên trên */

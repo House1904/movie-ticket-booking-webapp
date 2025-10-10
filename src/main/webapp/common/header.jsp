@@ -11,7 +11,7 @@
     <!-- Logo -->
     <div class="logo">
         <a href="home">
-            <img alt="ICON" src="https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-4224-61fa-a706-84a32c84c64b/raw?se=2025-09-16T09%3A03%3A03Z&sp=r&sv=2024-08-04&sr=b&scid=4678314f-b3cb-5c9a-a719-6fc9c2771491&skoid=b7fc319f-b93c-4fac-ba5f-14fdc3f9209f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-16T04%3A15%3A37Z&ske=2025-09-17T04%3A15%3A37Z&sks=b&skv=2024-08-04&sig=qWMK7lupkkFSdKhRhkz7CS41/KtNLJp5zyK6cOuKUA0%3D">
+            <img alt="ICON" src="<%= request.getContextPath() %>/assets/images/LogoWeb.png">
         </a>
     </div>
     <!-- Nút menu cho mobile -->
@@ -37,6 +37,7 @@
         </li>
 
         <!-- Dropdown Tin tức -->
+        <!-- Dropdown Rạp -->
         <li class="dropdown">
             <a href="#">TIN TỨC</a>
             <ul class="dropdown-content">
