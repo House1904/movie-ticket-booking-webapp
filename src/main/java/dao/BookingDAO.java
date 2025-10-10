@@ -1,5 +1,6 @@
 package dao;
 
+import model.Booking;
 import model.BookingSeat;
 import model.Seat;
 import model.Showtime;
@@ -55,5 +56,21 @@ public class BookingDAO {
         query.executeUpdate();
         em.getTransaction().commit();
         em.close();
+    }
+
+    public boolean insertBooking (Booking booking) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.persist(booking);
+            tx.commit();
+            return true;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            tx.rollback();
+        }
+        return false;
     }
 }
