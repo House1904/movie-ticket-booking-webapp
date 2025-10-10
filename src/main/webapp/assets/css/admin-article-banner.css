@@ -1,0 +1,306 @@
+/* Container chính */
+/* Theme variables */
+:root {
+    --color-primary: #293462; /* chủ đạo */
+    --color-primary-700: #1f284d; /* hover đậm hơn */
+    --color-primary-50: #eef2ff; /* nền nhạt rất nhẹ */
+    --color-surface: #ffffff; /* bề mặt card, bảng, input */
+    --color-muted: #6b7280; /* text phụ */
+    --color-border: #e5e7eb; /* viền nhẹ */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 6px 16px rgba(17, 24, 39, 0.08);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --transition-base: 180ms ease;
+}
+
+.admin-topbar {
+    width: 100%;
+    background: var(--color-primary);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+}
+
+.admin-topbar .topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-topbar .brand {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.admin-topbar a {
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity var(--transition-base);
+}
+
+.admin-topbar a:hover {
+    opacity: 1;
+}
+
+.admin-strip {
+    width: 100%;
+    height: 15vh; /* dãy màu mảnh ngang */
+    background: var(--color-primary);
+    background-color: #293462;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    display: flex;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 16px;
+    background: linear-gradient(180deg, var(--color-primary-50), #f8fafc);
+}
+
+/* Phần tiêu đề */
+.admin-header {
+    font-family: "Segoe UI", Arial, sans-serif;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-header h1 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    color: var(--color-primary);
+    letter-spacing: 0.3px;
+}
+
+/* Phần danh sách tin tức */
+.list-section {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.list-section h2 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-section h2::before {
+    font-family: "Segoe UI", Arial, sans-serif;
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 24px;
+    border-radius: 4px;
+    background: var(--color-primary);
+}
+
+.article-list {
+    font-family: "Segoe UI", Arial, sans-serif;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.article-list th,
+.article-list td {
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.article-list th {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: bold;
+    background: #f1f5f9;
+    color: var(--color-primary);
+}
+
+.article-list tr:hover td {
+    background: #f8fafc;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 10px 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: #ffffff;
+    transition: background-color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.action-buttons button:hover {
+    background: var(--color-primary-700);
+    transform: translateY(-1px);
+}
+
+.action-buttons button:active {
+    transform: translateY(0);
+}
+
+.action-buttons button:focus-visible {
+    outline: none;
+    border-color: rgba(41, 52, 98, 0.6);
+    box-shadow: 0 0 0 3px rgba(41, 52, 98, 0.2);
+}
+
+/* Phần form thêm tin tức */
+.form-section {
+    font-family: "Segoe UI", Arial, sans-serif;
+    width: 100%;
+    max-width: 800px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.form-section h2 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section h2::before {
+    font-family: "Segoe UI", Arial, sans-serif;
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 24px;
+    border-radius: 4px;
+    background: var(--color-primary);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1em;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--color-muted);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: rgba(41, 52, 98, 0.55);
+    box-shadow: 0 0 0 3px rgba(41, 52, 98, 0.15);
+    background: #fbfdff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group input[type="file"] {
+    padding: 8px 10px;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1.06em;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: #ffffff;
+    transition: background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.submit-button:hover {
+    background: var(--color-primary-700);
+    transform: translateY(-1px);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+.submit-button:focus-visible {
+    outline: none;
+    border-color: rgba(41, 52, 98, 0.6);
+    box-shadow: 0 0 0 3px rgba(41, 52, 98, 0.2);
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+
+    .admin-header h1 {
+        font-size: 2em;
+    }
+
+    .list-section h2,
+    .form-section h2 {
+        font-size: 1.5em;
+    }
+
+    .article-list th,
+    .article-list td {
+        padding: 10px 12px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

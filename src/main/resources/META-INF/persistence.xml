@@ -8,10 +8,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <!-- Kết nối PostgreSQL -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/project"/>
+            <!-- Kết nối PostgreSQL với UTF-8 -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/projweb?characterEncoding=UTF-8"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="1234"/>
+            <property name="javax.persistence.jdbc.password" value="18092003"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <!-- Hibernate config -->
@@ -19,7 +19,10 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <!-- Đảm bảo UTF-8 -->
+            <property name="hibernate.connection.characterEncoding" value="UTF-8"/>
+            <property name="hibernate.connection.CharSet" value="UTF-8"/>
+            <property name="hibernate.connection.useUnicode" value="true"/>
         </properties>
     </persistence-unit>
-
 </persistence>

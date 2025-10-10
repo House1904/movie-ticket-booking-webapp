@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +42,7 @@
         <li class="dropdown">
             <a href="#">TIN TỨC ▾</a>
             <ul class="dropdown-content">
-                <li><a href="promo.jsp">Khuyến mãi</a></li>
+                <li><a href="${pageContext.request.contextPath}/public/articles">Tin tức & Khuyến mãi</a></li>
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>

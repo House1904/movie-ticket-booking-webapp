@@ -1,14 +1,20 @@
 package model;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "article")
 public class Article {
+    @Column(length = 1024)
     private String title;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String url;
     private LocalDateTime created_at;
+    @Column(length = 2048)
+    private String image;
 
     public Article() {
     }
@@ -51,5 +57,13 @@ public class Article {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
