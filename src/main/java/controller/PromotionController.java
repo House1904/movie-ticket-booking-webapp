@@ -71,19 +71,6 @@ public class PromotionController extends HttpServlet {
         p.setEndAt(LocalDateTime.parse(req.getParameter("endAt"), formatter));
         p.setStatus(PromotionStatus.valueOf(req.getParameter("status")));
 
-        // ✅ Thêm đoạn này để gắn promotion với partner đang đăng nhập
-        Long partnerId = (Long) req.getSession().getAttribute("partnerId");
-        if (partnerId != null) {
-            Partner partner = new Partner();
-            partner.setId(partnerId);
-            p.setPartner(partner);
-        }
-
-        // ✅ Lưu vào DB
-        if (id > 0)
-            promotionDAO.update(p);
-        else
-            promotionDAO.insert(p);
 
         resp.sendRedirect("promotion");
     }

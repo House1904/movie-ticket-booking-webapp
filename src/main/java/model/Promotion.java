@@ -122,16 +122,4 @@ public class Promotion {
         this.status = status;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "partner_id")
-    private Partner partner;
-
-    public Partner getPartner() {
-        return partner;
-    }
-
-    public void setPartner(Partner partner) {
-        this.partner = partner;
-    }
-
 }

@@ -11,6 +11,6 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <welcome-file-list>
-        <welcome-file>profile</welcome-file>
+        <welcome-file>showtime</welcome-file>
     </welcome-file-list>
 </web-app>
