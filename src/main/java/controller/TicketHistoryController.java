@@ -3,6 +3,7 @@ package controller;
 import dao.BookingDAO;
 import dao.TicketDAO;
 import model.BookingSeat;
+import model.Customer;
 import service.TicketService;
 
 import javax.servlet.ServletException;
@@ -23,16 +24,14 @@ public class TicketHistoryController extends HttpServlet {
             throws ServletException, IOException {
 
         // ⚙️ Lấy customerId từ session (khi user đã đăng nhập)
-        Long customerId = (Long) req.getSession().getAttribute("customerId");
+        Customer customer = (Customer) req.getSession().getAttribute("user");
 
-        if (customerId == null) {
+        if (customer == null) {
             resp.sendRedirect("login.jsp");
             return;
         }
-
-        List<Ticket> tickets = ticketService.getTicketList(customerId);
-
+        List<Ticket> tickets = ticketService.getTicketList(customer.getId());
         req.setAttribute("tickets", tickets);
-        req.getRequestDispatcher("view/ticketHistory.jsp").forward(req, resp);
+        req.getRequestDispatcher("view/customer/ticketHistory.jsp").forward(req, resp);
     }
 }

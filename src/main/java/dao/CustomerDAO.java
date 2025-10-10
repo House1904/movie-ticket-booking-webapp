@@ -15,15 +15,17 @@ public class CustomerDAO {
         return c;
     }
 
-    public void update(Customer customer) {
+    public boolean update(Customer customer) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(customer);
             em.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+            return false;
         } finally {
             em.close();
         }

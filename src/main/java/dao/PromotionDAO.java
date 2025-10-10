@@ -42,7 +42,6 @@ public class PromotionDAO {
             em.close();
         }
     }
-
     // ✏️ Cập nhật
     public void update(Promotion promotion) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
@@ -77,15 +76,4 @@ public class PromotionDAO {
             em.close();
         }
     }
-
-    public List<Promotion> findByPartner(long partnerId) {
-        EntityManager em = DBConnection.getEmFactory().createEntityManager();
-        String jpql = "SELECT p FROM Promotion p WHERE p.partner.id = :partnerId ORDER BY p.startAt DESC";
-        TypedQuery<Promotion> q = em.createQuery(jpql, Promotion.class);
-        q.setParameter("partnerId", partnerId);
-        List<Promotion> list = q.getResultList();
-        em.close();
-        return list;
-    }
-
 }

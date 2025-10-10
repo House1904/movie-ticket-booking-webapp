@@ -12,8 +12,8 @@ public class TicketDAO {
     public List<Ticket> getTicketByCustomer(long customerId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         String jpql = "SELECT t FROM Booking b " +
-                "JOIN FETCH b.tickets t " +
-                "JOIN FETCH t.showtime st " +
+                "JOIN b.tickets t " +
+                "JOIN t.showtime st " +
                 "WHERE b.customer.id = :customerId " +
                 "ORDER BY st.startTime DESC";
         TypedQuery<Ticket> q = em.createQuery(jpql, Ticket.class);

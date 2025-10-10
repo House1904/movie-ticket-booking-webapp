@@ -1,8 +1,6 @@
 package dao;
 
-import model.Movie;
-import model.Seat;
-import model.Showtime;
+import model.*;
 import util.DBConnection;
 
 import javax.persistence.EntityManager;
@@ -36,5 +34,25 @@ public class SeatDAO {
         } finally {
             em.close();
         }
+    }
+    public double getSeatPrice(Seat seat) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+
+        String jpql = "SELECT sp.price FROM seatPricing sp " +
+                "WHERE sp.seatType = :seatType " +
+                "AND sp.auditType = :audType " +
+                "AND sp.cinemaBrand = :cinemaBrand";
+        double price = 0.0;
+        try {
+            price = em.createQuery(jpql, Double.class)
+                    .setParameter("seatType", seat.getSeatType().name())
+                    .setParameter("audType", seat.getAuditorium().getFormat().name())
+                    .setParameter("cinemaBrand", seat.getAuditorium().getCinema().getPartner().getBrand())
+                    .getSingleResult();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return price;
     }
 }

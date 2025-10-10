@@ -20,19 +20,21 @@ import java.util.List;
 
 @WebServlet("/home")
 public class HomeController extends HttpServlet {
-    private MovieService  movieService =  new MovieService();
-    private CinemaService cinemaService =  new CinemaService();
-    private ArticleService articleService =   new ArticleService();
+    private MovieService movieService = new MovieService();
+    private CinemaService cinemaService = new CinemaService();
+    private ArticleService articleService = new ArticleService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<Movie> movies = movieService.getMovies();
+            List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
+            List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
             List<Cinema> cinemas = cinemaService.getCinemas();
             List<Article> articles = articleService.getArticles();
 
             HttpSession session = req.getSession();
-            session.setAttribute("movies", movies);
+            session.setAttribute("nowShowingMovies", nowShowingMovies);
+            session.setAttribute("upcomingMovies", upcomingMovies);
             session.setAttribute("cinemas", cinemas);
             session.setAttribute("articles", articles);
 
@@ -44,4 +46,11 @@ public class HomeController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Hồ sơ cá nhân</title>
@@ -54,11 +55,11 @@
 
         <form action="${pageContext.request.contextPath}/profile" method="post">
             <div class="text-center mb-4">
-                <img src="${empty customer.avatarUrl ? 'https://via.placeholder.com/130' : customer.avatarUrl}"
+                <img src="${empty user.avatarUrl ? 'https://via.placeholder.com/130' : user.avatarUrl}"
                      alt="Avatar" class="profile-avatar mb-2">
                 <div class="mt-2">
                     <input type="text" name="avatarUrl" class="form-control form-control-sm"
-                           placeholder="Nhập URL ảnh đại diện (tùy chọn)" value="${customer.avatarUrl}">
+                           placeholder="Nhập URL ảnh đại diện (tùy chọn)" value="${user.avatarUrl}">
                 </div>
             </div>
 
@@ -66,32 +67,32 @@
                 <div class="col-md-6">
                     <label for="fullName">Họ tên</label>
                     <input type="text" name="fullName" id="fullName"
-                           class="form-control" value="${customer.fullName}">
+                           class="form-control" value="${user.fullName}">
                 </div>
 
                 <div class="col-md-6">
                     <label for="email">Email</label>
                     <input type="email" id="email"
-                           class="form-control" value="${customer.email}" readonly>
+                           class="form-control" value="${user.email}" readonly>
                 </div>
 
                 <div class="col-md-6">
                     <label for="phone">Số điện thoại</label>
                     <input type="text" name="phone" id="phone"
-                           class="form-control" value="${customer.phone}">
+                           class="form-control" value="${user.phone}">
                 </div>
 
                 <div class="col-md-6">
                     <label for="dateOfBirth">Ngày sinh</label>
                     <input type="date" name="dateOfBirth" id="dateOfBirth"
-                           value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='yyyy-MM-dd'/>"
+                           value="${fn:substring(user.dateOfBirth, 0, 10)}"
                            class="form-control">
                 </div>
             </div>
 
             <div class="form-check mt-3">
                 <input type="checkbox" class="form-check-input" id="isMemberShip"
-                       name="isMemberShip" ${customer.memberShip ? "checked" : ""}>
+                       name="isMemberShip" ${user.memberShip ? "checked" : ""}>
                 <label class="form-check-label" for="isMemberShip">Thành viên thân thiết</label>
             </div>
 
