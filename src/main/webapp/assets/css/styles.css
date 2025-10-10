@@ -15,7 +15,7 @@ body {
     align-items: center;
     height: 15vh;
     background-color: #293462;;
-    padding: 10px 100px;
+    padding: 10px 50px;
     position: sticky;
     top: 0;            /* dính trên cùng */
     z-index: 1000;     /* nổi lên trên */
@@ -107,7 +107,6 @@ body {
 /* Style riêng cho nút Login */
 .btn-login {
     background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);
-
     color: white;
     padding: 8px 16px;
     border-radius: 6px;
@@ -126,64 +125,191 @@ body {
 /* Dropdown container */
 .dropdown {
     position: relative;
+    display: inline-block;
 }
 
-/* Nút chính */
+/* 🔹 Nút chính (tên user) */
 .nav .dropdown > a {
-    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
     text-decoration: none;
     background: linear-gradient(135deg, #f29f05, #f0e68c);
     color: #293462;
-    border-radius: 6px;
-    transition: 0.3s;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
 }
 
-/* Hover nút chính */
-.dropdown > a:hover {
-    background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
+/* 🔹 Hover nút chính */
+.nav .dropdown > a:hover {
+    background: linear-gradient(135deg, #1cd6ce, #4A26AB);
     color: #fff;
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(76, 175, 200, 0.4);
 }
 
-/* Menu con */
+/* 🔹 Menu con */
 .dropdown-content {
-    display: none;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
     position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    top: 120%;
+    right: 0;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     list-style: none;
-    padding: 0;
+    padding: 8px 0;
     margin: 0;
-    min-width: 160px;
+    min-width: 180px;
     z-index: 1000;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
 }
 
-/* Item trong menu */
+/* Khi hover hiển thị menu */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 .dropdown-content li a {
     display: block;
-    padding: 10px 15px;
+    padding: 10px 18px;
     color: #293462;
-    width: 100%;
     text-decoration: none;
-    transition: background 0.3s ease;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 /* Hover item */
-.nav .dropdown-content li a:hover {
-    background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);  /* đỏ */
+.dropdown-content li a:hover {
+    background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);
+    color: #fff;
+    transform: scale(1.03);
+}
+
+/* ============ POPUP ============== */
+/* Toàn bộ popup bao phủ màn hình */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Hộp nội dung popup */
+.popup-content {
+    color: #fff;
+    background: #21244D;
+    padding: 30px;
+    border-radius: 16px;
+    width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Nút đóng popup */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #444;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #e74c3c;
+}
+
+/* Tiêu đề */
+.popup-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
     color: #fff;
 }
 
-/* Khi hover vào container thì show menu */
-.dropdown:hover .dropdown-content {
-    display: block;
+/* Grid danh sách rạp */
+.cinema-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
-.menu-toggle {
-    display: none;
+
+/* Mỗi rạp là 1 card */
+.cinema-card {
+    background: #f9fafc;
+    border: 1px solid #e1e4ec;
+    border-radius: 12px;
+    width: 220px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.cinema-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Tên rạp */
+.cinema-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+/* Thông tin phụ */
+.cinema-info p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+}
+
+/* Nút xem chi tiết */
+.cinema-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+.cinema-btn:hover {
+    background: #2980b9;
+}
+
+/* Hiệu ứng mờ dần khi popup xuất hiện */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
 @media (max-width: 800px) {
     .menu-toggle {
         display: block;
@@ -232,27 +358,45 @@ body {
     }
 
     .dropdown {
-        position: static; /* bỏ absolute đi */
+        position: relative; /* giữ nguyên vị trí trong layout */
         width: 100%;
+        text-align: center; /* căn giữa nội dung bên trong */
     }
 
     .dropdown-content {
-        position: static;
-        box-shadow: none;
-        background: transparent;
+        position: relative;
+        display: inline-block; /* nội dung hiển thị gọn giữa */
+        background: #fff8dc; /* nền nhẹ giúp nổi bật */
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex; /* hiển thị ngang */
+        justify-content: center; /* căn giữa ngang */
+        gap: 10px; /* khoảng cách đều nhau giữa các mục */
+        flex-wrap: wrap; /* tự xuống dòng nếu thiếu chỗ */
     }
 
     .dropdown-content li a {
-        padding: 10px 15px;
-        display: flex;
+        display: inline-block;
+        padding: 10px 20px;
         background: #fedb39;
         color: #293462;
-        border-radius: 4px;
-        margin: 2px 0;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
     }
 
     .dropdown-content li a:hover {
-        background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
-        color: #fff;
+        background: #293462;
+        color: #fedb39;
+        transform: translateY(-2px);
     }
+
 }

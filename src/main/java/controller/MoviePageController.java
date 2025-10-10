@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,8 +34,13 @@ public class MoviePageController extends HttpServlet {
             session.setAttribute("movies", movies);
         }
 
-        genreList = movieService.getGenres();
-        session.setAttribute("genreList", genreList);
+        try {
+            genreList = movieService.getGenres();
+            session.setAttribute("genreList", genreList);
+        } catch (SQLException e) {
+            session.setAttribute("error", "Có lỗi xảy ra khi tìm thể loại phim!");
+            throw new RuntimeException(e);
+        }
 
         request.getRequestDispatcher("/view/customer/movie.jsp").forward(request, response);
 

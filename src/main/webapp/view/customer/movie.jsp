@@ -26,15 +26,21 @@
     <%-- Mẫu card phim --%>
         <c:forEach var="movie" items="${movies}">
             <a href="${pageContext.request.contextPath}/movieDetail?id=${movie.id}" class="movie-card-link">
-                <div class="movie-card" data-genres="${movie.genre}">
+                <div class="movie-card" data-id="${movie.id}" data-genres="${movie.genre}">
                     <img src="${movie.posterUrl}" alt="${movie.title}">
                     <h3>${movie.title}</h3>
                     <p>${movie.genre}</p>
+
+                    <!-- Biểu tượng tim -->
+                    <span class="favorite-icon"
+                          data-id="${movie.id}"
+                          style="cursor:pointer; font-size:24px; color:${favoriteMap[movie.id] ? 'red' : 'gray'};">
+                        &#10084;
+                    </span>
                 </div>
-            </a>
         </c:forEach>
-    <%-- thêm nhiều card tùy data backend --%>
 </section>
+
 <script>
     document.getElementById('filterSelect').addEventListener('change', function() {
         const selectedGenre = this.value.toLowerCase();
@@ -56,6 +62,33 @@
             }
         });
     });
+
+    // Xử lý click vào tim
+        document.querySelectorAll('.heart').forEach(heart => {
+            heart.addEventListener('click', function(e) {
+                e.stopPropagation(); // tránh click vào link
+                const card = this.closest('.movie-card');
+                const movieId = card.dataset.id;
+
+                fetch('<%=request.getContextPath()%>/favorite-toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'movieId=' + movieId
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'added') {
+                        this.classList.add('favorited');
+                    } else if (data.status === 'removed') {
+                        this.classList.remove('favorited');
+                    } else if (data.message === 'not_logged_in') {
+                        alert("Vui lòng đăng nhập để thêm yêu thích!");
+                        window.location.href = '<%=request.getContextPath()%>/login.jsp';
+                    }
+                })
+                .catch(err => console.error(err));
+            });
+        });
 </script>
 </body>
 </html>

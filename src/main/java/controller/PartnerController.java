@@ -1,5 +1,6 @@
 package controller;
 
+import javax.servlet.annotation.WebServlet;
 import model.Partner;
 import service.PartnerService;
 

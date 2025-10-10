@@ -10,6 +10,7 @@ public abstract class User {
     protected String fullName;
     protected String email;
     protected String phone;
+    protected Account account;
 
     //Constructor
     public User() {
@@ -22,7 +23,7 @@ public abstract class User {
     }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -53,5 +54,14 @@ public abstract class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
