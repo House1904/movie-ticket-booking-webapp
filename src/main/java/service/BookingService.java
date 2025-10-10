@@ -24,4 +24,8 @@ public class BookingService {
     public void insert(BookingSeat bookingSeat) {
         bookingDAO.insertSeat(bookingSeat);
     }
+
+    public void deletedBookingSeat() {
+        bookingDAO.deleteBookingSeat();
+    }
 }

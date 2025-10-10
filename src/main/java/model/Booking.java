@@ -84,4 +84,13 @@ public class Booking {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public double totalPrice()
+    {
+        double total = 0;
+        for (Ticket ticket : tickets){
+            total += ticket.getPrice();
+        }
+        return total;
+    }
 }

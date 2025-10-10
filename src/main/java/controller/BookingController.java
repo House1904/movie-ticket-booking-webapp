@@ -2,10 +2,7 @@ package controller;
 
 import model.*;
 import model.enums.SeatBookedFormat;
-import service.BookingService;
-import service.MovieService;
-import service.SeatService;
-import service.ShowtimeService;
+import service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Auditorium;
 
@@ -25,10 +26,12 @@ public class BookingController extends HttpServlet {
     private ShowtimeService showtimeService = new ShowtimeService();
     private MovieService movieService = new MovieService();
     private SeatService seatService = new SeatService();
+    private PartnerService partnerService = new PartnerService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "";
         String action = request.getParameter("action");
-        System.out.println(action);
+        bookingService.deletedBookingSeat();
+
         if("showtimeSl".equals(action)){
             HttpSession session = request.getSession();
             long showtimeID = Long.parseLong(request.getParameter("showtimeID"));
@@ -36,16 +39,22 @@ public class BookingController extends HttpServlet {
             Showtime st = showtimeService.getShowtime(showtimeID);
             Auditorium auditorium = st.getAuditorium();
             long auditID = auditorium.getId();
-            Movie movie = st.getMovie();
 
             LocalDateTime dateTime = st.getStartTime();
             String day = dateTime.toLocalDate().toString();
             String time = dateTime.toLocalTime().toString();
-            String title = movie.getTitle();
+            String title = st.getMovie().getTitle();
             String nameAuditorium = auditorium.getName();
+
             List<Seat> seatList = seatService.getSeatsByAu(auditID);
             List<Integer> bookedSeatIds = bookingService.getSeatID(auditID, showtimeID);
 
+            List<Double> prices = new ArrayList<>();
+            for(Seat seat : seatList){
+                prices.add(seatService.getPrice(seat));
+            }
+
+            session.setAttribute("prices", prices);
             session.setAttribute("seatList", seatList);
             session.setAttribute("bookedSeatIds", bookedSeatIds);
             session.setAttribute("nameAuditorium", nameAuditorium);
@@ -68,21 +77,22 @@ public class BookingController extends HttpServlet {
             Showtime sht = (Showtime) session.getAttribute("st");
             Auditorium au = (Auditorium) session.getAttribute("auditorium");
 
-            long sid = sht.getId();
-            long aid = au.getId();
 
-            System.out.println(sid);
-            System.out.println(aid);
-            // In ra console để kiểm tra (debug)
+            Map<Seat, BigDecimal> seatPrices = new LinkedHashMap<>();
             for (String id : selectedSeatIds) {
-                System.out.println("Ghế được chọn: " + id);
                 Seat seat = seatService.getSeats(Integer.parseInt(id));
+                String sID = "seat_" + id;
+                String priceS = request.getParameter(sID);
+                BigDecimal price = new BigDecimal(priceS);
+                seatPrices.put(seat, price);
                 BookingSeat bookingSeat = new BookingSeat(au, seat, sht, SeatBookedFormat.HOLD, LocalDateTime.now());
                 bookingService.insert(bookingSeat);
+
             }
 
-            // Sau này mày có thể chuyển list ghế này qua trang thanh toán
-            request.setAttribute("selectedSeats", selectedSeatIds);
+            session.setAttribute("seatPrices", seatPrices);
+            session.setAttribute("showtime", sht);
+
             url = "/view/customer/payment.jsp";
 
         }

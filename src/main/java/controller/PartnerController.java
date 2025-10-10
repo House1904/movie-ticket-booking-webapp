@@ -1,7 +1,10 @@
 package controller;
 
 import javax.servlet.annotation.WebServlet;
+import model.Partner;
+import service.PartnerService;
 
-@WebServlet("/partner")
 public class PartnerController {
+    private PartnerService partnerService;
+
 }

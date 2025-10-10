@@ -27,8 +27,8 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<Movie> nowShowingMovies = movieService.getNowShowingMovies();
-            List<Movie> upcomingMovies = movieService.getUpcomingMovies();
+            List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
+            List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
             List<Cinema> cinemas = cinemaService.getCinemas();
             List<Article> articles = articleService.getArticles();
 
