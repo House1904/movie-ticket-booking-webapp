@@ -25,8 +25,8 @@
         <li class="dropdown">
             <a href="#">PHIM 🍿▾</a>
             <ul class="dropdown-content">
-                <li><a href="showingMovie.jsp">Đang chiếu🎥</a></li>
-                <li><a href="coming_soon.jsp">Sắp chiếu</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=showing">Đang chiếu🎥</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=comming">Sắp chiếu</a></li>
             </ul>
         </li>
 

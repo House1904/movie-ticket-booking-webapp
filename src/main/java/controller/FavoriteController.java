@@ -5,17 +5,17 @@ import dao.MovieDAO;
 import model.Favorite;
 import model.Movie;
 import model.User;
+import service.FavoriteService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 
 @WebServlet("/favorite")
 public class FavoriteController extends HttpServlet {
@@ -24,17 +24,18 @@ public class FavoriteController extends HttpServlet {
     private EntityManager em;
     private FavoriteDAO favoriteDAO;
     private MovieDAO movieDAO;
+    private FavoriteService favoriteService;
 
     @Override
     public void init() throws ServletException {
-        // Tên persistence-unit trong persistence.xml
         emf = Persistence.createEntityManagerFactory("ProjectLoad");
         em = emf.createEntityManager();
 
-        // Truyền EntityManager vào DAO
         favoriteDAO = new FavoriteDAO(em);
         movieDAO = new MovieDAO();
+        favoriteService = new FavoriteService(favoriteDAO);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -53,15 +54,16 @@ public class FavoriteController extends HttpServlet {
         }
 
         try {
-            int movieId = Integer.parseInt(request.getParameter("movieId"));
+            long movieId = Long.parseLong(request.getParameter("movieId"));
             Movie movie = movieDAO.getMovieById(movieId);
 
             if (movie == null) {
                 out.print("{\"status\":\"error\",\"message\":\"movie_not_found\"}");
+                out.flush();
                 return;
             }
 
-            boolean added = favoriteDAO.toggleFavorite(user, movie);
+            boolean added = favoriteService.toggleFavorite(user, movie);
 
             if (added) {
                 out.print("{\"status\":\"added\"}");
@@ -89,9 +91,15 @@ public class FavoriteController extends HttpServlet {
             return;
         }
 
-        List<Favorite> favorites = favoriteDAO.findByUser(user);
+        List<Favorite> favorites = favoriteService.getFavoritesByUser(user);
         request.setAttribute("favorites", favorites);
 
         request.getRequestDispatcher("/view/customer/favorite.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        if (em != null && em.isOpen()) em.close();
+        if (emf != null && emf.isOpen()) emf.close();
     }
 }

@@ -1,11 +1,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/common/header.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+    model.User user = (model.User) session.getAttribute("user");
+    java.util.Map<Long, Boolean> favoriteMap = new java.util.HashMap<>();
+    if (user != null) {
+        service.FavoriteService favoriteService = new service.FavoriteService(
+            new dao.FavoriteDAO(util.DBConnection.getEmFactory().createEntityManager())
+        );
+        java.util.List<model.Favorite> favorites = favoriteService.getFavoritesByUser(user);
+        for (model.Favorite f : favorites) {
+            favoriteMap.put(f.getMovie().getId(), true);
+        }
+    }
+    pageContext.setAttribute("favoriteMap", favoriteMap);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Phim đang chiếu</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/movie.css">
+    <!-- Font Awesome cho icon trái tim -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+            <style>
+            .favorite-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.5rem;
+                color: #aaa; /* màu xám mặc định */
+            }
+            .favorite-btn.favorited {
+                color: red; /* màu đỏ nếu đã thích */
+            }
+    </style>
 </head>
 <body>
 <header class="header1">
@@ -33,7 +63,7 @@
             </a>
 
             <!-- Nút trái tim -->
-            <button class="favorite-btn <c:if test='${favoriteMap[movie.id]}'>favorited</c:if>'"
+            <button class="favorite-btn ${favoriteMap[movie.id] ? 'favorited' : ''}"
                     data-id="${movie.id}" title="Thêm vào yêu thích">
                 <i class="fa fa-heart"></i>
             </button>
@@ -70,7 +100,7 @@
                 const movieId = this.dataset.id;
                 const btnEl = this;
 
-                fetch('<%=request.getContextPath()%>/favorite-toggle', {
+                fetch('<%=request.getContextPath()%>/favorite', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'movieId=' + movieId
@@ -83,7 +113,7 @@
                         btnEl.classList.remove('favorited');
                     } else if (data.message === 'not_logged_in') {
                         alert("Vui lòng đăng nhập để thêm yêu thích!");
-                        window.location.href = '<%=request.getContextPath()%>/login.jsp';
+                        window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
                     }
                 })
                 .catch(err => console.error(err));
