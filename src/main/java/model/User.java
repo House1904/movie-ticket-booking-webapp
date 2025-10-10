@@ -1,7 +1,6 @@
 package model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name="users")
@@ -11,7 +10,6 @@ public abstract class User {
     protected String email;
     protected String phone;
 
-    //Constructor
     public User() {
     }
 

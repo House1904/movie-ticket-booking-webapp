@@ -43,6 +43,7 @@ public class Partner extends User {
         return cinemas;
     }
 
+
     public void setCinemas(List<Cinema> cinemas) {
         this.cinemas = cinemas;
     }
