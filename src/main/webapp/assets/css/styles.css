@@ -309,7 +309,9 @@ body {
     to { opacity: 1; transform: scale(1); }
 }
 
-
+.menu-toggle {
+    display: none;
+}
 @media (max-width: 800px) {
     .menu-toggle {
         display: block;

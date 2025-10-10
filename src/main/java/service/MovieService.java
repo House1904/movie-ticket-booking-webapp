@@ -37,4 +37,7 @@ public class MovieService {
         }
         return new ArrayList<>(genres);
     }
+    public List<Movie> getMoviesbyKeyWord(String keyword) {
+        return movieDAO.getMovieByKeyword(keyword);
+    }
 }

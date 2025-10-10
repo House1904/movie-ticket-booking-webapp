@@ -9,9 +9,9 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <!-- Kết nối PostgreSQL -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/qqq"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/project"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="quangiaman"/>
+            <property name="javax.persistence.jdbc.password" value="1234"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <!-- Hibernate config -->

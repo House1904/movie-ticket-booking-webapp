@@ -101,6 +101,7 @@ body {
     transform: scale(0.9);
     pointer-events: none;
 }
+
 .rating {
     color: #1db954;
     font-weight: 600;

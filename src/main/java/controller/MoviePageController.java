@@ -34,6 +34,15 @@ public class MoviePageController extends HttpServlet {
             session.setAttribute("movies", movies);
         }
 
+        else if ("search".equals(action)) {
+            String keyword = request.getParameter("q");
+            if (keyword != null) {
+                movies = movieService.getMoviesbyKeyWord(keyword);
+            }
+            else movies = movieService.getMovies();
+            session.setAttribute("movies", movies);
+        }
+
         try {
             genreList = movieService.getGenres();
             session.setAttribute("genreList", genreList);

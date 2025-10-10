@@ -75,7 +75,7 @@ public class BookingController extends HttpServlet {
 
             Showtime sht = (Showtime) session.getAttribute("st");
             Auditorium au = (Auditorium) session.getAttribute("auditorium");
-            Customer customer = (Customer) session.getAttribute("customer");
+            Customer customer = (Customer) session.getAttribute("user");
             Booking booking = new Booking(Status.PENDING, customer);
             boolean res = bookingService.insertBooking(booking);
             if(res){

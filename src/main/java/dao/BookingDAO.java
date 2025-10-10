@@ -47,7 +47,7 @@ public class BookingDAO {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         String jpql = "DELETE FROM BookingSeat bs " +
                         "WHERE bs.status = :status " +
-                        "AND bs.createdAt < :expireTime";
+                        "AND bs.createdAt < :expireTime ";
         em.getTransaction().begin();
         LocalDateTime expireTime = LocalDateTime.now().minusMinutes(5);
         Query query = em.createQuery(jpql);
@@ -57,6 +57,7 @@ public class BookingDAO {
         em.getTransaction().commit();
         em.close();
     }
+
 
     public boolean insertBooking (Booking booking) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
