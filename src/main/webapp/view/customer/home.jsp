@@ -20,7 +20,7 @@
 <div>
     <div class="nav-home">
         <div class="nav-left">
-            <p><img src="<%= request.getContextPath() %>/assets/images/vitri.png" alt="icon"> Vị Trí</p>
+            <p><img src="<%= request.getContextPath() %>/assets/images/vitri.png" alt="icon">Thành phố Hồ Chí Minh</p>
         </div>
     </div>
 
@@ -36,9 +36,9 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Now Showing Section -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 0 20px;">
-            <p style="font-size:30px;">Phim Đang Chiếu</p>
-            <a href="nowShowingPosters.jsp">Xem thêm</a>
+        <div class="section-header">
+            <p class="section-title">Phim Đang Chiếu</p>
+            <a href="nowShowingPosters.jsp" class="view-more">Xem thêm</a>
         </div>
 
         <!-- Now Showing Section -->
@@ -47,10 +47,20 @@
             <div class="now-showing-posters">
                 <c:forEach var="movie" items="${nowShowingMovies}">
                     <div class="now-showing-details">
-                        <img src="${movie.posterUrl}" alt="${movie.title}">
+                        <div class="poster-container">
+                            <img src="${movie.posterUrl}" alt="${movie.title}">
+                            <div class="movie-tooltip">
+                                <h3>${movie.title}</h3>
+                                <p><strong>Thể loại:</strong> ${movie.genre}</p>
+                                <p><strong>Năm phát hành:</strong> ${movie.releaseDate}</p>
+                                <p><strong>Thời lượng: ${movie.duration} phút</strong></p>
+                                <p><strong>Ngôn ngữ:</strong> ${movie.language}</p>
+                                <p><strong>Diễn viên:</strong> ${movie.actor}</p>
+                            </div>
+                        </div>
                         <p>${movie.title} <c:if test="${not empty movie.ageLimit}">(${movie.ageLimit})</c:if></p>
                         <div class="button-group">
-                            <a class="movie-btn book-ticket" href="#">Đặt Vé</a>
+                            <a class="movie-btn book-ticket" href="${pageContext.request.contextPath}/selectShowtime?movieId=${movie.id}">Đặt Vé</a>
                             <c:if test="${not empty movie.trailerUrl}">
                                 <a class="movie-btn trailer" target="_blank" href="${movie.trailerUrl}">Trailer</a>
                             </c:if>
@@ -62,10 +72,11 @@
         </div>
 
         <!-- Upcoming Section -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0;">
-            <p style="font-size:30px;">Phim Sắp Chiếu</p>
-            <a href="upcomingPosters.jsp">Xem thêm</a>
+        <div class="section-header">
+            <p class="section-title">Phim Sắp Chiếu</p>
+            <a href="upcomingPosters.jsp" class="view-more">Xem thêm</a>
         </div>
+
 
         <!-- Upcoming Section -->
         <div class="upcoming-section">
@@ -73,7 +84,17 @@
             <div class="upcoming-posters">
                 <c:forEach var="movie" items="${upcomingMovies}">
                     <div class="upcoming-details">
-                        <img src="${movie.posterUrl}" alt="${movie.title}">
+                        <div class="poster-container">
+                            <img src="${movie.posterUrl}" alt="${movie.title}">
+                            <div class="movie-tooltip">
+                                <h3>${movie.title}</h3>
+                                <p><strong>Thể loại:</strong> ${movie.genre}</p>
+                                <p><strong>Năm phát hành:</strong> ${movie.releaseDate}</p>
+                                <p><strong>Thời lượng: ${movie.duration} phút</strong></p>
+                                <p><strong>Ngôn ngữ:</strong> ${movie.language}</p>
+                                <p><strong>Diễn viên:</strong> ${movie.actor}</p>
+                            </div>
+                        </div>
                         <p>${movie.title} <c:if test="${not empty movie.ageLimit}">(${movie.ageLimit})</c:if></p>
                         <div class="button-group">
                             <c:if test="${not empty movie.trailerUrl}">
