@@ -73,7 +73,6 @@ body {
     aspect-ratio: 2 / 3; /* Giữ tỷ lệ chuẩn poster phim */
 }
 
-
 .movie-card h3 {
     font-size: 17px;
     margin: 12px 15px 5px;
@@ -104,4 +103,30 @@ body {
 .rating {
     color: #1db954;
     font-weight: 600;
+}
+
+/* ========== FAVORITE HEART ICON ========== */
+.favorite-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 26px;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.2s ease;
+    z-index: 10;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    padding: 4px;
+}
+
+/* Khi phim đã được yêu thích */
+.favorite-icon.favorited {
+    color: red;
+}
+
+/* Hiệu ứng hover tim */
+.favorite-icon:hover {
+    color: orange;
+    transform: scale(1.2);
 }

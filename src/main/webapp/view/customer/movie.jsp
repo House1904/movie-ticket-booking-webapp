@@ -23,22 +23,22 @@
 </section>
 
 <section class="movie-grid">
-    <%-- Mẫu card phim --%>
-        <c:forEach var="movie" items="${movies}">
+    <c:forEach var="movie" items="${movies}">
+        <div class="movie-card" data-id="${movie.id}" data-genres="${movie.genre}">
+            <!-- Link bao poster -->
             <a href="${pageContext.request.contextPath}/movieDetail?id=${movie.id}" class="movie-card-link">
-                <div class="movie-card" data-id="${movie.id}" data-genres="${movie.genre}">
-                    <img src="${movie.posterUrl}" alt="${movie.title}">
-                    <h3>${movie.title}</h3>
-                    <p>${movie.genre}</p>
+                <img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster">
+                <h3>${movie.title}</h3>
+                <p>${movie.genre}</p>
+            </a>
 
-                    <!-- Biểu tượng tim -->
-                    <span class="favorite-icon"
-                          data-id="${movie.id}"
-                          style="cursor:pointer; font-size:24px; color:${favoriteMap[movie.id] ? 'red' : 'gray'};">
-                        &#10084;
-                    </span>
-                </div>
-        </c:forEach>
+            <!-- Nút trái tim -->
+            <button class="favorite-btn <c:if test='${favoriteMap[movie.id]}'>favorited</c:if>'"
+                    data-id="${movie.id}" title="Thêm vào yêu thích">
+                <i class="fa fa-heart"></i>
+            </button>
+        </div>
+    </c:forEach>
 </section>
 
 <script>
@@ -63,12 +63,12 @@
         });
     });
 
-    // Xử lý click vào tim
-        document.querySelectorAll('.heart').forEach(heart => {
-            heart.addEventListener('click', function(e) {
-                e.stopPropagation(); // tránh click vào link
-                const card = this.closest('.movie-card');
-                const movieId = card.dataset.id;
+    // Xử lý click trái tim
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const movieId = this.dataset.id;
+                const btnEl = this;
 
                 fetch('<%=request.getContextPath()%>/favorite-toggle', {
                     method: 'POST',
@@ -78,9 +78,9 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'added') {
-                        this.classList.add('favorited');
+                        btnEl.classList.add('favorited');
                     } else if (data.status === 'removed') {
-                        this.classList.remove('favorited');
+                        btnEl.classList.remove('favorited');
                     } else if (data.message === 'not_logged_in') {
                         alert("Vui lòng đăng nhập để thêm yêu thích!");
                         window.location.href = '<%=request.getContextPath()%>/login.jsp';
