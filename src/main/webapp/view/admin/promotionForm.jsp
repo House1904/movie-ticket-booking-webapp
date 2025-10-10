@@ -21,8 +21,8 @@
             <div class="mb-3">
                 <label>Loại khuyến mãi</label>
                 <select name="promotionType" class="form-control">
-                    <option value="PERCENTAGE" ${promotion.promotionType == 'PERCENTAGE' ? "selected" : ""}>Giảm theo %</option>
-                    <option value="FIXED" ${promotion.promotionType == 'FIXED' ? "selected" : ""}>Giảm cố định</option>
+                    <option value="PERCENT" ${promotion.promotionType == 'PERCENT' ? "selected" : ""}>Giảm theo %</option>
+                    <option value="AMOUNT" ${promotion.promotionType == 'AMOUNT' ? "selected" : ""}>Giảm cố định</option>
                 </select>
             </div>
 
@@ -66,7 +66,7 @@
 
             <div class="text-center">
                 <button class="btn btn-primary px-4">Lưu</button>
-                <a href="promotion" class="btn btn-secondary px-4">Hủy</a>
+                <a href="promotion?action=cancel" class="btn btn-secondary px-4">Hủy</a>
             </div>
         </form>
     </div>

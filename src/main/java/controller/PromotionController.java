@@ -5,6 +5,7 @@ import dao.PromotionDAO;
 import model.Promotion;
 import model.enums.PromotionStatus;
 import model.enums.PromotionType;
+import service.PromotionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +20,7 @@ import java.util.List;
 @WebServlet("/promotion")
 public class PromotionController extends HttpServlet {
 
-    private PromotionDAO promotionDAO = new PromotionDAO();
+    private PromotionService promotionService = new PromotionService();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     @Override
@@ -27,30 +28,32 @@ public class PromotionController extends HttpServlet {
             throws ServletException, IOException {
 
         String action = req.getParameter("action");
+        long id = req.getParameter("id") != null && !req.getParameter("id").isEmpty()
+                ? Long.parseLong(req.getParameter("id")) : 0;
+        Promotion promo = promotionService.getPromotionById(id);
         if (action == null) action = "list";
 
         switch (action) {
+            case "cancel":
+                resp.sendRedirect("promotion");
+                break;
             case "new":
-                req.getRequestDispatcher("view/promotionForm.jsp").forward(req, resp);
+                req.getRequestDispatcher("view/admin/promotionForm.jsp").forward(req, resp);
                 break;
             case "edit":
-                long id = Long.parseLong(req.getParameter("id"));
-                Promotion promo = promotionDAO.findById(id);
                 req.setAttribute("promotion", promo);
-                req.getRequestDispatcher("view/promotionForm.jsp").forward(req, resp);
+                req.getRequestDispatcher("view/admin/promotionForm.jsp").forward(req, resp);
                 break;
             case "delete":
-                promotionDAO.delete(Long.parseLong(req.getParameter("id")));
+                promotionService.deletePromotion(promo);
                 resp.sendRedirect("promotion");
                 break;
             case "list":
             default:
-                Long partnerId = (Long) req.getSession().getAttribute("partnerId"); // lấy từ session đăng nhập
-                List<Promotion> list = promotionDAO.findByPartner(partnerId);
-                req.setAttribute("promotions", list);
-                req.getRequestDispatcher("view/promotionList.jsp").forward(req, resp);
+                List<Promotion> list = promotionService.getAllPromotions();
+                req.getSession().setAttribute("promotions", list);
+                req.getRequestDispatcher("view/admin/promotionList.jsp").forward(req, resp);
                 break;
-
         }
     }
 
@@ -61,7 +64,7 @@ public class PromotionController extends HttpServlet {
         long id = req.getParameter("id") != null && !req.getParameter("id").isEmpty()
                 ? Long.parseLong(req.getParameter("id")) : 0;
 
-        Promotion p = id > 0 ? promotionDAO.findById(id) : new Promotion();
+        Promotion p = id > 0 ? promotionService.getPromotionById(id) : new Promotion();
         p.setName(req.getParameter("name"));
         p.setPromotionType(PromotionType.valueOf(req.getParameter("promotionType")));
         p.setDiscountValue(Double.parseDouble(req.getParameter("discountValue")));
@@ -71,8 +74,12 @@ public class PromotionController extends HttpServlet {
         p.setEndAt(LocalDateTime.parse(req.getParameter("endAt"), formatter));
         p.setStatus(PromotionStatus.valueOf(req.getParameter("status")));
 
-
+        if(id == 0){
+            promotionService.createPromotion(p);
+        }
+        else {
+            promotionService.editPromotion(p);
+        }
         resp.sendRedirect("promotion");
     }
-
 }

@@ -59,18 +59,21 @@ public class PromotionDAO {
     }
 
     // ❌ Xóa
-    public void delete(long id) {
+    public void delete(Promotion promotion) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
-            Promotion p = em.find(Promotion.class, id);
+            tx.begin();
+
+            // Lấy lại entity từ DB để đảm bảo nó được quản lý
+            Promotion p = em.find(Promotion.class, promotion.getId());
             if (p != null) {
-                tx.begin();
                 em.remove(p);
-                tx.commit();
             }
+
+            tx.commit();
         } catch (Exception e) {
-            tx.rollback();
+            if (tx.isActive()) tx.rollback();
             e.printStackTrace();
         } finally {
             em.close();

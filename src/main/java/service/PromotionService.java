@@ -10,7 +10,7 @@ public class PromotionService {
     public List<Promotion> getAllPromotions() {
         return promotionDAO.findAll();
     }
-    public Promotion getPromotionById(int id) {
+    public Promotion getPromotionById(long id) {
         return promotionDAO.findById(id);
     }
     public void createPromotion(Promotion promotion) {
@@ -21,7 +21,7 @@ public class PromotionService {
         promotionDAO.update(promotion);
     }
 
-    public void deletePromotion(int id) {
-        promotionDAO.delete(id);
+    public void deletePromotion(Promotion promotion) {
+        promotionDAO.delete(promotion);
     }
 }
