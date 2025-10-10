@@ -66,10 +66,11 @@
         <!-- Nếu đã login -->
         <li class="dropdown">
             <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
-            <div class="dropdown-content">
-                <a href="profile.jsp">View Profile</a>
-                <a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a>
-            </div>
+            <ul class="dropdown-content">
+                <li><a href="profile.jsp">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
+                <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
+            </ul>
         </li>
         <%
             }
