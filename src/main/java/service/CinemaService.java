@@ -8,11 +8,7 @@ public class CinemaService {
     private CinemaDAO cinemaDAO = new CinemaDAO();
 
     public Cinema findById(long id) {
-        return cinemaDAO.findById(id);
-    }
-
-    public void update(Cinema cinema) {
-        cinemaDAO.update(cinema);
+        return cinemaDAO.getCinemaById(id);
     }
 
     public List<Cinema> getAllCinemas() {
@@ -20,9 +16,18 @@ public class CinemaService {
     }
 
     public List<Cinema> getCinemasByPartnerId(long partnerId) {
-        return cinemaDAO.getCinemasByPartnerId(partnerId);
+        return cinemaDAO.getCinemasByPartner(partnerId);
     }
-    public Cinema findCinemaById(long cinemaId) {
-        return cinemaDAO.findCinemaById(cinemaId);
+
+    public void addCinema(Cinema c) {
+        cinemaDAO.addCinema(c);
+    }
+
+    public void updateCinema(Cinema c) {
+        cinemaDAO.updateCinema(c);
+    }
+
+    public void deleteCinema(long id) {
+        cinemaDAO.deleteCinema(id);
     }
 }

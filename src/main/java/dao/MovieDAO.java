@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 
 public class MovieDAO {
 
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() throws SQLException {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
@@ -21,15 +21,16 @@ public class MovieDAO {
         } finally {
             entity.close();
         }
+
         return movies;
     }
-
     public Movie getMovieById(long movieId) {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Movie movie = null;
         try {
             movie = entity.find(Movie.class, movieId);
-        } finally {
+        }
+        finally {
             entity.close();
         }
         return movie;

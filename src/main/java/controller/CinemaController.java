@@ -98,7 +98,7 @@ public class CinemaController extends HttpServlet {
                 cinema.setAddress(address);
                 cinema.setPhone(phone);
 
-                cinemaService.update(cinema);
+                cinemaService.updateCinema(cinema);
                 resp.sendRedirect(req.getContextPath() + "/CinemaController?action=edit&id=" + id);
             } catch (NumberFormatException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID rạp không hợp lệ");

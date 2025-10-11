@@ -43,7 +43,7 @@ public class ShowtimePageController extends HttpServlet{
                 }
                 long cinemaId = Long.parseLong(idParam);
                 req.setAttribute("selectedCinemaId", cinemaId);
-                Cinema cinema = cinemaService.findCinemaById(cinemaId);
+                Cinema cinema = cinemaService.findById(cinemaId);
                 System.out.println(cinema.getName());
                 session.setAttribute("cinema", cinema);
                 String selectedDateStr = req.getParameter("selectedDate");
@@ -57,7 +57,6 @@ public class ShowtimePageController extends HttpServlet{
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-
 
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();

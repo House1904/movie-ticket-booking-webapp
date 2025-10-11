@@ -30,4 +30,9 @@ public class AuditoriumService {
     public void delete(long id) {
         auditoriumDAO.delete(id);
     }
+
+    public List<Auditorium> getAuditoriumsByPartner(long partnerId) {
+        return auditoriumDAO.getAuditoriumsByPartner(partnerId);
+    }
+
 }

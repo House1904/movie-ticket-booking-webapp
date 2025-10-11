@@ -2,6 +2,7 @@ package controller;
 
 import model.Account;
 import model.Customer;
+import model.Partner;
 import model.enums.Role;
 import service.AccountService;
 import service.CustomerService;
@@ -39,7 +40,7 @@ public class AuthController extends HttpServlet {
                 Account account = accountService.login(username, password);
 
                 if (account != null) {
-
+                    // Truy cập user liên kết
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
 
@@ -47,9 +48,10 @@ public class AuthController extends HttpServlet {
                     if (account.getRole() == Role.ADMIN) {
                         response.sendRedirect(request.getContextPath() + "/admin.jsp");
                     } else if (account.getRole() == Role.PARTNER) {
-                        response.sendRedirect(request.getContextPath() + "/AuditoriumController");
+                        Partner partner = (Partner) account.getUser();
+                        session.setAttribute("partner", partner);
+                        response.sendRedirect(request.getContextPath() + "/manageCinema");
                     } else {
-                        // Truy cập user liên kết
                         Customer user = (Customer) account.getUser();
                         user.setMemberShip(true);
                         session.setAttribute("user", user);
