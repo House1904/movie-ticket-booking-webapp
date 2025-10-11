@@ -11,7 +11,7 @@
     <h2>Quản lý Đối tác</h2>
 
     <div class="form-section">
-        <!-- Add/Edit Partner Form -->
+        <!-- Form thêm/sửa đối tác -->
         <div class="add-form">
             <h3>${partner == null ? 'Thêm Đối tác Mới' : 'Chỉnh sửa Đối tác'}</h3>
             <form action="partner" method="post">
@@ -36,12 +36,8 @@
             </form>
         </div>
 
-        <!-- Partner List -->
+        <!-- Danh sách đối tác -->
         <div class="partner-list">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm Đối tác...">
-                <button onclick="searchPartners()">🔍</button>
-            </div>
             <div class="cards" id="cardsContainer">
                 <c:forEach var="p" items="${partners}">
                     <div class="card">
@@ -50,13 +46,24 @@
                             <form action="partner" method="post" style="display: inline;">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id" value="${p.id}">
-                                <button type="submit" onclick="return confirm('Xóa đối tác này?')" style="margin: 0; padding: 0;">🗑️</button>
+                                <button type="submit" onclick="return confirm('Bạn có muốn xóa đối tác này không?')" style="margin: 0; padding: 0;">🗑️</button>
                             </form>
                         </div>
+
                         <div class="brand-title">${p.brand}</div>
                         <h4>${p.fullName}</h4>
                         <small>${p.email}</small>
                         <small>${p.phone}</small>
+
+                        <!-- ✅ Thông tin tài khoản -->
+                        <c:if test="${not empty p.account}">
+                            <div class="account-info">
+                                <small><b>Tên đăng nhập:</b> ${p.account.userName}</small><br>
+                                <small><b>Mật khẩu:</b> defaultPass123</small>
+                            </div>
+                        </c:if>
+
+                        <!-- 🔘 Công tắc kích hoạt -->
                         <div class="switch">
                             <label>
                                 <input type="checkbox" ${p.is_activate ? 'checked' : ''}>
@@ -70,31 +77,18 @@
     </div>
 </div>
 
-<script>
-    // Chức năng tìm kiếm theo thời gian thực
-    document.getElementById('searchInput').addEventListener('input', function() {
-        searchPartners();
-    });
-
-    // Chức năng tìm kiếm khi nhấn nút
-    function searchPartners() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-
-        cards.forEach(function(card) {
-            const brand = card.querySelector('.brand-title').textContent.toLowerCase();
-            const fullName = card.querySelector('h4').textContent.toLowerCase();
-            const email = card.querySelector('small').textContent.toLowerCase();
-            const phone = card.querySelectorAll('small')[1].textContent.toLowerCase();
-
-            // Kiểm tra nếu bất kỳ trường nào khớp với từ khóa tìm kiếm
-            if (brand.includes(searchValue) || fullName.includes(searchValue) || email.includes(searchValue) || phone.includes(searchValue)) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-    }
-</script>
+<!-- ⚠️ Cảnh báo lỗi -->
+<c:if test="${param.error == 'email_exists'}">
+    <script>alert("Email đã tồn tại! Vui lòng nhập email khác.");</script>
+</c:if>
+<c:if test="${param.error == 'phone_exists'}">
+    <script>alert("Số điện thoại đã tồn tại!");</script>
+</c:if>
+<c:if test="${param.error == 'invalid_phone'}">
+    <script>alert("Số điện thoại phải gồm đúng 10 chữ số!");</script>
+</c:if>
+<c:if test="${param.error == 'invalid_email'}">
+    <script>alert("Email không hợp lệ!");</script>
+</c:if>
 </body>
 </html>

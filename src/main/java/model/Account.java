@@ -1,6 +1,5 @@
 package model;
 
-
 import model.enums.Role;
 
 import java.io.Serializable;
@@ -17,6 +16,7 @@ public class Account implements Serializable {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private User user;
     //Constructor
 
     public Account() {
@@ -78,5 +78,13 @@ public class Account implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
-}
 
+    @OneToOne(cascade = CascadeType.ALL)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

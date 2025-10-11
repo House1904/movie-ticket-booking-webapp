@@ -9,6 +9,7 @@ public abstract class User {
     protected String fullName;
     protected String email;
     protected String phone;
+    protected Account account;
 
     public User() {
     }
@@ -52,5 +53,14 @@ public abstract class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @OneToOne(mappedBy = "user")
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

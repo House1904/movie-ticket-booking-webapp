@@ -1,5 +1,6 @@
 package dao;
 
+import model.Account;
 import model.Partner;
 import util.DBConnection;
 import javax.persistence.EntityManager;
@@ -36,6 +37,11 @@ public class PartnerDAO {
             em.getTransaction().begin();
             Partner partner = em.find(Partner.class, partnerId);
             if (partner != null) {
+                // Xóa account liên kết (nếu có)
+                Account acc = partner.getAccount(); // hoặc find theo partnerId
+                if (acc != null) {
+                    em.remove(em.contains(acc) ? acc : em.merge(acc));
+                }
                 em.remove(partner);
             }
             em.getTransaction().commit();
@@ -43,6 +49,7 @@ public class PartnerDAO {
             em.close();
         }
     }
+
 
     public Partner findPartnerById(long partnerId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
