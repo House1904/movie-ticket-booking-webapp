@@ -27,6 +27,7 @@
                 <td>
                     <button class="sua-btn" onclick="window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=edit&id=${auditorium.id}&cinemaId=${cinema.id}'">Sửa</button>
                     <button class="quanly-btn" onclick="window.location.href='${pageContext.request.contextPath}/SeatController?action=list&auditoriumId=${auditorium.id}'">Quản lý ghế</button>
+                    <button class="suatchieu-btn" onclick="window.location.href='${pageContext.request.contextPath}/manageShowtime?action=mnShowtime&auditoriumId=${auditorium.id}'">Quản lý suất chiếu</button>
                     <button class="delete-btn" onclick="if(confirm('Bạn có chắc muốn xóa phòng này?')) window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=delete&id=${auditorium.id}&cinemaId=${cinema.id}'">Xóa</button>
                 </td>
             </tr>

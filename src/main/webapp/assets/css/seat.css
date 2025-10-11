@@ -180,6 +180,25 @@ button.update-btn:hover {
     color: white;
     text-decoration: none;
 }
+
+.suatchieu-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 2px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suatchieu-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
 /* ======= Responsive ======= */
 @media (max-width: 768px) {
     table th,

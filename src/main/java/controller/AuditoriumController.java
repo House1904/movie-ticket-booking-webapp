@@ -11,6 +11,9 @@ import model.Cinema;
 import model.enums.AuditFormat;
 import service.AuditoriumService;
 import service.CinemaService;
+import service.MovieService;
+import service.ShowtimeService;
+
 
 @WebServlet("/AuditoriumController")
 public class AuditoriumController extends HttpServlet {

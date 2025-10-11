@@ -62,8 +62,10 @@ public class ShowtimeController extends HttpServlet {
             long id = Long.parseLong(req.getParameter("id"));
             Showtime showtime = showtimeService.getShowtime(id);
             req.setAttribute("showtime", showtime);
+        } else if ("mnShowtime".equals(action)) {
+            long id = Long.parseLong(req.getParameter("auditoriumId"));
+            req.setAttribute("auditoriumId", id);
         }
-
         RequestDispatcher rd = req.getRequestDispatcher("/view/partner/manageShowtime.jsp");
         rd.forward(req, resp);
     }
