@@ -17,17 +17,18 @@ public class Account implements Serializable {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private User user;
     //Constructor
 
     public Account() {
     }
 
-    public Account(String userName, String password, Role role, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Account(String userName, String password, Role role, LocalDateTime createdAt, User user) {
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.user = user;
     }
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -78,5 +79,14 @@ public class Account implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
-}
 
+    @OneToOne
+    @JoinColumn(name = "userID")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

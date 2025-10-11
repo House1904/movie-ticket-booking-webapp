@@ -1,0 +1,134 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #030323;
+    color: #e8ebf4;
+    margin: 0;
+    padding: 0;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+.main-content {
+    margin: 15px 3%;
+}
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filters select, .filters button {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #1a1a3d;
+    color: #fff;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.filters select:hover, .filters select:focus {
+    background: #2a2a5d; /* Nền sáng hơn khi hover/focus */
+    border-color: #eada7b; /* Viền vàng để nổi bật */
+    outline: none;
+}
+
+.filters button {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5);
+    color: #fff;
+    cursor: pointer;
+}
+
+.kpi-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.kpi-card h4 {
+    color: #eada7b;
+    margin: 0 0 10px;
+}
+
+.charts {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.table-container {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th {
+    color: #eada7b;
+    background: #1a1a3d; /* Nền tối để chữ vàng nổi bật */
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Viền sáng hơn một chút */
+}
+
+.table-container td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e8ebf4; /* Giữ màu chữ của td */
+}
+
+
+
+@media (max-width: 800px) {
+    .kpi-cards, .charts {
+        flex-direction: column;
+    }
+
+    .main-content {
+        margin: 15px 5%;
+    }
+}

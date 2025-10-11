@@ -1,0 +1,85 @@
+.partner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #293462;
+    color: #fff;
+    padding: 10px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Giữ header cố định khi cuộn */
+    top: 0; /* Dính ở trên cùng */
+    z-index: 1000; /* Đảm bảo header ở trên các phần tử khác */
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    margin-left: 20px;
+}
+
+.menu a {
+    color: #ffffff;
+    font-size: 15px;
+    padding: 6px 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
+    color: #293462;
+    border-radius: 5px;
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(28, 214, 206, 0.6);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info span {
+    margin-right: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.user-info a.btn-login {
+    background: linear-gradient(135deg, #ff9966, #ff5e62, #ffcc70);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.user-info a.btn-login:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #293462, #1cd6ce);
+}
