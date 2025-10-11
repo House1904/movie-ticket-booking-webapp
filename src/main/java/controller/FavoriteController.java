@@ -5,7 +5,11 @@ import dao.MovieDAO;
 import model.Favorite;
 import model.Movie;
 import model.User;
+import service.FavoriteService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -15,55 +19,87 @@ import java.util.List;
 
 @WebServlet("/favorite")
 public class FavoriteController extends HttpServlet {
-    private FavoriteDAO favoriteDAO = new FavoriteDAO();
-    private MovieDAO movieDAO = new MovieDAO();
+
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private FavoriteDAO favoriteDAO;
+    private MovieDAO movieDAO;
+    private FavoriteService favoriteService;
+
+    @Override
+    public void init() throws ServletException {
+        emf = Persistence.createEntityManagerFactory("ProjectLoad");
+        em = emf.createEntityManager();
+
+        favoriteDAO = new FavoriteDAO(em);
+        movieDAO = new MovieDAO();
+        favoriteService = new FavoriteService(favoriteDAO);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("application/json");
+        response.setContentType("application/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (user == null) {
-            out.print("{\"status\":\"error\", \"message\":\"not_logged_in\"}");
+            out.print("{\"status\":\"error\",\"message\":\"not_logged_in\"}");
+            out.flush();
             return;
         }
 
-        int movieId = Integer.parseInt(request.getParameter("movieId"));
-        Movie movie = movieDAO.getMovieById(movieId);
+        try {
+            long movieId = Long.parseLong(request.getParameter("movieId"));
+            Movie movie = movieDAO.getMovieById(movieId);
 
-        boolean isFav = favoriteDAO.exists(user, movieId);
+            if (movie == null) {
+                out.print("{\"status\":\"error\",\"message\":\"movie_not_found\"}");
+                out.flush();
+                return;
+            }
 
-        if (isFav) {
-            favoriteDAO.removeFavorite(user, movieId);
-            out.print("{\"status\":\"removed\"}");
-        } else {
-            favoriteDAO.addFavorite(new Favorite(user, movie));
-            out.print("{\"status\":\"added\"}");
+            boolean added = favoriteService.toggleFavorite(user, movie);
+
+            if (added) {
+                out.print("{\"status\":\"added\"}");
+            } else {
+                out.print("{\"status\":\"removed\"}");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.print("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
+        } finally {
+            out.flush();
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/common/login.jsp");
             return;
         }
 
-        // Lấy danh sách phim yêu thích của user
-        List<Favorite> favorites = favoriteDAO.findByUser(user);
-
+        List<Favorite> favorites = favoriteService.getFavoritesByUser(user);
         request.setAttribute("favorites", favorites);
 
-        // Chuyển tới trang JSP hiển thị
         request.getRequestDispatcher("/view/customer/favorite.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        if (em != null && em.isOpen()) em.close();
+        if (emf != null && emf.isOpen()) emf.close();
     }
 }
