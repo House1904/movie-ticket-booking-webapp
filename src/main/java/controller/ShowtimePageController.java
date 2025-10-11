@@ -5,12 +5,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.sql.*;
 
 import model.Showtime;
 import model.Movie;
 import model.Cinema;
+import model.enums.PromotionType;
 import service.CinemaService;
 import service.MovieService;
 import service.ShowtimeService;
@@ -41,6 +43,9 @@ public class ShowtimePageController extends HttpServlet{
                 }
                 long cinemaId = Long.parseLong(idParam);
                 req.setAttribute("selectedCinemaId", cinemaId);
+                Cinema cinema = cinemaService.findCinemaById(cinemaId);
+                System.out.println(cinema.getName());
+                session.setAttribute("cinema", cinema);
                 String selectedDateStr = req.getParameter("selectedDate");
                 LocalDate selectedDate = (selectedDateStr == null || selectedDateStr.isEmpty())
                         ? LocalDate.now()
@@ -53,13 +58,16 @@ public class ShowtimePageController extends HttpServlet{
                     throw new RuntimeException(e);
                 }
 
+
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
+                LocalDateTime now = LocalDateTime.now();
                 for (Showtime s : showtimes) {
                     Movie movie = s.getMovie();
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
+                req.setAttribute("now", now);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
             req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);

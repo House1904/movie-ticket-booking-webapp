@@ -222,6 +222,12 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
 }
+.showtime-buttons .time-btn.past {
+    background-color: #444;
+    color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
 
 .time-btn:hover {
     background-color: #0d6efd;

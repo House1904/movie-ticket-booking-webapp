@@ -1,0 +1,370 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #030323;
+    color: #e8ebf4;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Nếu chỉ muốn ẩn thanh cuộn nhưng vẫn cho phép JS cuộn trong poster */
+.now-showing-posters,
+.upcoming-posters {
+    overflow-x: hidden;  /* Ẩn thanh ngang */
+    overflow-y: hidden;  /* Ẩn thanh dọc nếu có */
+}
+
+/* Ẩn scrollbar trên tất cả trình duyệt */
+body::-webkit-scrollbar,
+.now-showing-posters::-webkit-scrollbar,
+.upcoming-posters::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;  /* IE, Edge cũ */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/* Ẩn thanh cuộn nhưng vẫn cho phép cuộn được */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* vẫn cho phép cuộn */
+}
+
+/* Ẩn scrollbar trên mọi trình duyệt */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.now-showing-posters::-webkit-scrollbar,
+.upcoming-posters::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none; /* Chrome, Safari, Edge */
+}
+
+html, body,
+.now-showing-posters,
+.upcoming-posters {
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE và Edge cũ */
+}
+
+/* Header và Nav bar */
+.nav-home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: #030323;
+    color: #eef1f3;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: #030323;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 3%;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 10%;
+}
+
+/* Nút nav-right */
+.nav-btn {
+    padding: 8px 18px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #E88383, #D32F2F);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(232, 131, 131, 0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+    background: linear-gradient(135deg, #D32F2F, #B71C1C);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(216, 47, 47, 0.4);
+}
+
+@media (max-width: 800px) {
+    .nav-left {
+        flex: 1 1 100%;
+        justify-content: left;
+        margin: 10px;
+        gap: 10px;
+    }
+    .nav-right {
+        flex: 1 1 100%;
+        justify-content: right;
+        margin: 10px;
+        gap: 10px;
+    }
+}
+
+.nav-left p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.nav-left img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Banner container */
+.banner-container {
+    margin: 15px 3%;
+    position: relative;
+}
+
+.main-content {
+    margin: 15px 3%;
+    position: relative;
+}
+
+/* Banner */
+.banner {
+    height: 80vh;
+    width: 100%;
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.banner img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+    display: block;
+    transition: opacity 0.5s ease;
+}
+
+/* Nút banner */
+.banner-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #030323;
+    color: #cdb2d3;
+    border: none;
+    font-size: 24px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.banner-btn:hover {
+    background: rgba(0,0,0,0.8);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.banner-btn.prev {
+    left: 15px;
+}
+
+.banner-btn.next {
+    right: 15px;
+}
+
+/* Section poster */
+.now-showing-section, .upcoming-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.now-showing-posters, .upcoming-posters {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 40px;
+    flex-grow: 1;
+}
+
+/* Ẩn thanh cuộn ngang */
+.now-showing-posters::-webkit-scrollbar,
+.upcoming-posters::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.now-showing-posters,
+.upcoming-posters {
+    -ms-overflow-style: none;  /* IE, Edge cũ */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.now-showing-details, .upcoming-details {
+    width: 300px;
+    align-items: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.now-showing-details img, .upcoming-details img {
+    height: 400px;
+    width: 300px;
+    border-radius: 12px;
+    object-fit: fill;
+    cursor: pointer;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.now-showing-details img:hover, .upcoming-details img:hover {
+    transform: scale(1.05);
+}
+
+.now-showing-details p, .upcoming-details p {
+    font-size: 20px;
+    color: #ddd;
+    margin: 15px 0 10px 0;
+}
+
+/* Nhóm nút dưới poster */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Nút carousel */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(3, 3, 35, 0.8);
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+    left: -25px;
+}
+
+.carousel-btn.next {
+    right: -25px;
+}
+
+/* Nút đặt vé và trailer */
+.movie-btn {
+    display: inline-block;
+    width: 100px;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+/* Nút đặt vé */
+.book-ticket {
+    background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5);
+    box-shadow: 0 3px 10px rgba(147, 51, 234, 0.3);
+    color: #ddd;
+}
+
+.book-ticket:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
+    color: #ddd;
+}
+
+/* Nút trailer */
+.trailer {
+    background: linear-gradient(135deg, #eada7b, #f3140e);
+    box-shadow: 0 3px 10px rgba(234, 227, 79, 0.3);
+}
+
+.trailer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    .banner-container {
+        margin: 15px 5%;
+    }
+
+    .banner {
+        height: 40vh;
+    }
+
+    .banner-btn {
+        font-size: 20px;
+        padding: 10px 14px;
+    }
+
+    .movie-btn {
+        width: 80px;
+        padding: 8px 0;
+        font-size: 13px;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .carousel-btn.prev {
+        left: -15px;
+    }
+
+    .carousel-btn.next {
+        right: -15px;
+    }
+}

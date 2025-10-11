@@ -56,4 +56,10 @@ public class CinemaDAO {
             em.close();
         }
     }
+    public Cinema findCinemaById(long cinemaId) {
+        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        Cinema cinema = entity.find(Cinema.class, cinemaId);
+        entity.close();
+        return cinema;
+    }
 }

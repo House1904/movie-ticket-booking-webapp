@@ -1,5 +1,6 @@
 package service;
 
+import model.Booking;
 import model.BookingSeat;
 import model.Seat;
 import dao.BookingDAO;
@@ -23,5 +24,13 @@ public class BookingService {
     }
     public void insert(BookingSeat bookingSeat) {
         bookingDAO.insertSeat(bookingSeat);
+    }
+
+    public void deletedBookingSeat() {
+        bookingDAO.deleteBookingSeat();
+    }
+
+    public boolean insertBooking (Booking booking){
+        return bookingDAO.insertBooking(booking);
     }
 }

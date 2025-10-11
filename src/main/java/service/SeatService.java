@@ -8,11 +8,9 @@ import java.util.List;
 public class SeatService {
     private SeatDAO seatDAO = new SeatDAO();
     public Seat getSeats(int seatID) {
-
         return seatDAO.getSeatbyID(seatID);
     }
     public List<Seat> getSeatsByAu(long auditID) {
-
         return seatDAO.getSeatByShowtime(auditID);
     }
     public boolean seatExists(long auditoriumId, String rowLabel, String seatNumber) {
@@ -29,5 +27,7 @@ public class SeatService {
     public void delete(int seatId) {
         seatDAO.delete(seatId);
     }
+    public double getPrice(Seat seat) {
+        return seatDAO.getSeatPrice(seat);
+    }
 }
-

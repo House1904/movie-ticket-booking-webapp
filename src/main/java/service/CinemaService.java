@@ -4,7 +4,6 @@ import model.Cinema;
 
 import java.sql.SQLException;
 import java.util.List;
-
 public class CinemaService {
     private CinemaDAO cinemaDAO = new CinemaDAO();
 
@@ -22,5 +21,8 @@ public class CinemaService {
 
     public List<Cinema> getCinemasByPartnerId(long partnerId) {
         return cinemaDAO.getCinemasByPartnerId(partnerId);
+    }
+    public Cinema findCinemaById(long cinemaId) {
+        return cinemaDAO.findCinemaById(cinemaId);
     }
 }

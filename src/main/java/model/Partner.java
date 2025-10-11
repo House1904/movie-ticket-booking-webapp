@@ -15,11 +15,9 @@ public class Partner extends User {
 
     public Partner() {}
 
-    public Partner(long id, String fullName, String email, String phone, String brand, String status, boolean is_activate, List<Cinema> cinemas) {
-        super(id, fullName, email, phone);
+    public Partner(String fullName, String email, String phone, String brand) {
+        super(fullName, email, phone);
         this.brand = brand;
-        this.is_activate = is_activate;
-        this.cinemas = cinemas;
     }
 
     public String getBrand() {

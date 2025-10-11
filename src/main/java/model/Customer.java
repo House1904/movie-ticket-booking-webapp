@@ -9,19 +9,18 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "customerID")
 public class Customer extends User {
     private boolean isMemberShip;
-    private Date dateOfBirth;
+    private LocalDateTime dateOfBirth;
     private String avatarUrl;
     private List<Rating> ratings;
     private List<Booking> bookings;
 
     public Customer() {}
 
-    public Customer(long id, String fullName, String email, String phone, boolean isMemberShip, Date dateOfBirth, String avatarUrl, List<Rating> ratings) {
-        super(id, fullName, email, phone);
-        this.isMemberShip = isMemberShip;
+    public Customer(String fullName, String email, String phone, LocalDateTime dateOfBirth, String avatarUrl) {
+        super(fullName, email, phone);
         this.dateOfBirth = dateOfBirth;
         this.avatarUrl = avatarUrl;
-        this.ratings = ratings;
+        this.isMemberShip= true;
     }
 
     public boolean isMemberShip() {
@@ -32,11 +31,11 @@ public class Customer extends User {
         isMemberShip = memberShip;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
