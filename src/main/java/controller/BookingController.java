@@ -31,9 +31,14 @@ public class BookingController extends HttpServlet {
         String action = request.getParameter("action");
         bookingService.deletedBookingSeat();
 
+        if (action == null) {
+            action = "showtimeSl";
+        }
+
         if("showtimeSl".equals(action)){
             HttpSession session = request.getSession();
             long showtimeID = Long.parseLong(request.getParameter("showtimeID"));
+
 
             Showtime st = showtimeService.getShowtime(showtimeID);
             Auditorium auditorium = st.getAuditorium();
