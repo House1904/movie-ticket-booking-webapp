@@ -67,19 +67,58 @@ public class PromotionController extends HttpServlet {
         Promotion p = id > 0 ? promotionService.getPromotionById(id) : new Promotion();
         p.setName(req.getParameter("name"));
         p.setPromotionType(PromotionType.valueOf(req.getParameter("promotionType")));
-        p.setDiscountValue(Double.parseDouble(req.getParameter("discountValue")));
-        p.setMinTotalPrice(Double.parseDouble(req.getParameter("minTotalPrice")));
-        p.setMaxTotalPrice(Double.parseDouble(req.getParameter("maxTotalPrice")));
-        p.setStartAt(LocalDateTime.parse(req.getParameter("startAt"), formatter));
-        p.setEndAt(LocalDateTime.parse(req.getParameter("endAt"), formatter));
+        // ✅ Parse an toàn
+        double discountValue = Double.parseDouble(req.getParameter("discountValue"));
+        double minTotal = Double.parseDouble(req.getParameter("minTotalPrice"));
+        double maxTotal = req.getParameter("maxTotalPrice") != null && !req.getParameter("maxTotalPrice").isEmpty()
+                ? Double.parseDouble(req.getParameter("maxTotalPrice"))
+                : 0.0;
+        p.setDiscountValue(discountValue);
+        p.setMinTotalPrice(minTotal);
+        p.setMaxTotalPrice(maxTotal);
+
+        LocalDateTime startAt = LocalDateTime.parse(req.getParameter("startAt"), formatter);
+        LocalDateTime endAt = LocalDateTime.parse(req.getParameter("endAt"), formatter);
+
+        // ✅ 1. Kiểm tra ngày bắt đầu < ngày kết thúc
+        if (startAt.isAfter(endAt)) {
+            req.setAttribute("error", "⛔ Ngày bắt đầu phải trước ngày kết thúc!");
+            req.setAttribute("promotion", p);
+            req.getRequestDispatcher("view/admin/promotionForm.jsp").forward(req, resp);
+            return;
+        }
+        // ✅ 2. Check giá trị giảm % hợp lệ
+        if (p.getPromotionType() == PromotionType.PERCENT &&
+                (discountValue <= 0 || discountValue > 100)) {
+            req.setAttribute("error", "⚠️ Giá trị giảm không hợp lệ! Phải nằm trong khoảng 1% đến 100%.");
+            req.setAttribute("promotion", p);
+            req.getRequestDispatcher("view/admin/promotionForm.jsp").forward(req, resp);
+            return;
+        }
+
+        p.setStartAt(startAt);
+        p.setEndAt(endAt);
         p.setStatus(PromotionStatus.valueOf(req.getParameter("status")));
 
-        if(id == 0){
-            promotionService.createPromotion(p);
+        // ✅ 2. Nếu là AMOUNT → set maxTotalPrice = discountValue
+        String type = req.getParameter("promotionType");
+        if (PromotionType.valueOf(type) == PromotionType.AMOUNT) {
+            p.setMaxTotalPrice(p.getDiscountValue());
+        } else {
+            String maxStr = req.getParameter("maxTotalPrice");
+            p.setMaxTotalPrice(maxStr != null && !maxStr.isEmpty()
+                    ? Double.parseDouble(maxStr)
+                    : 0.0);
         }
-        else {
+
+        // ✅ 3. Lưu hoặc cập nhật
+        if (id == 0) {
+            promotionService.createPromotion(p);
+        } else {
             promotionService.editPromotion(p);
         }
+
         resp.sendRedirect("promotion");
     }
+
 }

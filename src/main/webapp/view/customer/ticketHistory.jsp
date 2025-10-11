@@ -6,6 +6,8 @@
 <head>
     <title>Lịch sử vé đã mua</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ticketHistory.css">
+
 </head>
 <body class="bg-light">
 <div class="container mt-5">

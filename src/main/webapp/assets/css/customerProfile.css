@@ -1,0 +1,118 @@
+/* ==== Hồ sơ khách hàng - Customer Profile ==== */
+
+body {
+    background: linear-gradient(135deg, #dfe9ff, #ffffff);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Card chính */
+.profile-card {
+    max-width: 700px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Ảnh đại diện */
+.profile-avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0d6efd;
+    transition: 0.3s;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+/* Tiêu đề */
+.profile-title {
+    font-weight: 700;
+    color: #0d6efd;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(13, 110, 253, 0.2);
+}
+
+/* Label */
+label {
+    font-weight: 500;
+    color: #444;
+}
+
+/* Ô nhập */
+input.form-control, input[type="date"], input[type="text"], input[type="email"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 6px rgba(13, 110, 253, 0.3);
+}
+
+/* Checkbox */
+.form-check-label {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Nút chính (Cập nhật) */
+.btn-save {
+    background: linear-gradient(135deg, #007bff, #00b4ff);
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-save:hover {
+    background: linear-gradient(135deg, #0056d2, #008ae6);
+    transform: translateY(-2px);
+}
+
+/* Nút phụ (Đổi mật khẩu, Lịch sử vé) */
+.btn-outline-info,
+.btn-outline-warning {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-outline-info:hover {
+    background: linear-gradient(135deg, #1cd6ce, #00b4ff);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-outline-warning:hover {
+    background: linear-gradient(135deg, #ff9966, #ff5e62);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .profile-card {
+        padding: 25px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+}

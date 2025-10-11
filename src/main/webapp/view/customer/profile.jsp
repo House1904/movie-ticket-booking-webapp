@@ -10,42 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #dfe9ff, #ffffff);
-            font-family: 'Poppins', sans-serif;
-        }
-        .profile-card {
-            max-width: 700px;
-            margin: 60px auto;
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 40px;
-        }
-        .profile-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0d6efd;
-        }
-        .profile-title {
-            font-weight: 700;
-            color: #0d6efd;
-        }
-        .btn-save {
-            background-color: #0d6efd;
-            border: none;
-            transition: 0.3s;
-        }
-        .btn-save:hover {
-            background-color: #084fc1;
-        }
-        label {
-            font-weight: 500;
-        }
-    </style>
+
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/customerProfile.css">
+
 </head>
 
 <body>
@@ -54,6 +21,13 @@
         <h2 class="text-center mb-4 profile-title">Hồ sơ cá nhân</h2>
 
         <form action="${pageContext.request.contextPath}/profile" method="post">
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger">${error}</div>
+            </c:if>
+            <c:if test="${not empty success}">
+                <div class="alert alert-success">${success}</div>
+            </c:if>
+
             <div class="text-center mb-4">
                 <img src="${empty user.avatarUrl ? 'https://via.placeholder.com/130' : user.avatarUrl}"
                      alt="Avatar" class="profile-avatar mb-2">
@@ -73,7 +47,7 @@
                 <div class="col-md-6">
                     <label for="email">Email</label>
                     <input type="email" id="email"
-                           class="form-control" value="${user.email}" readonly>
+                           class="form-control" value="${user.email}">
                 </div>
 
                 <div class="col-md-6">
@@ -105,6 +79,12 @@
                 <a href="${pageContext.request.contextPath}/ticketHistory" class="btn btn-outline-info">
                     Xem lịch sử vé
                 </a>
+                <!-- Nút Đổi mật khẩu -->
+                <button type="button" class="btn btn-outline-warning"
+                        onclick="window.location.href='${pageContext.request.contextPath}/changePassword.jsp'">
+                    Đổi mật khẩu
+                </button>
+
             </div>
 
         </form>

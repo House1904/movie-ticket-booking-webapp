@@ -39,6 +39,7 @@ public class CustomerProfileController extends HttpServlet {
             resp.sendRedirect("login.jsp");
             return;
         }
+
         // Nhận dữ liệu từ form
         String avatarUrl = req.getParameter("avatarUrl");
         String fullName = req.getParameter("fullName");
@@ -46,25 +47,43 @@ public class CustomerProfileController extends HttpServlet {
         String dateOfBirthStr = req.getParameter("dateOfBirth");
         boolean isMemberShip = req.getParameter("isMemberShip") != null;
 
-        // Cập nhật thông tin user
+        // 🔹 1. Kiểm tra tên không được để trống
+        if (fullName == null || fullName.trim().isEmpty()) {
+            req.setAttribute("error", "Không được để trống họ tên.");
+            req.getRequestDispatcher("/view/customer/profile.jsp").forward(req, resp);
+            return;
+        }
+
+        // 🔹 2. Kiểm tra số điện thoại hợp lệ
+        String phoneRegex = "^(0[0-9]{9})$"; // 10 chữ số, bắt đầu bằng 0
+        if (phone == null || phone.trim().isEmpty() || !phone.matches(phoneRegex)) {
+            req.setAttribute("error", "Số điện thoại không hợp lệ. Vui lòng nhập đúng định dạng (10 chữ số, bắt đầu bằng 0).");
+            req.getRequestDispatcher("/view/customer/profile.jsp").forward(req, resp);
+            return;
+        }
+
+        // 🔹 3. Cập nhật thông tin user
         customer.setAvatarUrl(avatarUrl);
-        customer.setFullName(fullName);
-        customer.setPhone(phone);
+        customer.setFullName(fullName.trim());
+        customer.setPhone(phone.trim());
         customer.setMemberShip(isMemberShip);
 
-        // Parse LocalDate từ input type="date"
+        // 🔹 4. Parse ngày sinh (nếu có)
         if (dateOfBirthStr != null && !dateOfBirthStr.isEmpty()) {
             customer.setDateOfBirth(LocalDate.parse(dateOfBirthStr).atStartOfDay());
         }
 
-        // Gọi service cập nhật database
+        // 🔹 5. Cập nhật DB
         boolean res = customerService.updateCustomer(customer);
         if (res) {
             System.out.println("Customer updated successfully");
+        } else {
+            System.out.println("Customer update failed");
         }
-        else System.out.println("Customer update failed");
 
         session.setAttribute("user", customer);
+        req.setAttribute("success", "Cập nhật thông tin thành công!");
         req.getRequestDispatcher("/view/customer/profile.jsp").forward(req, resp);
     }
+
 }

@@ -8,42 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #f3f7ff, #ffffff);
-            font-family: 'Poppins', sans-serif;
-        }
-        .partner-card {
-            max-width: 750px;
-            margin: 60px auto;
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 40px;
-        }
-        .profile-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0d6efd;
-        }
-        .partner-title {
-            font-weight: 700;
-            color: #0d6efd;
-        }
-        .btn-save {
-            background-color: #0d6efd;
-            border: none;
-            transition: 0.3s;
-        }
-        .btn-save:hover {
-            background-color: #084fc1;
-        }
-        label {
-            font-weight: 500;
-        }
-    </style>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/partnerProfile.css">
+
 </head>
 
 <body>
@@ -53,7 +19,7 @@
 
         <form action="${pageContext.request.contextPath}/partnerProfile" method="post">
             <div class="text-center mb-4">
-                <img src="${empty partner.avatarUrl ? 'https://via.placeholder.com/130' : partner.avatarUrl}"
+                <img src="https://metiz.vn/media/poster_film/avatar_2__teaser_poster_1_.jpg"
                      alt="Avatar" class="profile-avatar mb-2">
             </div>
 
@@ -121,6 +87,10 @@
                 <a href="${pageContext.request.contextPath}/promotion" class="btn btn-outline-primary">
                     Quản lý ưu đãi / Voucher
                 </a>
+                <!-- 🆕 Nút Đổi mật khẩu -->
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    Đổi mật khẩu
+                </button>
             </div>
 
         </form>

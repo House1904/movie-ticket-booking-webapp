@@ -8,4 +8,7 @@ public class PartnerService {
     public void addPartner(Partner partner) {
         partnerDAO.insert(partner);
     }
+    public void updatePartner(Partner partner) {
+        partnerDAO.update(partner);
+    }
 }
