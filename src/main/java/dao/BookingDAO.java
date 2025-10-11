@@ -1,14 +1,18 @@
 package dao;
 
+import model.Booking;
 import model.BookingSeat;
 import model.Seat;
 import model.Showtime;
+import model.enums.SeatBookedFormat;
 import util.DBConnection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class BookingDAO {
@@ -39,4 +43,35 @@ public class BookingDAO {
         return query1.getResultList();
     }
 
+    public void deleteBookingSeat() {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        String jpql = "DELETE FROM BookingSeat bs " +
+                        "WHERE bs.status = :status " +
+                        "AND bs.createdAt < :expireTime ";
+        em.getTransaction().begin();
+        LocalDateTime expireTime = LocalDateTime.now().minusMinutes(5);
+        Query query = em.createQuery(jpql);
+        query.setParameter("expireTime", expireTime);
+        query.setParameter("status", SeatBookedFormat.HOLD);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
+
+
+    public boolean insertBooking (Booking booking) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.persist(booking);
+            tx.commit();
+            return true;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            tx.rollback();
+        }
+        return false;
+    }
 }

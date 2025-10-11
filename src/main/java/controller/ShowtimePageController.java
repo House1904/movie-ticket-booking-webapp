@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.sql.*;
 
@@ -55,11 +56,13 @@ public class ShowtimePageController extends HttpServlet{
 
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
+                LocalDateTime now = LocalDateTime.now();
                 for (Showtime s : showtimes) {
                     Movie movie = s.getMovie();
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
+                req.setAttribute("now", now);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
             req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);
