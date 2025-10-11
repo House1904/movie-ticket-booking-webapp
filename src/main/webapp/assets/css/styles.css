@@ -14,7 +14,7 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 15vh;
-    background-color: #293462;;
+    background-color: #293462;
     padding: 10px 50px;
     position: sticky;
     top: 0;            /* dính trên cùng */
@@ -29,6 +29,7 @@ body {
     /*font-size: 22px;
     font-weight: bold*/;
     text-decoration: none;
+
 }
 
 /* Menu ngang */
@@ -36,6 +37,7 @@ body {
     list-style: none;
     display: flex;
     align-items: center;
+    background: #293462;
 }
 
 .nav li, .cloud li{
@@ -49,7 +51,6 @@ body {
     padding: 8px 12px;
     transition: 0.3s;
 }
-
 .nav li a:hover, .cloud li a:hover {
     background: linear-gradient(135deg, #9543A7, #4A26AB, #1cd6ce);
     color: #293462;

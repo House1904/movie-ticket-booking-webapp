@@ -22,19 +22,18 @@
 <head>
     <title>Phim đang chiếu</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/movie.css">
-    <!-- Font Awesome cho icon trái tim -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-            <style>
-            .favorite-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.5rem;
-                color: #aaa; /* màu xám mặc định */
-            }
-            .favorite-btn.favorited {
-                color: red; /* màu đỏ nếu đã thích */
-            }
+        <style>
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #aaa; /* màu xám mặc định */
+        }
+        .favorite-btn.favorited {
+            color: red; /* màu đỏ nếu đã thích */
+        }
     </style>
 </head>
 <body>

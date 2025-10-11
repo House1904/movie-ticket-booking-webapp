@@ -1,0 +1,400 @@
+
+    /* Style cho trang chọn suất chiếu */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #030323; /* Nền xanh đen đặc trưng */
+    color: #e8ebf4;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+/* Ẩn scrollbar trên tất cả trình duyệt */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none; /* IE, Edge cũ */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Main content */
+.main-content {
+    margin: 20px 5%;
+    position: relative;
+}
+
+/* Container for movie info and showtime selection */
+.movie-showtime-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Movie info (Left) */
+.movie-info {
+    flex: 1;
+    max-width: 300px;
+    text-align: center;
+}
+
+.movie-info h2 {
+    font-size: 26px;
+    color: #eada7b;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.movie-poster {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.movie-poster:hover {
+    transform: scale(1.05);
+}
+
+/* Showtime selection (Right) - Form bóng lên */
+.showtime-selection {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.showtime-selection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(234, 218, 123, 0.3), transparent);
+}
+
+/* Date selection */
+.date-selection {
+    margin-bottom: 24px; /* Khoảng cách đồng đều */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.date-selection label {
+    font-size: 16px;
+    color: #eada7b;
+    font-weight: 500;
+}
+
+.date-selection input[type="date"] {
+    padding: 12px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(26, 26, 61, 0.8);
+    color: #ffffff;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.date-selection input[type="date"]:focus {
+    outline: none;
+    border-color: #eada7b;
+    box-shadow: 0 0 0 3px rgba(234, 218, 123, 0.2);
+    background: rgba(26, 26, 61, 1);
+}
+
+/* Cinema selection */
+.cinema-selection {
+    margin-bottom: 24px; /* Tăng khoảng cách để tránh dính vào suất chiếu */
+}
+
+.cinema-selection h3 {
+    font-size: 20px;
+    color: #eada7b;
+    margin: 0 0 15px 0; /* Đồng bộ margin */
+    font-weight: 500;
+    position: relative;
+}
+
+.cinema-selection h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, #eada7b, transparent);
+}
+
+.cinema-selection select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 40px 12px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(26, 26, 61, 0.8);
+    color: #ffffff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23eada7b" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.cinema-selection select:focus {
+    outline: none;
+    border-color: #eada7b;
+    box-shadow: 0 0 0 3px rgba(234, 218, 123, 0.2);
+    background: rgba(26, 26, 61, 1);
+}
+
+.cinema-selection select:hover {
+    border-color: rgba(234, 218, 123, 0.5);
+}
+
+/* Showtime list */
+.showtime-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px; /* Khoảng cách đồng đều */
+}
+
+.showtime-list h5 {
+    width: 100%;
+    font-size: 16px;
+    color: #eada7b;
+    margin: 0 0 12px 0; /* Giảm margin để tránh dính combobox */
+    font-weight: 500;
+}
+
+/* Nút đặt vé - Kích thước nhỏ, hiệu ứng gradient vàng-cam-đỏ */
+form .time-btn {
+    width: 100px; /* Kích thước nhỏ */
+    padding: 10px 0; /* Padding vừa phải */
+    font-size: 13px; /* Font nhỏ */
+    font-weight: 600;
+    border: none;
+    border-radius: 20px; /* Bo góc nhẹ */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5); /* Gradient gốc */
+    box-shadow:
+            0 3px 10px rgba(98, 181, 177, 0.3),
+            0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+form .time-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+form .time-btn:hover::before {
+    left: 100%;
+}
+
+form .time-btn:hover {
+    background: linear-gradient(135deg, #f7b731, #ff6b6b); /* Gradient vàng-cam-đỏ */
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow:
+            0 6px 15px rgba(247, 183, 49, 0.4),
+            0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Thông báo không có suất chiếu */
+p {
+    color: #b0b0b0;
+    font-style: italic;
+    margin-bottom: 24px; /* Đồng bộ khoảng cách */
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    .movie-showtime-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .movie-info {
+        max-width: 100%;
+    }
+
+    .movie-poster {
+        max-width: 200px;
+    }
+
+    .showtime-selection {
+        padding: 15px;
+        margin: 0 10px;
+    }
+
+    .cinema-selection select {
+        max-width: 100%;
+        padding: 10px 35px 10px 12px;
+    }
+
+    form .time-btn {
+        width: 90px; /* Nhỏ hơn trên mobile */
+        padding: 8px 0;
+        font-size: 12px;
+    }
+
+    .date-selection input[type="date"] {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    .date-selection {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px; /* Giảm nhẹ trên mobile */
+    }
+
+    .cinema-selection {
+        margin-bottom: 20px; /* Giảm nhẹ trên mobile */
+    }
+
+    .showtime-list {
+        margin-bottom: 20px; /* Giảm nhẹ trên mobile */
+    }
+
+    .showtime-list h5 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 20px; /* Giảm nhẹ trên mobile */
+    }
+}
+
+/* Hiệu ứng loading cho form */
+.showtime-selection {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+.favorite-btn, .rating-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+/* Nút yêu thích */
+.favorite-btn {
+    background-color: #ff4b5c;
+    color: white;
+}
+
+.favorite-btn.favorited {
+    background-color: #c82333;
+}
+
+/* Nút đánh giá */
+.rating-btn {
+    background-color: #f8d64e;
+    color: #333;
+}
+
+.rating-btn:hover {
+    background-color: #f3c72e;
+}
+
+.rating-popup {
+    display: none; /* Ẩn ban đầu */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 10px;
+    width: 450px;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+.close-popup {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.rating-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.rating-item:last-child {
+    border-bottom: none;
+}
+
+.rating-stars {
+    color: #FFD700; /* Màu sao vàng */
+}

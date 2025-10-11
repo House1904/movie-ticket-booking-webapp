@@ -6,19 +6,34 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-import java.sql.*;
+import java.sql.SQLException;
 
+import dao.MovieDAO;
 import model.Showtime;
 import model.Movie;
 import model.Cinema;
+import model.User;
 import service.CinemaService;
 import service.MovieService;
 import service.ShowtimeService;
+import service.FavoriteService;
+import dao.FavoriteDAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 @WebServlet("/showtime")
 public class ShowtimePageController extends HttpServlet{
     private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
+    private MovieService movieService = new MovieService();
+
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProjectLoad");
+    private EntityManager em = emf.createEntityManager();
+    private FavoriteService favoriteService = new FavoriteService(new FavoriteDAO(em));
+
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp)
                 throws ServletException, IOException {
@@ -35,6 +50,28 @@ public class ShowtimePageController extends HttpServlet{
                throw new RuntimeException(e);
             }
             session.setAttribute("cinemas", cinemas);
+
+            String movieIdParam = req.getParameter("movieId");
+            Movie selectedMovie = null;
+            if (movieIdParam != null && !movieIdParam.isEmpty()) {
+                long movieId = Long.parseLong(movieIdParam);
+                selectedMovie = movieService.getMovie(movieId);
+            }
+
+            if (selectedMovie == null) {
+                resp.sendRedirect(req.getContextPath() + "/movie");
+                return;
+            }
+
+            req.setAttribute("selectedMovie", selectedMovie);
+
+            // Kiểm tra yêu thích
+            User user = (User) session.getAttribute("currentUser");
+            boolean isFavorite = false;
+            if (user != null && selectedMovie != null) {
+                isFavorite = favoriteService.isFavorite(user, selectedMovie.getId());
+            }
+            req.setAttribute("isFavorite", isFavorite);
 
             String action = req.getParameter("action");
             if ("filter".equals(action)) {
