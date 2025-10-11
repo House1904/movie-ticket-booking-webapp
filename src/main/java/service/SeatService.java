@@ -13,4 +13,7 @@ public class SeatService {
     public List<Seat> getSeatsByAu(long auditID) {
         return seatDAO.getSeatByShowtime(auditID);
     }
+    public double getPrice(Seat seat) {
+        return seatDAO.getSeatPrice(seat);
+    }
 }

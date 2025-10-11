@@ -1,5 +1,6 @@
 package model;
 
+
 import model.enums.Role;
 
 import java.io.Serializable;
@@ -22,12 +23,12 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(String userName, String password, Role role, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Account(String userName, String password, Role role, LocalDateTime createdAt, User user) {
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.user = user;
     }
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -79,7 +80,8 @@ public class Account implements Serializable {
         this.role = role;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "userID")
     public User getUser() {
         return user;
     }

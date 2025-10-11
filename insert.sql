@@ -1,11 +1,12 @@
 INSERT INTO movie (title, description, duration, ageLimit, releaseDate, language, posterUrl, trailerUrl, actor)
-VALUES 
-('Avengers: Endgame', 
+VALUES
+('Avengers: Endgame',
  'The Avengers assemble for one final stand against Thanos.',
  181, 'PG-13', '2019-04-26 00:00:00', 'English',
- 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/9/91/Endgame_Poster_2.jpg/revision/latest?cb=20190314215527', 
- 'https://youtube.com/watch?v=TcMBFSGVi1c', 
- 'Robert Downey Jr., Chris Evans');
+ 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/9/91/Endgame_Poster_2.jpg/revision/latest?cb=20190314215527',
+ 'https://youtube.com/watch?v=TcMBFSGVi1c',
+ 'Robert Downey Jr., Chris Evans'),
+
 
 INSERT INTO movie (title, description, duration, ageLimit, releaseDate, language, posterUrl, trailerUrl, actor)
 VALUES 
@@ -80,4 +81,26 @@ VALUES 	('A', true, '02', 0, 2),
 		('C', true, '02', 1, 2),
 		('C', true, '03', 1, 2),
 		('C', true, '04', 1, 2);
-		
+
+INSERT INTO Cinema (address, createat, name, phone) VALUES
+( N'212 Lý Chính Thắng, Quận 3, TP. Hồ Chí Minh', '2021-03-12', N'CGV Sư Vạn Hạnh', '02836206999'),
+(N'19 Cao Thắng, Quận 3, TP. Hồ Chí Minh', '2020-07-22', N'Lotte Cinema Nam Sài Gòn', '02837751919'),
+(N'3C Đinh Tiên Hoàng, Quận 1, TP. Hồ Chí Minh', '2019-12-05', N'Galaxy Nguyễn Du', '02838222122'),
+( N'2 Phổ Quang, Quận Tân Bình, TP. Hồ Chí Minh', '2022-01-18', N'Mega GS Cao Thắng', '02873005005'),
+(N'246 Nguyễn Hồng Đào, Quận Tân Bình, TP. Hồ Chí Minh', '2020-04-10', N'Beta Cineplex Tân Bình', '02873009191'),
+(N'702A Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh', '2023-02-02', N'CGV Pearl Plaza', '02862881313'),
+( N'1 Võ Văn Ngân, TP. Thủ Đức, TP. Hồ Chí Minh', '2021-06-15', N'Lotte Cinema Thủ Đức', '02837225222'),
+(N'21 Cộng Hòa, Quận Tân Bình, TP. Hồ Chí Minh', '2018-10-09', N'CGV Hoàng Văn Thụ', '02838118788'),
+(N'718 Lê Đức Thọ, Quận Gò Vấp, TP. Hồ Chí Minh', '2019-11-21', N'Galaxy Quang Trung', '02838959100'),
+(N'18 Phan Văn Trị, Quận Gò Vấp, TP. Hồ Chí Minh', '2021-08-12', N'Lotte Cinema Gò Vấp', '02839896868'),
+(N'112 Cao Thắng, Quận 3, TP. Hồ Chí Minh', '2022-09-09', N'CineStar Quốc Thanh', '02873003101'),
+(N'60A Trường Sơn, Quận Tân Bình, TP. Hồ Chí Minh', '2020-03-01', N'BHD Star Cineplex 3/2', '02873003003'),
+(N'88 Song Hành, Quận 2, TP. Thủ Đức, TP. Hồ Chí Minh', '2021-01-28', N'CGV Estella Place', '02836363737'),
+(N'700 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh', '2019-06-19', N'Lotte Cinema SC VivoCity', '02837711515'),
+(N'1058 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh', '2023-05-22', N'CGV Crescent Mall', '02854135353'),
+(N'240 Nguyễn Văn Luông, Quận 6, TP. Hồ Chí Minh', '2022-04-11', N'Galaxy Kinh Dương Vương', '02838756464'),
+(N'50 Lê Văn Việt, TP. Thủ Đức, TP. Hồ Chí Minh', '2021-09-30', N'BHD Star Vincom Thủ Đức', '02873003003'),
+(N'12 Quốc Hương, Quận 2, TP. Thủ Đức, TP. Hồ Chí Minh', '2020-12-14', N'Lotte Cinema Cantavil', '02837400999'),
+(N'198 Trần Quang Khải, Quận 1, TP. Hồ Chí Minh', '2018-08-05', N'CGV Landmark 81', '02836201919'),
+(N'561A Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh', '2023-08-20', N'Mega GS Pearl Center', '02873008008');
+

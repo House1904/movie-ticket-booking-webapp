@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="users")
@@ -11,11 +12,11 @@ public abstract class User {
     protected String phone;
     protected Account account;
 
+    //Constructor
     public User() {
     }
 
-    public User(long id, String fullName, String email, String phone) {
-        this.id = id;
+    public User(String fullName, String email, String phone) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
@@ -55,7 +56,7 @@ public abstract class User {
         this.phone = phone;
     }
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     public Account getAccount() {
         return account;
     }
