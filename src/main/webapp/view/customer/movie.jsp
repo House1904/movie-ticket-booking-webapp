@@ -20,7 +20,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Phim đang chiếu</title>
+    <title>Phim </title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/movie.css">
     <!-- Font Awesome cho icon trái tim -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
@@ -39,8 +39,8 @@
 </head>
 <body>
 <header class="header1">
-    <h1>Phim đang chiếu</h1>
-    <p>Danh sách các phim hiện đang chiếu trên toàn quốc</p>
+    <h1>${h1}</h1>
+    <p>${p}</p>
 </header>
 
 <section class="filter-bar">

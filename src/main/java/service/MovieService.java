@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
-    public List<Movie> getMovies() throws SQLException {
+    public List<Movie> getMovies(){
         return movieDAO.getAllMovies();
     }
 

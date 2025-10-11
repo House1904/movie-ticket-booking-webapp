@@ -12,6 +12,7 @@ import java.sql.*;
 import model.Showtime;
 import model.Movie;
 import model.Cinema;
+import model.enums.PromotionType;
 import service.CinemaService;
 import service.MovieService;
 import service.ShowtimeService;
@@ -46,6 +47,9 @@ public class ShowtimePageController extends HttpServlet{
                 }
                 long cinemaId = Long.parseLong(idParam);
                 req.setAttribute("selectedCinemaId", cinemaId);
+                Cinema cinema = cinemaService.findCinemaById(cinemaId);
+                System.out.println(cinema.getName());
+                session.setAttribute("cinema", cinema);
                 String selectedDateStr = req.getParameter("selectedDate");
                 LocalDate selectedDate = (selectedDateStr == null || selectedDateStr.isEmpty())
                         ? LocalDate.now()
@@ -57,6 +61,7 @@ public class ShowtimePageController extends HttpServlet{
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+
 
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();

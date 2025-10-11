@@ -21,15 +21,18 @@ div > div {
     justify-content: space-between;
 }
 .booking .showtimeInfo {
+    margin-left: 30px;
+    margin-top: 30px;
     padding: 10px 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     text-align: left;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    min-width: 300px;
+    box-shadow: 0 4px 8px rgba(18, 19, 50, 0.96);
 }
 .booking .showtimeInfo p {
-    margin-bottom: 20px;
-    margin-top: 20px   ;
+    margin-bottom: 30px;
+    margin-top: 30px   ;
     font-size: 20px;
 }
 .booking .bookSeat {

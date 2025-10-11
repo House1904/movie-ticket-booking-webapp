@@ -10,8 +10,10 @@
 <div class="booking">
 <div class="showtimeInfo">
     <p><strong>Phim:</strong> ${title}</p>
+    <p><strong>Rạp:</strong> ${cinema.name}</p>
     <p><strong>Ngày chiếu:</strong> ${day}</p>
     <p><strong>Giờ chiếu:</strong> ${time}</p>
+    <p><strong>Phòng chiếu:</strong> ${nameAuditorium}</p>
     <div class="summary-box">
         <p>Ghế đã chọn: <span id="selected-seats">—</span></p>
         <p>Tổng tiền: <span id="total-price">0</span> VND</p>
