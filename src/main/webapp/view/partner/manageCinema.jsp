@@ -54,6 +54,8 @@
                        onclick="return confirm('⚠️ Bạn có chắc chắn muốn xóa rạp không');">
                         Xóa
                     </a>
+                    <a href="${pageContext.request.contextPath}/manageCinema?action=mnAudit&cinema=${c}"
+                       class="text-green-500">Quan Ly Phong</a>
                 </td>
             </tr>
         </c:forEach>

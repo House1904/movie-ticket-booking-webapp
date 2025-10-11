@@ -11,7 +11,7 @@
             <!-- Kết nối PostgreSQL -->
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/project"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="210503"/>
+            <property name="javax.persistence.jdbc.password" value="151005"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <!-- Hibernate config -->
