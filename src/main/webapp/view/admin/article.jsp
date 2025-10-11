@@ -20,7 +20,7 @@
 <div class="admin-container">
     <!-- Phần tiêu đề -->
     <div class="admin-header">
-        <h1>Quản lý tin tức</h1>
+        <h1>QUẢN LÝ TIN TỨC</h1>
     </div>
 
     <!-- Hiển thị thông báo lỗi -->

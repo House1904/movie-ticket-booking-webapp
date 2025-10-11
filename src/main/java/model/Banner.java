@@ -11,18 +11,16 @@ public class Banner {
     protected LocalDateTime start_at;
     protected LocalDateTime end_at;
     protected LocalDateTime created_at;
-    protected String Placement;
 
     public Banner() {}
 
-    public Banner(String title, String image_url, String link_url, LocalDateTime start_at, LocalDateTime end_at, LocalDateTime created_at, String placement) {
+    public Banner(String title, String image_url, String link_url, LocalDateTime start_at, LocalDateTime end_at, LocalDateTime created_at) {
         this.title = title;
         this.image_url = image_url;
         this.link_url = link_url;
         this.start_at = start_at;
         this.end_at = end_at;
         this.created_at = created_at;
-        Placement = placement;
     }
 
     public String getTitle() {
@@ -74,11 +72,4 @@ public class Banner {
         this.created_at = created_at;
     }
 
-    public String getPlacement() {
-        return Placement;
-    }
-
-    public void setPlacement(String placement) {
-        Placement = placement;
-    }
 }
