@@ -29,11 +29,7 @@ public class ShowtimePageController extends HttpServlet{
                 throws ServletException, IOException {
             HttpSession session = req.getSession();
             List<Cinema> cinemas = null;
-            try {
               cinemas = cinemaService.getCinemas();
-            } catch (SQLException e) {
-               throw new RuntimeException(e);
-            }
             session.setAttribute("cinemas", cinemas);
 
             String action = req.getParameter("action");

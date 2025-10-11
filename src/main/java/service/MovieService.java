@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
-    public List<Movie> getMovies() throws SQLException {
+    public List<Movie> getMovies() {
         return movieDAO.getAllMovies();
     }
     public Movie getMovie(long movie_id) {

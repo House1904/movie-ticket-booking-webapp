@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 public class MovieDAO {
 
-    public List<Movie> getAllMovies() throws SQLException {
+    public List<Movie> getAllMovies() {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 

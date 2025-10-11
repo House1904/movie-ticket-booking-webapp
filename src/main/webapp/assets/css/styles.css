@@ -76,7 +76,7 @@ body {
     background-color: #ffffff; /* vàng nhạt */
     color: #293462;
     height: 40px;
-}
+}z
 .search-box input:focus {
     box-shadow: 0 0 8px rgba(28, 214, 206, 0.8); /* hiệu ứng glow hồng */
     transform: translateY(-1px);

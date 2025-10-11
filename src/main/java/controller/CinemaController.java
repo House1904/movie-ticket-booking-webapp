@@ -17,11 +17,7 @@ public class CinemaController extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         List<Cinema> cinemas = null;
-        try {
-            cinemas = cinemaService.getCinemas();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        cinemas = cinemaService.getCinemas();
         session.setAttribute("cinemas", cinemas);
         RequestDispatcher rd = req.getRequestDispatcher("/view/customer/showtime.jsp");
         rd.forward(req,resp);

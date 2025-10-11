@@ -20,4 +20,20 @@ public class ShowtimeService {
     public List<Showtime> getShowtimesByC(long id, LocalDate date) throws SQLException {
         return showtimeDAO.getShowtimesByCinema(id, date);
     }
+    public void addShowtime(Showtime showtime) {
+        showtimeDAO.addShowtime(showtime);
+    }
+
+    public void updateShowtime(Showtime showtime) {
+        showtimeDAO.updateShowtime(showtime);
+    }
+
+    public void deleteShowtime(long id) {
+        showtimeDAO.deleteShowtime(id);
+    }
+
+    public List<Showtime> getShowtimesByAuditorium(long auditoriumId) {
+        return showtimeDAO.getShowtimesByAuditorium(auditoriumId);
+    }
+
 }

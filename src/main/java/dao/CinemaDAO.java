@@ -23,4 +23,14 @@ public class CinemaDAO {
 
         return cinemas;
     }
+    public Cinema getCinemaById(long id) {
+        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        Cinema cinema = null;
+        try {
+            cinema = entity.find(Cinema.class, id);
+        } finally {
+            entity.close();
+        }
+        return cinema;
+    }
 }
