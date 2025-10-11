@@ -1,26 +1,59 @@
 package dao;
 
 import model.Cinema;
-import model.Movie;
+import model.Partner;
 import util.DBConnection;
-import java.sql.*;
-import java.util.*;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class CinemaDAO {
 
-    public List<Cinema> getAllCinemas() {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        List<Cinema> cinemas = null;
-
+    public Cinema findById(long id) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            cinemas = entity.createQuery("SELECT c FROM Cinema c", Cinema.class)
-                    .getResultList();
+            return em.find(Cinema.class, id);
         } finally {
-            entity.close();
+            em.close();
         }
+    }
 
-        return cinemas;
+    public void update(Cinema cinema) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(cinema);
+            trans.commit();
+        } catch (Exception e) {
+            if (trans.isActive()) trans.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Cinema> getAllCinemas() {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        try {
+            String jpql = "SELECT c FROM Cinema c";
+            TypedQuery<Cinema> query = em.createQuery(jpql, Cinema.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Cinema> getCinemasByPartnerId(long partnerId) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        try {
+            String jpql = "SELECT c FROM Cinema c WHERE c.partner.id = :partnerId";
+            TypedQuery<Cinema> query = em.createQuery(jpql, Cinema.class);
+            query.setParameter("partnerId", partnerId);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
 }

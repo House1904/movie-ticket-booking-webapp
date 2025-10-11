@@ -1,0 +1,201 @@
+/* Tiêu đề */
+h2, h3 {
+    color: #FFdf00;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.0rem;
+}
+select {
+    font-size: 18px;
+    padding: 8px 12px;
+    font-weight: 600;
+    height: 40px;
+    min-width: 100px;
+}
+
+label {
+    display: block;
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #F2D479;
+    margin-bottom: 0.25rem;
+}
+
+/* Container */
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Toàn trang */
+body {
+    background-color: #2E294E;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+}
+/* ======= Bảng danh sách ======= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+table th,
+table td {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #110515;
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+    padding: 12px 8px;
+    max-width: 200px;
+    overflow-wrap: break-word;
+}
+
+table thead {
+    background-color: #f5f5f5;
+    color: #333333;
+    font-weight: 600;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+table tbody tr:hover {
+    background-color: #f0f0f0;
+    transition: 0.2s ease;
+}
+
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    width: fit-content;
+    max-width: 400px;
+}
+
+/* Cột hành động với nút */
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s ease;
+    text-align: center;
+    color: #ffffff;
+}
+
+button.sua-btn {
+    background-color: #1e90ff;
+}
+
+button.sua-btn:hover {
+    background-color: #1F3D99;
+}
+
+button.quanly-btn {
+    background-color: #E8B66A;
+    margin-left: 8px;
+}
+
+button.quanly-btn:hover {
+    background-color: #FF8B3D;
+}
+
+button.add-btn {
+    background-color: #74B72E;
+}
+
+button.add-btn:hover {
+    background-color: #228b22;
+}
+
+button.delete-btn {
+    background-color: #e74c3c;
+}
+
+button.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+button.back-btn {
+    background-color: #828282;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+button.back-btn:hover {
+    background-color: #696969;
+}
+
+button.save-btn {
+    background-color: #FF82AB;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+button.save-btn:hover {
+    background-color: #DB7093;
+}
+
+button.update-btn {
+    background-color: #D697FF;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+button.update-btn:hover {
+    background-color: #C264FF;
+}
+.back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+    color: white;
+    text-decoration: none;
+}
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+    table th,
+    table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .action-btns button {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        min-width: 60px;
+    }
+
+    button.back-btn {
+        width: 100%;
+        padding: 6px 12px;
+    }
+}

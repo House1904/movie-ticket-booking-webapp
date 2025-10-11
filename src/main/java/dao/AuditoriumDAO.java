@@ -1,52 +1,42 @@
 package dao;
 
-import model.Movie;
-import model.Seat;
-import model.Showtime;
+import model.Auditorium;
 import util.DBConnection;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class SeatDAO {
-    public Seat getSeatbyID(int seatId) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        Seat seat = null;
-        try {
-            seat = entity.find(Seat.class, seatId);
-        }
-        finally {
-            entity.close();
-        }
-        return seat;
-    }
-    public List<Seat> getSeatByShowtime(long auditID) {
+public class AuditoriumDAO {
+
+    public Auditorium findById(long id) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
-
         try {
-            String jpql = "SELECT s FROM Seat s " +
-                    "JOIN FETCH s.auditorium a " +
-                    "WHERE a.id = :auditID " +
-                    "order by s.rowLabel";
-
-            return em.createQuery(jpql, Seat.class)
-                    .setParameter("auditID", auditID)
-                    .getResultList();
+            return em.find(Auditorium.class, id);
         } finally {
             em.close();
         }
     }
 
-    public boolean seatExists(long auditoriumId, String rowLabel, String seatNumber) {
+    public List<Auditorium> getByCinemaId(long cinemaId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            String jpql = "SELECT COUNT(s) FROM Seat s WHERE s.auditorium.id = :auditoriumId AND s.rowLabel = :rowLabel AND s.seatNumber = :seatNumber";
+            String jpql = "SELECT a FROM Auditorium a WHERE a.cinema.id = :cinemaId";
+            TypedQuery<Auditorium> query = em.createQuery(jpql, Auditorium.class);
+            query.setParameter("cinemaId", cinemaId);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean nameExists(long cinemaId, String name) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        try {
+            String jpql = "SELECT COUNT(a) FROM Auditorium a WHERE a.cinema.id = :cinemaId AND a.name = :name";
             TypedQuery<Long> query = em.createQuery(jpql, Long.class);
-            query.setParameter("auditoriumId", auditoriumId);
-            query.setParameter("rowLabel", rowLabel);
-            query.setParameter("seatNumber", seatNumber);
+            query.setParameter("cinemaId", cinemaId);
+            query.setParameter("name", name);
             Long count = query.getSingleResult();
             return count > 0;
         } finally {
@@ -54,12 +44,12 @@ public class SeatDAO {
         }
     }
 
-    public void save(Seat seat) {
+    public void save(Auditorium auditorium) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.persist(seat);
+            em.persist(auditorium);
             trans.commit();
         } catch (Exception e) {
             if (trans.isActive()) trans.rollback();
@@ -69,12 +59,12 @@ public class SeatDAO {
         }
     }
 
-    public void update(Seat seat) {
+    public void update(Auditorium auditorium) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.merge(seat);
+            em.merge(auditorium);
             trans.commit();
         } catch (Exception e) {
             if (trans.isActive()) trans.rollback();
@@ -84,14 +74,14 @@ public class SeatDAO {
         }
     }
 
-    public void delete(int seatId) {
+    public void delete(long id) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            Seat seat = em.find(Seat.class, seatId);
-            if (seat != null) {
-                em.remove(seat);
+            Auditorium auditorium = em.find(Auditorium.class, id);
+            if (auditorium != null) {
+                em.remove(auditorium);
             }
             trans.commit();
         } catch (Exception e) {
