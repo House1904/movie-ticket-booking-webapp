@@ -11,18 +11,13 @@ import javax.persistence.*;
 import java.sql.SQLException;
 
 public class AccountDAO {
-    private EntityManager em = DBConnection.getEmFactory().createEntityManager();;
-
-    public void addAccount(Account account) {
-        EntityManager em = DBConnection.getEmFactory().createEntityManager();
     public Account getAccountByUsername(String username) {
-        try {
-            em.getTransaction().begin();
-            em.persist(account);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        return em.createQuery(
+                        "SELECT a FROM Account a LEFT JOIN FETCH a.user WHERE a.userName = :userName",
+                        Account.class)
+                .setParameter("userName", username)
+                .getSingleResult();
     }
     public Account findAccountByPartnerId(long partnerId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
@@ -37,20 +32,14 @@ public class AccountDAO {
         } finally {
             em.close();
         }
-            return em.createQuery(
-                            "SELECT a FROM Account a LEFT JOIN FETCH a.user WHERE a.userName = :userName",
-                            Account.class)
-                    .setParameter("userName", username)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null; // không tìm thấy user
-        }
     }
 
     public void addAccount(Account account) throws SQLException
     {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         em.getTransaction().begin();
         em.persist(account);
         em.getTransaction().commit();
+        em.close();
     }
-        }
+}
