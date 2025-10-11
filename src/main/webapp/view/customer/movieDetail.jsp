@@ -20,6 +20,15 @@
     <div class="movie-info">
         <h2>${movie.title}</h2>
 
+        <p><strong>Giới hạn Độ tuổi:</strong>
+            <c:choose>
+                <c:when test="${not empty movie.ageLimit}">
+                    ${movie.ageLimit}+
+                </c:when>
+                <c:otherwise>Đang cập nhật</c:otherwise>
+            </c:choose>
+        </p>
+
         <p><strong>Thể loại:</strong>
             <c:choose>
                 <c:when test="${not empty movie.genre}">
