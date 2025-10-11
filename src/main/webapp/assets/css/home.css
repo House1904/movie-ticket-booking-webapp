@@ -143,13 +143,15 @@ html, body,
 }
 
 .banner img {
-    height: 100%;
     width: 100%;
-    object-fit: cover;
-    border-radius: 30px;
+    height: 100%;
+    object-fit: cover;          /* Giúp ảnh vừa khung, không méo */
+    object-position: center;    /* Căn giữa ảnh trong khung */
+    border-radius: 0;           /* Không cần bo thêm, vì banner đã có border-radius */
     display: block;
     transition: opacity 0.5s ease;
 }
+
 
 /* Nút banner */
 .banner-btn {

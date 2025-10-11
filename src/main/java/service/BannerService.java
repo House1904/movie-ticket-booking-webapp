@@ -15,12 +15,12 @@ public class BannerService {
         bannerDAO.updateBanner(banner);
     }
 
-    public void deleteBanner(String linkUrl) {
-        bannerDAO.deleteBanner(linkUrl);
+    public void deleteBanner(Long id) {
+        bannerDAO.deleteBanner(id);
     }
 
-    public Banner getBannerByLinkUrl(String linkUrl) {
-        return bannerDAO.getBannerByLinkUrl(linkUrl);
+    public Banner getBannerById(Long id) {
+        return bannerDAO.getBannerById(id);
     }
 
     public List<Banner> getAllBanners() {

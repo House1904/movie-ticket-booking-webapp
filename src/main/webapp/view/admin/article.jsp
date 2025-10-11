@@ -5,6 +5,8 @@
   Time: 3:44 PM
   To change this template use File | Settings | File Templates.
 --%>
+<!--admin-->
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
@@ -16,7 +18,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin-article-banner.css">
 </head>
 <body>
-<div class="admin-strip"></div>
+<%@ include file="header.jsp" %>
 <div class="admin-container">
     <!-- Phần tiêu đề -->
     <div class="admin-header">

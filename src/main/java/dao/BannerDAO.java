@@ -39,11 +39,11 @@ public class BannerDAO {
         }
     }
 
-    public void deleteBanner(String linkUrl) {
+    public void deleteBanner(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Banner banner = em.find(Banner.class, linkUrl);
+            Banner banner = em.find(Banner.class, id);
             if (banner != null) {
                 em.remove(banner);
             }
@@ -53,10 +53,10 @@ public class BannerDAO {
         }
     }
 
-    public Banner getBannerByLinkUrl(String linkUrl) {
+    public Banner getBannerById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Banner.class, linkUrl);
+            return em.find(Banner.class, id);
         } finally {
             em.close();
         }

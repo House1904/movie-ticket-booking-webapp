@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @WebServlet("/admin/banners")
 public class BannerController extends HttpServlet {
@@ -19,9 +18,14 @@ public class BannerController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if ("edit".equals(action)) {
-            String linkUrl = request.getParameter("link_url");
-            Banner banner = bannerService.getBannerByLinkUrl(linkUrl);
-            request.setAttribute("banner", banner);
+            String idStr = request.getParameter("id");
+            try {
+                Long id = Long.parseLong(idStr);
+                Banner banner = bannerService.getBannerById(id);
+                request.setAttribute("banner", banner);
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "ID không hợp lệ!");
+            }
         }
         request.setAttribute("banners", bannerService.getAllBanners());
         request.getRequestDispatcher("/view/admin/banner.jsp").forward(request, response);
@@ -31,13 +35,14 @@ public class BannerController extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("delete".equals(action)) {
-            // Xử lý xóa banner, chỉ cần link_url
-            String linkUrl = request.getParameter("link_url");
-            if (linkUrl != null && !linkUrl.isEmpty()) {
-                bannerService.deleteBanner(linkUrl);
+            // Xử lý xóa banner, dùng id
+            String idStr = request.getParameter("id");
+            try {
+                Long id = Long.parseLong(idStr);
+                bannerService.deleteBanner(id);
                 response.sendRedirect(request.getContextPath() + "/admin/banners");
-            } else {
-                request.setAttribute("errorMessage", "Link URL không hợp lệ!");
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "ID không hợp lệ!");
                 request.setAttribute("banners", bannerService.getAllBanners());
                 request.getRequestDispatcher("/view/admin/banner.jsp").forward(request, response);
             }
@@ -51,15 +56,15 @@ public class BannerController extends HttpServlet {
         String linkUrl = request.getParameter("link_url");
         banner.setLink_url(linkUrl);
 
-        // Validation cho link_url
-        if (!linkUrl.matches("^(https?://.*|/[\\w/]+)$")) {
-            request.setAttribute("errorMessage", "Link URL không hợp lệ! Vui lòng nhập URL bắt đầu bằng http://, https:// hoặc /path");
+        // Validation cho link_url (hỗ trợ anchor links)
+        if (!linkUrl.matches("^(https?://.*|/[\\w/\\?&=#]+)$")) {
+            request.setAttribute("errorMessage", "Link URL không hợp lệ! Vui lòng nhập URL bắt đầu bằng http://, https:// hoặc /path (có thể kèm query parameters và anchor links)");
             request.setAttribute("banners", bannerService.getAllBanners());
             request.getRequestDispatcher("/view/admin/banner.jsp").forward(request, response);
             return;
         }
 
-        // Validation cho thời gian (chỉ áp dụng cho add/update)
+        // Validation cho thời gian
         try {
             banner.setStart_at(LocalDateTime.parse(request.getParameter("start_at")));
             banner.setEnd_at(LocalDateTime.parse(request.getParameter("end_at")));
@@ -71,9 +76,19 @@ public class BannerController extends HttpServlet {
         }
 
         if ("add".equals(action)) {
+            banner.setCreated_at(LocalDateTime.now()); // Set created_at khi thêm banner
             bannerService.addBanner(banner);
         } else if ("update".equals(action)) {
-            bannerService.updateBanner(banner);
+            try {
+                Long id = Long.parseLong(request.getParameter("id"));
+                banner.setId(id);
+                bannerService.updateBanner(banner);
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "ID không hợp lệ!");
+                request.setAttribute("banners", bannerService.getAllBanners());
+                request.getRequestDispatcher("/view/admin/banner.jsp").forward(request, response);
+                return;
+            }
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/banners");

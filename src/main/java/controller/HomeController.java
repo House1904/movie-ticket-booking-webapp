@@ -37,14 +37,20 @@ public class HomeController extends HttpServlet {
         try {
             if ("/home".equals(servletPath)) {
                 // Lấy danh sách phim và rạp
-                List<Movie> nowShowingMovies = movieService.getNowShowingMovies();
-                List<Movie> upcomingMovies = movieService.getUpcomingMovies();
+                List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
+                List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
                 List<Cinema> cinemas = cinemaService.getCinemas();
                 // Lấy danh sách banner và sắp xếp theo created_at giảm dần
                 List<Banner> banners = bannerService.getAllBanners()
                         .stream()
-                        .sorted(Comparator.comparing(Banner::getCreated_at, Comparator.reverseOrder()))
+                        .sorted(
+                                Comparator.comparing(
+                                        Banner::getCreated_at,
+                                        Comparator.nullsLast(Comparator.reverseOrder())
+                                )
+                        )
                         .collect(Collectors.toList());
+
 
                 HttpSession session = req.getSession();
                 session.setAttribute("nowShowingMovies", nowShowingMovies);

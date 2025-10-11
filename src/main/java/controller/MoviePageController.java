@@ -46,6 +46,11 @@ public class MoviePageController extends HttpServlet {
             }
             else movies = movieService.getMovies();
         }
+        else {
+            h1 = "Tất cả phim";
+            p = "Hãy lựa chọn cho bạn một bộ phim yêu thích";
+            movies = movieService.getMovies();
+        }
 
         try {
             genreList = movieService.getGenres();

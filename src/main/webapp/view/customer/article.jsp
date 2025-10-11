@@ -1,3 +1,4 @@
+<!--customer-->
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Article" %>
@@ -97,7 +98,7 @@
         </div>
         
         <!-- Khuyến Mãi Section -->
-        <div class="section-container">
+        <div class="section-container" id="promotion">
             <h2 class="section-title">Khuyến Mãi</h2>
             <div class="promotion-placeholder">
                 <div class="promotion-icon">🎁</div>
@@ -129,6 +130,19 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
+            
+            // Scroll to promotion section if URL contains #promotion
+            if (window.location.hash === '#promotion') {
+                setTimeout(function() {
+                    const promotionSection = document.getElementById('promotion');
+                    if (promotionSection) {
+                        promotionSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 100);
+            }
         });
     </script>
 </body>

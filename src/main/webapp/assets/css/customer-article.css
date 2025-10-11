@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #030323 0%, #1a1a3d 50%, #030323 100%);
+    font-family: 'Montserrat', sans-serif;
+    background-color: #030323;
     color: #e8ebf4;
     margin: 0;
     padding: 0;
@@ -20,13 +22,15 @@ body {
     color: #e8ebf4;
     text-transform: uppercase;
     letter-spacing: 2px;
-    border-bottom: 2px solid #4a4a6a;
+    border-bottom: 2px solid rgba(255, 77, 77, 0.4);
     padding-bottom: 10px;
     position: relative;
-    background: linear-gradient(45deg, #6ab4f8, #e8ebf4);
+    background: linear-gradient(90deg, #eada7b, #f4d03f, #f7dc6f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    background-size: 200%;
+    animation: titleGradientFlow 6s ease infinite;
 }
 
 .news-title::after {
@@ -37,7 +41,20 @@ body {
     transform: translateX(-50%);
     width: 100px;
     height: 2px;
-    background: linear-gradient(90deg, #6ab4f8, #4a4a6a);
+    background: linear-gradient(90deg, #eada7b, #f4d03f, #eada7b);
+}
+
+/* Hiệu ứng ánh sáng chuyển động nhẹ */
+@keyframes titleGradientFlow {
+    0% {
+        background-position: 0%;
+    }
+    50% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0%;
+    }
 }
 
 /* Search and Filter Section */
@@ -53,8 +70,8 @@ body {
 .search-box-container {
     display: flex;
     align-items: center;
-    background: #1a1a3d;
-    border: 1px solid #4a4a6a;
+    background: rgba(26, 26, 61, 0.8);
+    border: 1px solid rgba(255, 77, 77, 0.3);
     border-radius: 25px;
     padding: 5px;
     min-width: 300px;
@@ -75,7 +92,7 @@ body {
 }
 
 .search-btn {
-    background: #6ab4f8;
+    background: linear-gradient(135deg, #eada7b, #f3140e);
     border: none;
     border-radius: 50%;
     width: 35px;
@@ -85,11 +102,13 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(234, 227, 79, 0.3);
 }
 
 .search-btn:hover {
-    background: #4a9ae8;
+    background: linear-gradient(135deg, #f3140e, #eada7b);
     transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
 }
 
 .filter-buttons {
@@ -98,8 +117,8 @@ body {
 }
 
 .filter-btn {
-    background: #1a1a3d;
-    border: 1px solid #4a4a6a;
+    background: rgba(26, 26, 61, 0.8);
+    border: 1px solid rgba(255, 77, 77, 0.3);
     color: #e8ebf4;
     padding: 10px 20px;
     border-radius: 20px;
@@ -110,9 +129,9 @@ body {
 
 .filter-btn:hover,
 .filter-btn.active {
-    background: #6ab4f8;
-    color: #030323;
-    border-color: #6ab4f8;
+    background: linear-gradient(135deg, #eada7b, #f3140e);
+    color: #ffffff;
+    border-color: #eada7b;
 }
 
 /* Section Container */
@@ -122,12 +141,18 @@ body {
 
 .section-title {
     font-size: 1.8em;
-    color: #6ab4f8;
+    color: #e8ebf4;
     margin-bottom: 25px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #4a4a6a;
+    border-bottom: 2px solid rgba(255, 77, 77, 0.4);
     text-transform: uppercase;
     letter-spacing: 1px;
+    background: linear-gradient(90deg, #eada7b, #f4d03f, #f7dc6f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200%;
+    animation: titleGradientFlow 6s ease infinite;
 }
 
 /* Articles List - Vertical Layout */
@@ -139,15 +164,16 @@ body {
 }
 
 .article-item {
-    background: #1a1a3d;
-    border: 1px solid #4a4a6a;
-    border-radius: 10px;
+    background: rgba(26, 26, 61, 0.8);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 15px;
     padding: 20px;
     transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
     align-items: center;
     min-height: 200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .article-link {
@@ -166,9 +192,9 @@ body {
 
 .article-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(106, 180, 248, 0.3);
-    background: #222245;
-    border-color: #6ab4f8;
+    box-shadow: 0 10px 25px rgba(255, 77, 77, 0.3);
+    background: rgba(26, 26, 61, 0.95);
+    border-color: rgba(255, 77, 77, 0.6);
 }
 
 .article-image-container {
@@ -213,14 +239,21 @@ body {
 }
 
 .read-more-btn {
-    background: #6ab4f8;
-    color: #030323;
+    background: linear-gradient(135deg, #eada7b, #f3140e);
+    color: #ffffff;
     padding: 10px 20px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 3px 10px rgba(234, 227, 79, 0.3);
+    transition: all 0.3s ease;
+}
+
+.read-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
 }
 
 .article-content {
@@ -240,7 +273,7 @@ body {
 }
 
 .article-item:hover .article-title {
-    color: #6ab4f8;
+    color: #eada7b;
 }
 
 .article-preview {
@@ -250,6 +283,7 @@ body {
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -257,17 +291,17 @@ body {
 .news-item a {
     display: inline-block;
     text-decoration: none;
-    color: #6ab4f8;
+    color: #eada7b;
     font-weight: bold;
     padding: 8px 15px;
-    border: 1px solid #6ab4f8;
+    border: 1px solid #eada7b;
     border-radius: 5px;
     transition: all 0.3s;
 }
 
 .news-item a:hover {
-    background: #6ab4f8;
-    color: #030323;
+    background: linear-gradient(135deg, #eada7b, #f3140e);
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -275,10 +309,11 @@ body {
 .promotion-placeholder {
     text-align: center;
     padding: 60px 20px;
-    background: #1a1a3d;
-    border: 1px solid #4a4a6a;
-    border-radius: 10px;
+    background: rgba(26, 26, 61, 0.8);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 15px;
     margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .promotion-icon {
@@ -311,33 +346,34 @@ body {
 .page-btn {
     padding: 10px 15px;
     text-decoration: none;
-    color: #6ab4f8;
-    border: 1px solid #4a4a6a;
+    color: #eada7b;
+    border: 1px solid rgba(255, 77, 77, 0.3);
     border-radius: 5px;
     transition: all 0.3s;
-    background: #1a1a3d;
+    background: rgba(26, 26, 61, 0.8);
 }
 
 .page-btn:hover {
-    background: #4a4a6a;
+    background: rgba(255, 77, 77, 0.2);
     color: #e8ebf4;
     text-decoration: none;
 }
 
 .page-btn.active {
-    background: #6ab4f8;
-    color: #030323;
-    border-color: #6ab4f8;
+    background: linear-gradient(135deg, #eada7b, #f3140e);
+    color: #ffffff;
+    border-color: #eada7b;
 }
 
 .no-articles {
     grid-column: 1 / -1;
     text-align: center;
     padding: 60px 20px;
-    background: #1a1a3d;
-    border: 1px solid #4a4a6a;
-    border-radius: 10px;
+    background: rgba(26, 26, 61, 0.8);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 15px;
     margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .no-articles-icon {
