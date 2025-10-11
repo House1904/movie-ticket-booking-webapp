@@ -10,6 +10,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ShowtimeDAO {
+    public List<Showtime> getShowtimesByPartner(long partnerId) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        List<Showtime> showtimes = null;
+        try {
+            showtimes = em.createQuery(
+                            "SELECT s FROM Showtime s " +
+                                    "WHERE s.auditorium.cinema.partner.id = :partnerId " +
+                                    "ORDER BY s.startTime DESC", Showtime.class)
+                    .setParameter("partnerId", partnerId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+        return showtimes;
+    }
+
     public List<Showtime> getshowtimeList() {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Showtime> showtimes = null;

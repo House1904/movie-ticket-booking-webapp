@@ -14,6 +14,10 @@ public class ShowtimeService {
     public List<Showtime> getShowtimes() {
         return showtimeDAO.getshowtimeList();
     }
+    public List<Showtime> getShowtimesByPartner(long partnerId) {
+        return showtimeDAO.getShowtimesByPartner(partnerId);
+    }
+
     public Showtime getShowtime(long id) {
         return showtimeDAO.showtime(id);
     }

@@ -1,0 +1,289 @@
+/* ======= Tùy chỉnh giao diện Admin ======= */
+
+/* Toàn trang */
+body {
+    background: #25213c;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+}
+
+/* Container */
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Tiêu đề */
+h1, h2 {
+    color: #FFdf00;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 750;
+}
+
+
+/* Form và bảng cùng độ rộng */
+form,
+.table-wrapper {
+    width: 95%;
+    max-width: 1300px;
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    transition: 0.3s ease;
+}
+
+/* Hiệu ứng hover nhẹ cho form */
+form:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Label */
+label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+/* Input + Select */
+input[type="text"],
+input[type="datetime-local"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    background-color: #fff;
+}
+
+/* Khoảng cách giữa các ô input */
+.mb-4 {
+    margin-bottom: 1.2rem;
+}
+
+/* Nút bấm */
+button {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* ======= Bảng danh sách ======= */
+.table-wrapper {
+    padding: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+table th,
+table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+table thead {
+    background-color: #e5e7eb;
+    color: #111827;
+    font-weight: 700;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+table tbody tr:hover {
+    background-color: #eef2ff;
+    transition: 0.2s ease;
+}
+
+/* ===== Reset cơ bản ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== Toàn trang ===== */
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff, #e6f2ff);
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* ===== Container chính ===== */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px 30px;
+}
+
+/* ===== Tiêu đề ===== */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+/* ===== Bảng dữ liệu ===== */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 14px;
+    text-align: center;
+}
+
+th {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+tr:hover {
+    background-color: #eef2ff;
+    transition: 0.2s ease;
+}
+
+/* ===== Nút hành động (Sửa / Xóa) ===== */
+td.actions {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* --- Cấu trúc chung của nút --- */
+a {
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+    padding: 8px 16px;              /* to hơn tí cho dễ bấm */
+    border-radius: 20px;            /* bo tròn hơn, mềm mại */
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* --- Nút Sửa (màu xanh nhạt) --- */
+a.text-blue-500 {
+    background-color: #e0f2fe;      /* xanh nhạt */
+    color: #2563eb;
+    border: 1px solid #93c5fd;
+}
+
+a.text-blue-500:hover {
+    background-color: #bfdbfe;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(37,99,235,0.15);
+}
+
+/* --- Nút Xóa (màu đỏ nhạt) --- */
+a.text-red-500 {
+    background-color: #fee2e2;      /* đỏ nhạt */
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    margin-left: 10px;              /* khoảng cách giữa 2 nút */
+}
+
+a.text-red-500:hover {
+    background-color: #fecaca;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(220,38,38,0.15);
+}
+
+
+/* ===== Nút thêm mới ===== */
+.btn-add {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: #22c55e;
+    transform: translateY(-1px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .btn-add {
+        width: 100%;
+        text-align: center;
+    }
+
+    a {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+}

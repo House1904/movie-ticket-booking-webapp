@@ -23,4 +23,5 @@ public class CinemaController extends HttpServlet{
         RequestDispatcher rd = req.getRequestDispatcher("/view/customer/showtime.jsp");
         rd.forward(req,resp);
     }
+
 }

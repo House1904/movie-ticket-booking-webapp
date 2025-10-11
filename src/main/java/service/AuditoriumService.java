@@ -14,4 +14,7 @@ public class AuditoriumService {
     public Auditorium getAuditorium(long id) {
         return auditoriumDAO.getAuditoriumById(id);
     }
+    public List<Auditorium> getAuditoriumsByPartner(long partnerId) {
+        return auditoriumDAO.getAuditoriumsByPartner(partnerId);
+    }
 }

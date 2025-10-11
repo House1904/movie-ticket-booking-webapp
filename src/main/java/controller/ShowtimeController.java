@@ -2,10 +2,12 @@ package controller;
 
 import model.*;
 import service.*;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,12 +26,27 @@ public class ShowtimeController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
+        // ✅ Kiểm tra Partner đăng nhập
+        Partner partner = (Partner) req.getSession().getAttribute("partner");
+        if (partner == null) {
+            resp.sendRedirect(req.getContextPath() + "/common/login.jsp");
+            return;
+        }
+
+        long partnerId = partner.getId();
         String action = req.getParameter("action");
 
-        List<Movie> movies = movieService.getMovies();
-        List<Cinema> cinemas = cinemaService.getCinemas();
-        List<Auditorium> auditoriums = auditoriumService.getAuditoriums();
-        List<Showtime> showtimes = showtimeService.getShowtimes();
+        // ✅ Lấy dữ liệu để hiển thị form
+        List<Movie> movies;
+        try {
+            movies = movieService.getMovies();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<Cinema> cinemas = cinemaService.getCinemasByPartner(partnerId); // chỉ lấy rạp của partner
+        List<Auditorium> auditoriums = auditoriumService.getAuditoriumsByPartner(partnerId);
+        List<Showtime> showtimes = showtimeService.getShowtimesByPartner(partnerId);
 
         req.setAttribute("movies", movies);
         req.setAttribute("cinemas", cinemas);
@@ -58,6 +75,12 @@ public class ShowtimeController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
+        Partner partner = (Partner) req.getSession().getAttribute("partner");
+        if (partner == null) {
+            resp.sendRedirect(req.getContextPath() + "/common/login.jsp");
+            return;
+        }
+
         String action = req.getParameter("action");
         if (!"save".equals(action)) {
             resp.sendRedirect(req.getContextPath() + "/manageShowtime");
@@ -81,14 +104,13 @@ public class ShowtimeController extends HttpServlet {
         showtime.setEndTime(startTime.plusMinutes(duration));
         showtime.setLanguage(req.getParameter("language"));
 
-        // ✅ Kiểm tra trùng suất chiếu
+        // ✅ Kiểm tra trùng suất chiếu trong cùng phòng
         List<Showtime> existingShowtimes = showtimeService.getShowtimesByAuditorium(showtime.getAuditorium().getId());
         boolean conflict = false;
         for (Showtime s : existingShowtimes) {
             if (showtimeId != null && !showtimeId.isEmpty() && s.getId() == Long.parseLong(showtimeId))
                 continue; // bỏ qua chính nó khi sửa
 
-            // Nếu giờ chiếu bị trùng trong cùng phòng chiếu
             boolean overlap = !showtime.getEndTime().isBefore(s.getStartTime()) &&
                     !showtime.getStartTime().isAfter(s.getEndTime());
             if (overlap) {
@@ -99,22 +121,14 @@ public class ShowtimeController extends HttpServlet {
 
         if (conflict) {
             req.setAttribute("error", "❌ Phòng chiếu này đã có suất chiếu trong thời gian đó!");
-            doGet(req, resp); // quay lại form kèm lỗi
+            doGet(req, resp);
             return;
         }
 
         if (showtimeId != null && !showtimeId.isEmpty()) {
-            try {
-                showtimeService.updateShowtime(showtime);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            showtimeService.updateShowtime(showtime);
         } else {
-            try {
-                showtimeService.addShowtime(showtime);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            showtimeService.addShowtime(showtime);
         }
 
         resp.sendRedirect(req.getContextPath() + "/manageShowtime");

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý suất chiếu</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/movie.css">
+    <!-- ✅ Đường dẫn CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/partnerShowtime.css">
 </head>
 <body class="bg-gray-100">
 
@@ -19,36 +20,44 @@
         </div>
     </c:if>
 
+    <!-- ✅ Form thêm / cập nhật suất chiếu -->
     <form action="${pageContext.request.contextPath}/manageShowtime" method="post">
         <input type="hidden" name="action" value="save">
         <input type="hidden" name="showtimeId" value="${showtime != null ? showtime.id : ''}">
 
+        <!-- Rạp -->
         <div class="mb-4">
             <label>Rạp</label>
             <select name="cinemaId" id="cinemaId" onchange="filterAuditoriums()" required>
                 <option value="">Chọn rạp</option>
                 <c:forEach var="cinema" items="${cinemas}">
                     <option value="${cinema.id}"
-                        ${showtime != null && showtime.auditorium.cinema.id == cinema.id ? 'selected' : ''}>
+                            <c:if test="${showtime != null && showtime.auditorium.cinema.id == cinema.id}">
+                                selected
+                            </c:if>>
                             ${cinema.name}
                     </option>
                 </c:forEach>
             </select>
         </div>
 
+        <!-- Phim -->
         <div class="mb-4">
             <label>Phim</label>
             <select name="movieId" required>
                 <option value="">Chọn phim</option>
                 <c:forEach var="movie" items="${movies}">
                     <option value="${movie.id}"
-                        ${showtime != null && showtime.movie.id == movie.id ? 'selected' : ''}>
+                            <c:if test="${showtime != null && showtime.movie.id == movie.id}">
+                                selected
+                            </c:if>>
                             ${movie.title}
                     </option>
                 </c:forEach>
             </select>
         </div>
 
+        <!-- Phòng chiếu -->
         <div class="mb-4">
             <label>Phòng chiếu</label>
             <select name="auditoriumId" id="auditoriumId" required>
@@ -56,35 +65,49 @@
                 <c:forEach var="auditorium" items="${auditoriums}">
                     <option value="${auditorium.id}"
                             data-cinema-id="${auditorium.cinema.id}"
-                        ${showtime != null && showtime.auditorium.id == auditorium.id ? 'selected' : ''}>
+                            <c:if test="${showtime != null && showtime.auditorium.id == auditorium.id}">
+                                selected
+                            </c:if>>
                             ${auditorium.name} (${auditorium.format})
                     </option>
                 </c:forEach>
             </select>
         </div>
 
+        <!-- Thời gian bắt đầu -->
         <div class="mb-4">
             <label>Thời gian bắt đầu</label>
             <input type="datetime-local" name="startTime"
-                   value="${showtime != null ? showtime.startTime : ''}" required>
+                   value="<c:out value='${showtime != null ? showtime.startTime : ""}'/>" required>
         </div>
 
+        <!-- Ngôn ngữ -->
         <div class="mb-4">
             <label>Ngôn ngữ</label>
             <select name="language" required>
-                <option value="Vietsub" ${showtime != null && showtime.language == 'Vietsub' ? 'selected' : ''}>Vietsub</option>
-                <option value="Lồng tiếng" ${showtime != null && showtime.language == 'Lồng tiếng' ? 'selected' : ''}>Lồng tiếng</option>
-                <option value="Không phụ đề" ${showtime != null && showtime.language == 'Không phụ đề' ? 'selected' : ''}>Không phụ đề</option>
+                <option value="Vietsub"
+                        <c:if test="${showtime != null && showtime.language == 'Vietsub'}">selected</c:if>>
+                    Vietsub
+                </option>
+                <option value="Lồng tiếng"
+                        <c:if test="${showtime != null && showtime.language == 'Lồng tiếng'}">selected</c:if>>
+                    Lồng tiếng
+                </option>
+                <option value="Không phụ đề"
+                        <c:if test="${showtime != null && showtime.language == 'Không phụ đề'}">selected</c:if>>
+                    Không phụ đề
+                </option>
             </select>
         </div>
 
         <button type="submit" class="bg-blue-500 text-white p-2 rounded">
-            ${showtime != null ? 'Cập nhật' : 'Thêm'} suất chiếu
+            <c:out value="${showtime != null ? 'Cập nhật' : 'Thêm'}"/> suất chiếu
         </button>
     </form>
 
-    <!-- Danh sách suất chiếu -->
+    <!-- ✅ Danh sách suất chiếu -->
     <h2 class="text-xl font-bold mb-4 mt-8">Danh sách suất chiếu</h2>
+
     <table class="w-full border-collapse border">
         <thead>
         <tr class="bg-gray-200">
@@ -122,21 +145,21 @@
 </div>
 
 <script>
+    // ✅ Lọc phòng chiếu theo rạp
     function filterAuditoriums() {
         const cinemaId = document.getElementById('cinemaId').value;
         const auditoriumSelect = document.getElementById('auditoriumId');
         const options = auditoriumSelect.querySelectorAll('option[data-cinema-id]');
         options.forEach(option => {
-            if (cinemaId === '' || option.getAttribute('data-cinema-id') === cinemaId) {
-                option.style.display = 'block';
-            } else {
-                option.style.display = 'none';
-            }
+            option.style.display =
+                (cinemaId === '' || option.getAttribute('data-cinema-id') === cinemaId)
+                    ? 'block'
+                    : 'none';
         });
         auditoriumSelect.value = '';
     }
 
-    // Khi tải lại trang (chế độ sửa), tự lọc phòng theo rạp
+    // ✅ Khi load trang (đặc biệt lúc sửa), tự lọc theo rạp đã chọn
     window.onload = filterAuditoriums;
 </script>
 

@@ -12,4 +12,18 @@ public class CinemaService {
     public Cinema getCinema(long id) {
         return cinemaDAO.getCinemaById(id);
     }
+    public List<Cinema> getCinemasByPartner(long partnerId) {
+        return cinemaDAO.getCinemasByPartner(partnerId);
+    }
+    public void addCinema(Cinema c) {
+        cinemaDAO.addCinema(c);
+    }
+
+    public void updateCinema(Cinema c) {
+        cinemaDAO.updateCinema(c);
+    }
+
+    public void deleteCinema(long id) {
+        cinemaDAO.deleteCinema(id);
+    }
 }
