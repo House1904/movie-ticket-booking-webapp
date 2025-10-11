@@ -29,7 +29,7 @@ public class HomeController extends HttpServlet {
         try {
             List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
             List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
-            List<Cinema> cinemas = cinemaService.getCinemas();
+            List<Cinema> cinemas = cinemaService.getAllCinemas();
             List<Article> articles = articleService.getArticles();
 
             HttpSession session = req.getSession();

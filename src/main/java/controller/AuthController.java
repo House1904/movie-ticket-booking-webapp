@@ -39,20 +39,20 @@ public class AuthController extends HttpServlet {
                 Account account = accountService.login(username, password);
 
                 if (account != null) {
-                    // Truy cập user liên kết
-                    Customer user = (Customer) account.getUser();
-                    user.setMemberShip(true);
 
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
-                    session.setAttribute("user", user); // có thể lưu luôn user nếu cần
 
                     // Chuyển hướng theo role
                     if (account.getRole() == Role.ADMIN) {
                         response.sendRedirect(request.getContextPath() + "/admin.jsp");
                     } else if (account.getRole() == Role.PARTNER) {
-                        response.sendRedirect(request.getContextPath() + "/partner.jsp");
+                        response.sendRedirect(request.getContextPath() + "/AuditoriumController");
                     } else {
+                        // Truy cập user liên kết
+                        Customer user = (Customer) account.getUser();
+                        user.setMemberShip(true);
+                        session.setAttribute("user", user);
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
 
