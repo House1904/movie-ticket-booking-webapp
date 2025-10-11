@@ -10,8 +10,10 @@
 <div class="booking">
 <div class="showtimeInfo">
     <p><strong>Phim:</strong> ${title}</p>
+    <p><strong>Rạp:</strong> ${cinema.name}</p>
     <p><strong>Ngày chiếu:</strong> ${day}</p>
     <p><strong>Giờ chiếu:</strong> ${time}</p>
+    <p><strong>Phòng chiếu:</strong> ${nameAuditorium}</p>
     <div class="summary-box">
         <p>Ghế đã chọn: <span id="selected-seats">—</span></p>
         <p>Tổng tiền: <span id="total-price">0</span> VND</p>
@@ -23,7 +25,7 @@
     <form action="booking" method="post">
         <input type="hidden" name="action" value="goPay">
         <c:set var="currentRow" value="" />
-        <c:forEach var="seat" items="${seatList}">
+        <c:forEach var="seat" items="${seatList}" varStatus="status">
             <c:if test="${seat.rowLabel ne currentRow}">
                 <c:if test="${not empty currentRow}">
                     </div>
@@ -31,17 +33,7 @@
                 <div class="seat-row">
                 <c:set var="currentRow" value="${seat.rowLabel}" />
             </c:if>
-                    <c:choose>
-                        <c:when test="${seat.seatType eq 'VIP'}">
-                            <c:set var="price" value="120000" />
-                        </c:when>
-                        <c:when test="${seat.seatType eq 'COUPLE'}">
-                            <c:set var="price" value="160000" />
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="price" value="80000" />
-                        </c:otherwise>
-                    </c:choose>
+                    <c:set var="price" value="${prices[status.index]}" />
             <c:set var="booked" value="false" />
             <c:forEach var="b" items="${bookedSeatIds}">
                 <c:if test="${seat.id eq b}">
@@ -67,6 +59,7 @@
             </c:choose>
 
             <c:if test="${seat == seatList[seatList.size()-1]}"></div></c:if>
+            <input type="hidden" name="seat_${seat.id}" value="${price}" />
         </c:forEach>
 
         <button type="submit" class="pay-btn">Thanh toán</button>

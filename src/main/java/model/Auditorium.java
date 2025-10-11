@@ -80,4 +80,8 @@ public class Auditorium implements Serializable {
     public void setFormat(AuditFormat format) {
         this.format = format;
     }
+
+    public int quantity() {
+        return seats.size();
+    }
 }
