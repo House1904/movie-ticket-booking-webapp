@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #030323;
     color: #e8ebf4;
     margin: 0;
@@ -61,29 +63,12 @@ html, body,
     color: #eef1f3;
 }
 
-.nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 10px;
-    background: #030323;
-}
-
 .nav-left {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-left: 3%;
 }
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-right: 10%;
-}
-
 /* Nút nav-right */
 .nav-btn {
     padding: 8px 18px;
@@ -237,18 +222,61 @@ html, body,
     border-radius: 12px;
     object-fit: fill;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, filter 0.3s;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 .now-showing-details img:hover, .upcoming-details img:hover {
     transform: scale(1.05);
+    filter: blur(3px); /* Hiệu ứng làm mờ khi hover */
 }
 
-.now-showing-details p, .upcoming-details p {
-    font-size: 20px;
-    color: #ddd;
-    margin: 15px 0 10px 0;
+/* Poster container for tooltip */
+.poster-container {
+    position: relative;
+    display: inline-block;
+}
+
+.movie-tooltip {
+    visibility: hidden;
+    width: 280px; /* Hẹp hơn poster để nằm gọn */
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 50, 0.95)); /* Gradient nền đẹp hơn */
+    color: #fff;
+    text-align: left;
+    padding: 15px;
+    border-radius: 12px;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Căn giữa trong poster */
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Viền nhẹ để tăng thẩm mỹ */
+}
+
+.movie-tooltip h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px; /* Tăng kích thước chữ */
+    color: #eada7b;
+    font-weight: 600;
+}
+
+.movie-tooltip p {
+    margin: 6px 0;
+    font-size: 14px; /* Tăng kích thước chữ */
+    line-height: 1.5;
+    color: #f0f0f0; /* Màu chữ sáng hơn */
+}
+
+.movie-tooltip p strong {
+    color: #eada7b; /* Màu nổi bật cho tiêu đề thông tin */
+}
+
+.poster-container:hover .movie-tooltip {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* Nhóm nút dưới poster */
@@ -307,19 +335,19 @@ html, body,
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
+    text-decoration: none; /* Loại bỏ gạch dưới */
+    color: #ffffff; /* Màu chữ trắng */
 }
 
 /* Nút đặt vé */
 .book-ticket {
     background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5);
     box-shadow: 0 3px 10px rgba(147, 51, 234, 0.3);
-    color: #ddd;
 }
 
 .book-ticket:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
-    color: #ddd;
 }
 
 /* Nút trailer */
@@ -331,6 +359,84 @@ html, body,
 .trailer:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0 10px 0;
+    border-bottom: 2px solid rgba(255, 77, 77, 0.4);
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #ffffff, #4fc3f7, #7e57c2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200%;
+    animation: titleGradientFlow 6s ease infinite;
+    text-transform: uppercase;
+    margin: 0;
+    cursor: default;
+}
+
+/* Hiệu ứng ánh sáng chuyển động nhẹ */
+@keyframes titleGradientFlow {
+    0% {
+        background-position: 0%;
+    }
+    50% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0%;
+    }
+}
+
+/* Khi hover, gradient sáng hơn chút */
+.section-title:hover {
+    filter: brightness(1.2);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.view-more {
+    position: relative;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    background: linear-gradient(90deg, #ff4d4d, #ff9966, #ff4d4d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200%;
+    transition: all 0.4s ease;
+}
+
+.view-more::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, #ff4d4d, #ff9966, #ff4d4d);
+    border-radius: 1px;
+    transition: width 0.4s ease;
+}
+
+/* Hover hiệu ứng chạy gạch chân */
+.view-more:hover::after {
+    width: 100%;
+}
+
+/* Hover đổi nhẹ màu chữ */
+.view-more:hover {
+    background-position: 100%;
+    transform: translateY(-1px);
 }
 
 /* Responsive */
@@ -352,6 +458,8 @@ html, body,
         width: 80px;
         padding: 8px 0;
         font-size: 13px;
+        color: #ffffff; /* Đảm bảo màu trắng trên màn hình nhỏ */
+        text-decoration: none; /* Loại bỏ gạch dưới */
     }
 
     .carousel-btn {
@@ -366,5 +474,31 @@ html, body,
 
     .carousel-btn.next {
         right: -15px;
+    }
+
+    .movie-tooltip {
+        width: 200px; /* Thu nhỏ hơn nữa cho màn hình nhỏ */
+        padding: 10px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .movie-tooltip h3 {
+        font-size: 16px; /* Kích thước chữ lớn hơn cho tiêu đề */
+    }
+
+    .movie-tooltip p {
+        font-size: 12px; /* Kích thước chữ lớn hơn */
+    }
+
+    .section-title {
+        font-size: 26px;
+        text-align: center;
+
+    }
+    .view-more {
+        padding: 8px 18px;
+        font-size: 14px;
     }
 }

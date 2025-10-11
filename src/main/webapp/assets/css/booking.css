@@ -22,23 +22,43 @@ div > div {
 }
 
 .summary-box {
-    color: #21244D;
+    color: #1f2544;
+    background: #f7f8ff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(33, 36, 77, 0.1);
+    font-family: "Poppins", sans-serif;
 }
+
 .booking .showtimeInfo {
-    margin-left: 30px;
-    margin-top: 30px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #f0f1ff);
+    box-shadow: 0 6px 20px rgba(18, 19, 50, 0.15);
     text-align: left;
-    min-width: 300px;
-    box-shadow: 0 4px 8px rgba(18, 19, 50, 0.96);
+    min-width: 320px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.booking .showtimeInfo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(33, 36, 77, 0.25);
+}
+
 .booking .showtimeInfo p {
-    margin-bottom: 30px;
-    margin-top: 30px   ;
+    color: #21244D;
+    margin: 20px 0;
     font-size: 20px;
+    line-height: 1.5;
+    font-weight: 500;
 }
+
+.booking .showtimeInfo p strong {
+    color: #3b3f73;
+    font-weight: 600;
+}
+
 .booking .bookSeat {
     padding: 10px;
     width: 1000px;
