@@ -26,4 +26,14 @@ public class CinemaService {
     public void deleteCinema(long id) {
         cinemaDAO.deleteCinema(id);
     }
+    public boolean isCinemaNameExists(String name, long partnerId) {
+        List<Cinema> cinemas = cinemaDAO.getCinemasByPartner(partnerId);
+        for (Cinema c : cinemas) {
+            if (c.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
