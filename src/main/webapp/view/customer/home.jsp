@@ -37,7 +37,7 @@
         <!-- Now Showing Section -->
         <div class="section-header">
             <p class="section-title">Phim Đang Chiếu</p>
-            <a href="nowShowingPosters.jsp" class="view-more">Xem thêm</a>
+            <a href="<%=request.getContextPath()%>/movie?action=showing" class="view-more">Xem thêm</a>
         </div>
 
         <!-- Now Showing Section -->
@@ -73,7 +73,7 @@
         <!-- Upcoming Section -->
         <div class="section-header">
             <p class="section-title">Phim Sắp Chiếu</p>
-            <a href="upcomingPosters.jsp" class="view-more">Xem thêm</a>
+            <a href="<%=request.getContextPath()%>/movie?action=comming" class="view-more">Xem thêm</a>
         </div>
 
 
