@@ -90,8 +90,9 @@ public class MnCinemaController extends HttpServlet {
 
         RequestDispatcher rd = req.getRequestDispatcher("/view/partner/manageCinema.jsp");
         if ("mnAudit".equals(action)) {
-            req.getParameter("cinema");
-            rd = req.getRequestDispatcher("/view/partner/AuditoriumList.jsp");
+            Long cinemaId =  Long.parseLong(req.getParameter("cinemaId"));
+            req.getSession().setAttribute("cinemaId", cinemaId);
+            rd = req.getRequestDispatcher("/AuditoriumController");
         }
         rd.forward(req, resp);
     }
@@ -122,6 +123,7 @@ public class MnCinemaController extends HttpServlet {
         String address = req.getParameter("address");
         String phone = req.getParameter("phone");
         long partnerId = partner.getId();
+        boolean isNew = (idStr == null || idStr.trim().isEmpty());
 
         // Kiểm tra rỗng
         if (name == null || name.trim().isEmpty() ||
@@ -129,7 +131,13 @@ public class MnCinemaController extends HttpServlet {
                 phone == null || phone.trim().isEmpty()) {
 
             req.setAttribute("error", "Tên, địa chỉ và số điện thoại không được để trống!");
-            req.setAttribute("cinema", new Cinema());
+            Cinema cinemaToShow = new Cinema();
+            cinemaToShow.setId(isNew ? 0 : Long.parseLong(idStr));
+            cinemaToShow.setName(name);
+            cinemaToShow.setAddress(address);
+            cinemaToShow.setPhone(phone);
+            cinemaToShow.setPartner(partner);
+            req.setAttribute("cinema", cinemaToShow);
             req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
             req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
             return;
@@ -138,22 +146,33 @@ public class MnCinemaController extends HttpServlet {
         // Kiểm tra số điện thoại hợp lệ
         if (!phone.matches("\\d{1,10}")) {
             req.setAttribute("error", "Số điện thoại không hợp lệ! Chỉ được nhập số và tối đa 10 chữ số.");
-            req.setAttribute("cinema", new Cinema());
+            Cinema cinemaToShow = new Cinema();
+            cinemaToShow.setId(isNew ? 0 : Long.parseLong(idStr));
+            cinemaToShow.setName(name);
+            cinemaToShow.setAddress(address);
+            cinemaToShow.setPhone(phone);
+            cinemaToShow.setPartner(partner);
+            req.setAttribute("cinema", cinemaToShow);
             req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
             req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
             return;
         }
 
-        // Kiểm tra trùng tên rạp
+        // Kiểm tra trùng tên
         Cinema existingCinema = cinemaService.getCinemasByPartnerId(partnerId).stream()
                 .filter(c -> c.getName().equalsIgnoreCase(name.trim()))
-                .findFirst().orElse(null);
+                .findFirst()
+                .orElse(null);
 
-        if (existingCinema != null && (idStr == null || idStr.trim().isEmpty()
-                || Long.parseLong(idStr) != existingCinema.getId())) {
-
+        if (existingCinema != null && (!isNew && Long.parseLong(idStr) != existingCinema.getId() || isNew)) {
             req.setAttribute("error", "Tên rạp đã tồn tại, vui lòng chọn tên khác!");
-            req.setAttribute("cinema", new Cinema());
+            Cinema cinemaToShow = new Cinema();
+            cinemaToShow.setId(isNew ? 0 : Long.parseLong(idStr));
+            cinemaToShow.setName(name);
+            cinemaToShow.setAddress(address);
+            cinemaToShow.setPhone(phone);
+            cinemaToShow.setPartner(partner);
+            req.setAttribute("cinema", cinemaToShow);
             req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
             req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
             return;
@@ -161,7 +180,7 @@ public class MnCinemaController extends HttpServlet {
 
         try {
             Cinema cinema;
-            if (idStr != null && !idStr.trim().isEmpty()) {
+            if (!isNew) {
                 // Cập nhật rạp
                 long id = Long.parseLong(idStr);
                 cinema = cinemaService.findById(id);
@@ -173,7 +192,13 @@ public class MnCinemaController extends HttpServlet {
                     req.setAttribute("message", "Cập nhật rạp thành công!");
                 } else {
                     req.setAttribute("error", "Rạp không tồn tại hoặc bạn không có quyền chỉnh sửa!");
-                    req.setAttribute("cinema", new Cinema());
+                    Cinema cinemaToShow = new Cinema();
+                    cinemaToShow.setId(id);
+                    cinemaToShow.setName(name);
+                    cinemaToShow.setAddress(address);
+                    cinemaToShow.setPhone(phone);
+                    cinemaToShow.setPartner(partner);
+                    req.setAttribute("cinema", cinemaToShow);
                     req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
                     req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
                     return;
@@ -191,32 +216,37 @@ public class MnCinemaController extends HttpServlet {
 
         } catch (NumberFormatException e) {
             req.setAttribute("error", "ID rạp không hợp lệ!");
-            req.setAttribute("cinema", new Cinema());
+            Cinema cinemaToShow = new Cinema();
+            cinemaToShow.setId(0);
+            cinemaToShow.setName(name);
+            cinemaToShow.setAddress(address);
+            cinemaToShow.setPhone(phone);
+            cinemaToShow.setPartner(partner);
+            req.setAttribute("cinema", cinemaToShow);
             req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
             req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
             return;
-
-        } catch (IllegalArgumentException e) {
-            req.setAttribute("error", e.getMessage());
-            req.setAttribute("cinema", new Cinema());
-            req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
-            req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
-            return;
-
         } catch (Exception e) {
             String errorMessage = (e.getCause() instanceof java.sql.SQLIntegrityConstraintViolationException)
                     ? "Lưu rạp thất bại: Dữ liệu trùng lặp hoặc không hợp lệ!"
                     : "Lưu rạp thất bại: " + e.getMessage();
             req.setAttribute("error", errorMessage);
-            req.setAttribute("cinema", new Cinema());
+            Cinema cinemaToShow = new Cinema();
+            cinemaToShow.setId(isNew ? 0 : Long.parseLong(idStr));
+            cinemaToShow.setName(name);
+            cinemaToShow.setAddress(address);
+            cinemaToShow.setPhone(phone);
+            cinemaToShow.setPartner(partner);
+            req.setAttribute("cinema", cinemaToShow);
             req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
             req.getRequestDispatcher("/view/partner/manageCinema.jsp").forward(req, resp);
             return;
         }
 
-        // Chuyển hướng về trang quản lý rạp
+        // Nếu thành công, giữ session và chuyển hướng
         resp.sendRedirect(req.getContextPath() + "/manageCinema");
     }
+
 
 
     // Hàm xác minh partner tồn tại trong cơ sở dữ liệu

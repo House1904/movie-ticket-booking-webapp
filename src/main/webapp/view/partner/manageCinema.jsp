@@ -35,7 +35,6 @@
             <th>Tên rạp</th>
             <th>Địa chỉ</th>
             <th>Điện thoại</th>
-            <th>Ngày tạo</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -54,8 +53,8 @@
                        onclick="return confirm('⚠️ Bạn có chắc chắn muốn xóa rạp không');">
                         Xóa
                     </a>
-                    <a href="${pageContext.request.contextPath}/manageCinema?action=mnAudit&cinema=${c}"
-                       class="text-green-500">Quan Ly Phong</a>
+                    <a href="${pageContext.request.contextPath}/manageCinema?action=mnAudit&cinemaId=${c.id}"
+                       class="text-green-500">Xem Phòng Chiếu</a>
                 </td>
             </tr>
         </c:forEach>

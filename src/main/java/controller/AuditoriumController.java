@@ -27,8 +27,8 @@ public class AuditoriumController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("action");
-        if (action == null) action = "list";
-
+        if (action == null || "mnAudit".equals(action)) action = "list";
+        System.out.println("action" + action);
         switch (action) {
             case "list":
                 listAuditoriums(req, resp);
@@ -49,16 +49,42 @@ public class AuditoriumController extends HttpServlet {
 
     private void listAuditoriums(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        long cinemaId = Long.parseLong(req.getParameter("cinemaId"));
+
+        String cinemaIdParam = req.getParameter("cinemaId");
+        Long cinemaId = null;
+
+        // 1️⃣ Nếu URL có cinemaId
+        if (cinemaIdParam != null && !cinemaIdParam.trim().isEmpty()) {
+            try {
+                cinemaId = Long.parseLong(cinemaIdParam);
+                req.getSession().setAttribute("cinemaId", cinemaId); // Lưu vào session để dùng lại
+            } catch (NumberFormatException e) {
+                req.setAttribute("error", "ID rạp không hợp lệ!");
+            }
+        }
+        // 2️⃣ Nếu không có trong request, lấy từ session
+        else if (req.getSession().getAttribute("cinemaId") != null) {
+            cinemaId = (Long) req.getSession().getAttribute("cinemaId");
+        }
+
+        // 3️⃣ Nếu vẫn null → báo lỗi
+        if (cinemaId == null) {
+            req.setAttribute("error", "Không xác định được rạp chiếu phim.");
+            RequestDispatcher rd = req.getRequestDispatcher("/view/partner/manageCinema.jsp");
+            rd.forward(req, resp);
+            return;
+        }
+
+        // 4️⃣ Lấy danh sách phòng chiếu
         List<Auditorium> auditoriums = auditoriumService.getByCinemaId(cinemaId);
         Cinema cinema = cinemaService.findById(cinemaId);
-        if (cinema != null && auditoriums != null) {
-            req.setAttribute("auditoriums", auditoriums);
-            req.setAttribute("cinema", cinema);
-        }
+
+        req.setAttribute("cinema", cinema);
+        req.setAttribute("auditoriums", auditoriums);
         RequestDispatcher rd = req.getRequestDispatcher("/view/partner/AuditoriumList.jsp");
         rd.forward(req, resp);
     }
+
 
     private void showAddForm(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

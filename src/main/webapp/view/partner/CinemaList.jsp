@@ -24,7 +24,6 @@
                 <td>${cinema.address}</td>
                 <td>${cinema.phone}</td>
                 <td>
-                    <button class="sua-btn" onclick="window.location.href='${pageContext.request.contextPath}/CinemaController?action=edit&id=${cinema.id}'">Sửa</button>
                     <button class="quanly-btn" onclick="window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=list&cinemaId=${cinema.id}'">Quản lý phòng chiếu</button>
                 </td>
             </tr>

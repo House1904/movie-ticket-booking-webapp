@@ -1,6 +1,5 @@
 package dao;
 
-import model.Cinema;
 import model.Showtime;
 import util.DBConnection;
 
@@ -10,60 +9,58 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ShowtimeDAO {
+
+    /* -------------------- LẤY DANH SÁCH THEO PARTNER -------------------- */
     public List<Showtime> getShowtimesByPartner(long partnerId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
-        List<Showtime> showtimes = null;
         try {
-            showtimes = em.createQuery(
+            return em.createQuery(
                             "SELECT s FROM Showtime s " +
-                                    "WHERE s.auditorium.cinema.partner.id = :partnerId " +
+                                    "JOIN FETCH s.movie m " +
+                                    "JOIN FETCH s.auditorium a " +
+                                    "JOIN FETCH a.cinema c " +
+                                    "WHERE c.partner.id = :partnerId " +
                                     "ORDER BY s.startTime DESC", Showtime.class)
                     .setParameter("partnerId", partnerId)
                     .getResultList();
         } finally {
             em.close();
         }
-        return showtimes;
     }
 
+    /* -------------------- LẤY TẤT CẢ SHOWTIME -------------------- */
     public List<Showtime> getshowtimeList() {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        List<Showtime> showtimes = null;
-
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            showtimes = entity.createQuery("SELECT s FROM Showtime s", Showtime.class)
+            return em.createQuery("SELECT s FROM Showtime s", Showtime.class)
                     .getResultList();
         } finally {
-            entity.close();
+            em.close();
         }
-
-        return showtimes;
     }
 
+    /* -------------------- LẤY SHOWTIME THEO ID -------------------- */
     public Showtime showtime(long id) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        String query = "SELECT s FROM Showtime s WHERE s.id = :id";
-        TypedQuery<Showtime> query1 = entity.createQuery(query, Showtime.class);
-        query1.setParameter("id", id);
-        Showtime showtime = null;
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            showtime = query1.getSingleResult();
+            return em.createQuery("SELECT s FROM Showtime s WHERE s.id = :id", Showtime.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
         } finally {
-            entity.close();
+            em.close();
         }
-        return showtime;
     }
 
+    /* -------------------- LẤY SHOWTIME THEO CINEMA + NGÀY -------------------- */
     public List<Showtime> getShowtimesByCinema(long cinemaId, LocalDate date) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
-
         try {
             String jpql = "SELECT s FROM Showtime s " +
                     "JOIN FETCH s.movie m " +
                     "JOIN FETCH s.auditorium a " +
                     "JOIN FETCH a.cinema c " +
                     "WHERE c.id = :cinemaId " +
-                    "AND DATE(s.startTime) = :selectedDate " +
+                    "AND FUNCTION('DATE', s.startTime) = :selectedDate " +  // ✅ sửa DATE() -> FUNCTION('DATE', ...)
                     "ORDER BY m.id, s.startTime";
 
             return em.createQuery(jpql, Showtime.class)
@@ -75,56 +72,75 @@ public class ShowtimeDAO {
         }
     }
 
+    /* -------------------- THÊM SUẤT CHIẾU -------------------- */
     public void addShowtime(Showtime showtime) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            entity.getTransaction().begin();
-            entity.persist(showtime);
-            entity.getTransaction().commit();
+            em.getTransaction().begin();
+            em.persist(showtime);
+            em.flush(); // ✅ bắt buộc để insert vào DB trước khi commit
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            e.printStackTrace();
         } finally {
-            entity.close();
+            em.close();
         }
     }
 
+    /* -------------------- CẬP NHẬT SUẤT CHIẾU -------------------- */
     public void updateShowtime(Showtime showtime) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            entity.getTransaction().begin();
-            entity.merge(showtime);
-            entity.getTransaction().commit();
+            em.getTransaction().begin();
+            em.merge(showtime);
+            em.flush(); // ✅ đảm bảo cập nhật xong mới commit
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            e.printStackTrace();
         } finally {
-            entity.close();
+            em.close();
         }
     }
 
+    /* -------------------- XÓA SUẤT CHIẾU -------------------- */
     public void deleteShowtime(long id) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            entity.getTransaction().begin();
-            Showtime showtime = entity.find(Showtime.class, id);
+            em.getTransaction().begin();
+            Showtime showtime = em.find(Showtime.class, id);
             if (showtime != null) {
-                entity.remove(showtime);
+                em.remove(showtime);
             }
-            entity.getTransaction().commit();
-        }
-        finally {
-            entity.close();
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
     }
 
+    /* -------------------- LẤY SUẤT CHIẾU THEO PHÒNG -------------------- */
     public List<Showtime> getShowtimesByAuditorium(long auditoriumId) {
-        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
-        List<Showtime> showtimes = null;
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
-            showtimes = entity.createQuery(
-                            "SELECT s FROM Showtime s WHERE s.auditorium.id = :auditoriumId ORDER BY s.startTime",
-                            Showtime.class)
+            return em.createQuery(
+                            "SELECT s FROM Showtime s " +
+                                    "JOIN FETCH s.movie m " +
+                                    "JOIN FETCH s.auditorium a " +
+                                    "JOIN FETCH a.cinema c " +
+                                    "WHERE a.id = :auditoriumId " +
+                                    "ORDER BY s.startTime", Showtime.class)
                     .setParameter("auditoriumId", auditoriumId)
                     .getResultList();
         } finally {
-            entity.close();
+            em.close();
         }
-        return showtimes;
     }
-
 }

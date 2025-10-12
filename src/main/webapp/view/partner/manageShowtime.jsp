@@ -142,7 +142,19 @@
         </c:forEach>
         </tbody>
     </table>
+    <button class="back-btn" onclick="window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=list'">Quay lại Trang Phòng chiếu</button>
 </div>
+<script>   //click 1 lần — trình duyệt luôn nhận confirm() ngay lập tức
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", function(e) {
+                if (!confirm("Bạn có chắc muốn xóa suất chiếu này?")) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     // ✅ Lọc phòng chiếu theo rạp

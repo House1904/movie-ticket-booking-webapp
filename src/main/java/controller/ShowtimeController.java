@@ -26,7 +26,6 @@ public class ShowtimeController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        //  Kiểm tra Partner đăng nhập
         Partner partner = (Partner) req.getSession().getAttribute("partner");
         if (partner == null) {
             resp.sendRedirect(req.getContextPath() + "/common/login.jsp");
@@ -36,7 +35,6 @@ public class ShowtimeController extends HttpServlet {
         long partnerId = partner.getId();
         String action = req.getParameter("action");
 
-        // ✅ Lấy dữ liệu để hiển thị form
         List<Movie> movies;
         try {
             movies = movieService.getMovies();
@@ -44,7 +42,7 @@ public class ShowtimeController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        List<Cinema> cinemas = cinemaService.getCinemasByPartnerId(partnerId); // chỉ lấy rạp của partner
+        List<Cinema> cinemas = cinemaService.getCinemasByPartnerId(partnerId);
         List<Auditorium> auditoriums = auditoriumService.getAuditoriumsByPartner(partnerId);
         List<Showtime> showtimes = showtimeService.getShowtimesByPartner(partnerId);
 
@@ -53,11 +51,17 @@ public class ShowtimeController extends HttpServlet {
         req.setAttribute("auditoriums", auditoriums);
         req.setAttribute("showtimes", showtimes);
 
+        // ✅ Xử lý action
         if ("deleteShowtime".equals(action)) {
-            long id = Long.parseLong(req.getParameter("id"));
-            showtimeService.deleteShowtime(id);
-            resp.sendRedirect(req.getContextPath() + "/manageShowtime");
-            return;
+            try {
+                long id = Long.parseLong(req.getParameter("id"));
+                showtimeService.deleteShowtime(id);
+                req.setAttribute("message", "✅ Xóa suất chiếu thành công!");
+                // Load lại danh sách sau khi xóa
+                req.setAttribute("showtimes", showtimeService.getShowtimesByPartner(partnerId));
+            } catch (Exception e) {
+                req.setAttribute("error", "❌ Không thể xóa suất chiếu!");
+            }
         } else if ("editShowtime".equals(action)) {
             long id = Long.parseLong(req.getParameter("id"));
             Showtime showtime = showtimeService.getShowtime(id);
@@ -66,6 +70,7 @@ public class ShowtimeController extends HttpServlet {
             long id = Long.parseLong(req.getParameter("auditoriumId"));
             req.setAttribute("auditoriumId", id);
         }
+
         RequestDispatcher rd = req.getRequestDispatcher("/view/partner/manageShowtime.jsp");
         rd.forward(req, resp);
     }
@@ -89,50 +94,67 @@ public class ShowtimeController extends HttpServlet {
             return;
         }
 
-        Showtime showtime;
-        String showtimeId = req.getParameter("showtimeId");
-        if (showtimeId != null && !showtimeId.isEmpty()) {
-            showtime = showtimeService.getShowtime(Long.parseLong(showtimeId));
-        } else {
-            showtime = new Showtime();
-        }
+        try {
+            String showtimeId = req.getParameter("showtimeId");
+            Showtime showtime = (showtimeId != null && !showtimeId.isEmpty())
+                    ? showtimeService.getShowtime(Long.parseLong(showtimeId))
+                    : new Showtime();
 
-        showtime.setMovie(movieService.getMovie(Long.parseLong(req.getParameter("movieId"))));
-        showtime.setAuditorium(auditoriumService.findById(Long.parseLong(req.getParameter("auditoriumId"))));
+            long movieId = Long.parseLong(req.getParameter("movieId"));
+            long auditoriumId = Long.parseLong(req.getParameter("auditoriumId"));
+            String language = req.getParameter("language");
+            LocalDateTime startTime = LocalDateTime.parse(req.getParameter("startTime"));
 
-        LocalDateTime startTime = LocalDateTime.parse(req.getParameter("startTime"));
-        showtime.setStartTime(startTime);
-        long duration = showtime.getMovie().getDuration();
-        showtime.setEndTime(startTime.plusMinutes(duration));
-        showtime.setLanguage(req.getParameter("language"));
+            showtime.setMovie(movieService.getMovie(movieId));
+            showtime.setAuditorium(auditoriumService.findById(auditoriumId));
+            showtime.setLanguage(language);
+            showtime.setStartTime(startTime);
 
-        // ✅ Kiểm tra trùng suất chiếu trong cùng phòng
-        List<Showtime> existingShowtimes = showtimeService.getShowtimesByAuditorium(showtime.getAuditorium().getId());
-        boolean conflict = false;
-        for (Showtime s : existingShowtimes) {
-            if (showtimeId != null && !showtimeId.isEmpty() && s.getId() == Long.parseLong(showtimeId))
-                continue; // bỏ qua chính nó khi sửa
+            long duration = showtime.getMovie().getDuration();
+            showtime.setEndTime(startTime.plusMinutes(duration));
 
-            boolean overlap = !showtime.getEndTime().isBefore(s.getStartTime()) &&
-                    !showtime.getStartTime().isAfter(s.getEndTime());
-            if (overlap) {
-                conflict = true;
-                break;
+            // ✅ Kiểm tra trùng suất chiếu
+            List<Showtime> existingShowtimes = showtimeService.getShowtimesByAuditorium(auditoriumId);
+            boolean conflict = false;
+            for (Showtime s : existingShowtimes) {
+                if (showtimeId != null && !showtimeId.isEmpty() && s.getId() == Long.parseLong(showtimeId))
+                    continue;
+
+                boolean overlap = !showtime.getEndTime().isBefore(s.getStartTime())
+                        && !showtime.getStartTime().isAfter(s.getEndTime());
+                if (overlap) {
+                    conflict = true;
+                    break;
+                }
             }
-        }
 
-        if (conflict) {
-            req.setAttribute("error", "❌ Phòng chiếu này đã có suất chiếu trong thời gian đó!");
+            if (conflict) {
+                req.setAttribute("error", "❌ Phòng chiếu này đã có suất chiếu trong thời gian đó!");
+            } else {
+                if (showtimeId != null && !showtimeId.isEmpty()) {
+                    showtimeService.updateShowtime(showtime);
+                    req.setAttribute("message", "Cập nhật suất chiếu thành công!");
+                } else {
+                    showtimeService.addShowtime(showtime);
+                    req.setAttribute("message", "Thêm suất chiếu thành công!");
+                }
+            }
+
+            // ✅ Luôn reload danh sách mới nhất sau khi lưu
+            long partnerId = partner.getId();
+            req.setAttribute("movies", movieService.getMovies());
+            req.setAttribute("cinemas", cinemaService.getCinemasByPartnerId(partnerId));
+            req.setAttribute("auditoriums", auditoriumService.getAuditoriumsByPartner(partnerId));
+            req.setAttribute("showtimes", showtimeService.getShowtimesByPartner(partnerId));
+
+            // ✅ Chuyển hướng về đúng JSP (không redirect, để giữ message)
+            RequestDispatcher rd = req.getRequestDispatcher("/view/partner/manageShowtime.jsp");
+            rd.forward(req, resp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("error", "❌ Lỗi khi lưu suất chiếu: " + e.getMessage());
             doGet(req, resp);
-            return;
         }
-
-        if (showtimeId != null && !showtimeId.isEmpty()) {
-            showtimeService.updateShowtime(showtime);
-        } else {
-            showtimeService.addShowtime(showtime);
-        }
-
-        resp.sendRedirect(req.getContextPath() + "/manageShowtime");
     }
 }

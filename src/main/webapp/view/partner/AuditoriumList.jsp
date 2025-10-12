@@ -42,7 +42,7 @@
         </c:forEach>
 
     </table>
-    <button class="back-btn" onclick="window.location.href='${pageContext.request.contextPath}/CinemaController?action=list'">Quay lại danh sách rạp</button>
+    <button class="back-btn" onclick="window.location.href='${pageContext.request.contextPath}/manageCinema?action=list'">Quay lại Trang Quản lý Rạp phim</button>
 </div>
 </body>
 </html>
