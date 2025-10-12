@@ -5,9 +5,7 @@ import util.DBConnection;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 public class MovieDAO {
 
@@ -15,12 +13,8 @@ public class MovieDAO {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
-        try {
-            movies = entity.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genre", Movie.class)
-                    .getResultList();
-        } finally {
-            entity.close();
-        }
+        movies = entity.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genre", Movie.class)
+                .getResultList();
         return movies;
     }
 
@@ -58,4 +52,27 @@ public class MovieDAO {
         movies = query1.getResultList();
         return movies;
     }
+
+    public List<Movie> getMoviesByCinema(long cinemaId) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        List<Movie> movies = new ArrayList<>();
+
+        try {
+            String jpql = " SELECT DISTINCT s.movie FROM Showtime s JOIN s.auditorium a JOIN a.cinema c WHERE c.id = :cinemaId AND s.startTime <= CURRENT_TIMESTAMP AND s.endTime >= CURRENT_TIMESTAMP";
+
+            TypedQuery<Movie> query = em.createQuery(jpql, Movie.class);
+            query.setParameter("cinemaId", cinemaId);
+            movies = query.getResultList();
+
+        } catch (NoResultException e) {
+            System.out.println("Không có phim đang chiếu ở rạp " + cinemaId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return movies;
+    }
+
 }

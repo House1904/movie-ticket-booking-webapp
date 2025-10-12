@@ -50,13 +50,14 @@ public class ShowtimePageController extends HttpServlet{
                         ? LocalDate.now()
                         : LocalDate.parse(selectedDateStr);
                 req.setAttribute("selectedDate", selectedDate);
+
                 List<Showtime> showtimes = null;
                 try {
                     showtimes = showtimeService.getShowtimesByC(cinemaId, selectedDate);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-
+                System.out.println(showtimes==null || showtimes.isEmpty());
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
                 for (Showtime s : showtimes) {
@@ -64,8 +65,15 @@ public class ShowtimePageController extends HttpServlet{
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
-                req.setAttribute("movieShowtimes", movieShowtimes);
+                session.setAttribute("movieShowtimes", movieShowtimes);
             }
-            req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);
+            String from = req.getParameter("from");
+            if (from == null || from.isEmpty()) {
+                req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);
+            }
+            else
+            {
+                req.getRequestDispatcher("/view/customer/cinemaDetails.jsp").forward(req, resp);
+            }
         }
     }

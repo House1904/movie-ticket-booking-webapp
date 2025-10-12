@@ -32,7 +32,7 @@
 
         <!-- Rạp (POPUP) -->
         <li>
-            <a href="cinema" onclick="openPopup(); return false;">RẠP 🎬</a>
+            <a href="${pageContext.request.contextPath}/cinema?action=cinemas" onclick="openPopup(); return false;">RẠP 🎬</a>
             <jsp:include page="/view/customer/cinemaPopup.jsp" />
         </li>
 

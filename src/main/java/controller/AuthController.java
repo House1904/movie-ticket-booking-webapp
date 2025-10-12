@@ -1,10 +1,11 @@
 package controller;
 
 import model.Account;
+import model.Admin;
 import model.Customer;
+import model.Partner;
 import model.enums.Role;
 import service.AccountService;
-import service.CustomerService;
 import service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,11 +19,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @WebServlet("/auth")
-public class AuthController extends HttpServlet {
+public class  AuthController extends HttpServlet {
     private AccountService accountService =  new AccountService();
     private UserService userService =  new UserService();
 
@@ -40,19 +39,27 @@ public class AuthController extends HttpServlet {
 
                 if (account != null) {
                     // Truy cập user liên kết
-                    Customer user = (Customer) account.getUser();
-                    user.setMemberShip(true);
 
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
-                    session.setAttribute("user", user); // có thể lưu luôn user nếu cần
 
                     // Chuyển hướng theo role
                     if (account.getRole() == Role.ADMIN) {
+                        Admin  admin = (Admin) account.getUser();
+                        session.setAttribute("user", admin);
                         response.sendRedirect(request.getContextPath() + "/admin.jsp");
-                    } else if (account.getRole() == Role.PARTNER) {
+                    }
+
+                    else if (account.getRole() == Role.PARTNER) {
+                        Partner partner = (Partner) account.getUser();
+                        session.setAttribute("user", partner);
                         response.sendRedirect(request.getContextPath() + "/partner.jsp");
-                    } else {
+                    }
+
+                    else {
+                        Customer user = (Customer) account.getUser();
+                        user.setMemberShip(true);
+                        session.setAttribute("user", user);
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
 
@@ -62,8 +69,6 @@ public class AuthController extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
                     rd.forward(request, response);
                 }
-
-
           } catch (SQLException e) {
               throw new RuntimeException(e);
           }
@@ -72,9 +77,8 @@ public class AuthController extends HttpServlet {
           String fullname = request.getParameter("fullname");
           String email = request.getParameter("email");
           String phone = request.getParameter("phone");
-            String dobStr = request.getParameter("dateOfBirth");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-            LocalDateTime dateOfBirth = LocalDateTime.parse(dobStr, formatter);
+          String dobStr = request.getParameter("dateOfBirth");
+          LocalDate dateOfBirth = LocalDate.parse(dobStr);
           String avatarUrl = request.getParameter("avatarUrl");
 
           Customer customer = new Customer(fullname, email, phone, dateOfBirth, avatarUrl);

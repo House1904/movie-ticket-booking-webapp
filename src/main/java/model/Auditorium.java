@@ -13,7 +13,6 @@ import model.enums.AuditFormat;
 public class Auditorium implements Serializable {
     private long id;
     private String name;
-    private LocalDateTime createdAt;
     @Enumerated(EnumType.STRING)
     private AuditFormat format;
     private List<Seat> seats;
@@ -25,10 +24,9 @@ public class Auditorium implements Serializable {
         this.cinema = cinema;
     }
 
-    public Auditorium(long id, String name, LocalDateTime createdAt, AuditFormat format, List<Seat> seats) {
+    public Auditorium(long id, String name, AuditFormat format, List<Seat> seats) {
         this.id = id;
         this.name = name;
-        this.createdAt = createdAt;
         this.format = format;
         this.seats = seats;
     }
@@ -48,14 +46,6 @@ public class Auditorium implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     @ManyToOne

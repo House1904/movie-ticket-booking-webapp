@@ -12,8 +12,9 @@
     <label>Tên đăng nhập:</label><input type="text" name="username" required><br>
     <label>Mật khẩu:</label><input type="password" name="password" required><br>
     <label>Họ Tên:</label><input type="text" name="fullname" required><br>
-    <label>Ngày sinh:</label><input type="datetime-local" name="dateOfBirth" required><br>
+    <label>Ngày sinh:</label><input type="date" name="dateOfBirth" required><br>
     <label>Email:</label><input type="email" name="email" required><br>
+    <label>Số Điện Thoại:</label><input type="text" name="phone" required><br>
     <label>Avatar Url:</label><input type="text" name="avatarUrl"><br>
     <button type="submit">Đăng ký</button>
 </form>

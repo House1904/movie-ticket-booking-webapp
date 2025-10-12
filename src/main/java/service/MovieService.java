@@ -37,4 +37,8 @@ public class MovieService {
         }
         return new ArrayList<>(genres);
     }
+
+    public List<Movie> getMoviesByCinemaId(long cinemaId) throws SQLException {
+        return movieDAO.getMoviesByCinema(cinemaId);
+    }
 }

@@ -15,7 +15,7 @@
                         <p><strong>Địa chỉ:</strong> ${cinema.address}</p>
                         <p><strong>Liên hệ:</strong> ${cinema.phone}</p>
                     </div>
-                    <a href="#" class="cinema-btn">Xem chi tiết</a>
+                    <a href="${pageContext.request.contextPath}/cinema?action=detail&cinemaId=${cinema.id}" class="cinema-btn">Xem chi tiết</a>
                 </div>
             </c:forEach>
         </div>

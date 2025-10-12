@@ -82,7 +82,7 @@ public class Cinema implements Serializable {
         this.auditoriums = auditoriums;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "partnerID")
     public Partner getPartner() {
         return partner;
