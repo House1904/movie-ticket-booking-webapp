@@ -60,6 +60,8 @@
                 <img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster">
                 <h3>${movie.title}</h3>
                 <p>${movie.genre}</p>
+                <p>Độ tuổi: ${movie.ageLimit}</p>
+                <p>${movie.duration} phút</p>
             </a>
 
             <!-- Nút trái tim -->

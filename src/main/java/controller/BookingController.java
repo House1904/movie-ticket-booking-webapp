@@ -74,7 +74,7 @@ public class BookingController extends HttpServlet {
             HttpSession session = request.getSession();
             Customer customer = (Customer) session.getAttribute("user");
             if (customer == null) {
-                request.getRequestDispatcher("/view/common/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/common/login.jsp").forward(request, response);
                 return;
             }
             String[] selectedSeatIds = request.getParameterValues("selectedSeats");

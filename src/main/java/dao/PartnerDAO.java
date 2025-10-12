@@ -4,6 +4,7 @@ import model.Partner;
 import util.DBConnection;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class PartnerDAO {
     public boolean insert(Partner partner) {
@@ -20,5 +21,11 @@ public class PartnerDAO {
         }
         em.close();
         return result;
+    }
+    public List<Partner> selectAll() {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        List<Partner> partners = null;
+        partners = em.createQuery("SELECT p FROM Partner p", Partner.class).getResultList();
+        return partners;
     }
 }
