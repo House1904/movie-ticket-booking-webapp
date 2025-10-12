@@ -22,19 +22,18 @@
 <head>
     <title>Phim </title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/movie.css">
-    <!-- Font Awesome cho icon trái tim -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-            <style>
-            .favorite-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.5rem;
-                color: #aaa; /* màu xám mặc định */
-            }
-            .favorite-btn.favorited {
-                color: red; /* màu đỏ nếu đã thích */
-            }
+        <style>
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #aaa; /* màu xám mặc định */
+        }
+        .favorite-btn.favorited {
+            color: red; /* màu đỏ nếu đã thích */
+        }
     </style>
 </head>
 <body>
@@ -77,19 +76,20 @@
     document.getElementById('filterSelect').addEventListener('change', function() {
         const selectedGenre = this.value.toLowerCase();
 
-        document.querySelectorAll('.movie-card-link').forEach(card => {
+        document.querySelectorAll('.movie-card').forEach(card => {
             // Lấy danh sách genre từ attribute và convert thành mảng
-            let genres = card.querySelector('.movie-card').dataset.genres
-                .replace(/[\[\]]/g, '') // bỏ [ ]
-                .split(',')
-                .map(g => g.trim().toLowerCase());
+            const genreData = card.dataset.genres ? card.dataset.genres.toLowerCase() : "";
 
-            // Hiển thị nếu:
-            // - Không chọn thể loại (tức là tất cả)
-            // - Hoặc list của phim có chứa thể loại được chọn
-            if (selectedGenre === 'all' || !selectedGenre || genres.includes(selectedGenre)) {
+            // Nếu chọn "all" hoặc không chọn gì thì hiện hết
+            if (selectedGenre === 'all' || !selectedGenre) {
                 card.style.display = 'block';
-            } else {
+            }
+            // Nếu movie chứa genre được chọn (so sánh substring cho dễ)
+            else if (genreData.includes(selectedGenre)) {
+                card.style.display = 'block';
+            }
+            // Không match -> ẩn
+            else {
                 card.style.display = 'none';
             }
         });

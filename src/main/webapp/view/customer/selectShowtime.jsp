@@ -4,12 +4,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.time.LocalDate"%>
 <%@ page import="java.time.format.DateTimeFormatter"%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Chọn Suất Chiếu - ${selectedMovie.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/selectShowtime.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
 <%@ include file="../../common/header.jsp" %>
@@ -20,7 +22,57 @@
         <div class="movie-info">
             <h2>${selectedMovie.title}</h2>
             <img src="${selectedMovie.posterUrl}" alt="${selectedMovie.title} Poster" class="movie-poster">
+
+            <div class="action-buttons">
+                <!-- Nút yêu thích -->
+                <button id="favorite-btn"
+                        class="favorite-btn ${isFavorite ? 'favorited' : ''}"
+                        data-id="${selectedMovie.id}">
+                    <i class="fa fa-heart"></i>
+                    <span class="favorite-text">
+                        ${isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
+                    </span>
+                </button>
+
+
+                <!-- Nút đánh giá -->
+                <button id="rating-btn" class="rating-btn">
+                    <i class="fa fa-star"></i> Đánh giá
+                </button>
+            </div>
         </div>
+
+        <script>
+            const favoriteBtn = document.getElementById('favorite-btn');
+            if (favoriteBtn) {
+                const favoriteText = favoriteBtn.querySelector('.favorite-text');
+
+                favoriteBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const movieId = this.dataset.id;
+
+                    fetch('<%=request.getContextPath()%>/favorite', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: 'movieId=' + movieId
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'added') {
+                            favoriteBtn.classList.add('favorited');
+                            favoriteText.textContent = 'Bỏ yêu thích';
+                        } else if (data.status === 'removed') {
+                            favoriteBtn.classList.remove('favorited');
+                            favoriteText.textContent = 'Yêu thích';
+                        } else if (data.message === 'not_logged_in') {
+                            alert("Vui lòng đăng nhập để thêm yêu thích!");
+                            window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
+                        }
+                    })
+                    .catch(err => console.error(err));
+                });
+            }
+        </script>
 
         <!-- Showtime Selection Section (Right) -->
         <div class="showtime-selection">
@@ -80,6 +132,55 @@
         </div>
     </div>
 </div>
+
+<!-- Include popup đánh giá -->
+<jsp:include page="ratingPopup.jsp" />
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingBtn = document.getElementById('rating-btn');
+    const ratingPopup = document.getElementById('rating-popup');
+    const closePopup = ratingPopup.querySelector('.close-popup');
+    const ratingList = document.getElementById('rating-list');
+    const movieId = ${selectedMovie.id};
+
+    if (ratingBtn) {
+        ratingBtn.addEventListener('click', function() {
+            ratingPopup.style.display = 'flex';
+            // Xóa cũ trước khi load mới
+            ratingList.innerHTML = '<p>Đang tải đánh giá...</p>';
+
+            fetch('<%=request.getContextPath()%>/rating?movieId=' + movieId)
+                .then(res => res.json())
+                .then(data => {
+                    ratingList.innerHTML = '';
+                    if (data.length === 0) {
+                        ratingList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
+                    } else {
+                        data.forEach(r => {
+                            const div = document.createElement('div');
+                            div.className = 'rating-item';
+                            div.innerHTML = `
+                                <div class="rating-stars">${'★'.repeat(r.stars)}${'☆'.repeat(10 - r.stars)}</div>
+                                <p><strong>${r.username}</strong>: ${r.comment}</p>
+                            `;
+                            ratingList.appendChild(div);
+                        });
+                    }
+                })
+                .catch(() => {
+                    ratingList.innerHTML = '<p>Lỗi khi tải đánh giá.</p>';
+                });
+        });
+    }
+
+    // Đóng popup
+    closePopup.addEventListener('click', () => ratingPopup.style.display = 'none');
+    window.addEventListener('click', (e) => {
+        if (e.target === ratingPopup) ratingPopup.style.display = 'none';
+    });
+});
+</script>
 
 <%@ include file="../../common/footer.jsp" %>
 </body>

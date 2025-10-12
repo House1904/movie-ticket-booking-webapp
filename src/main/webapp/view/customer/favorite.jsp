@@ -28,7 +28,6 @@
                         </c:forEach>
                     </p>
                 </a>
-                <!-- Trái tim màu đỏ (vì đã là favorite) -->
                 <button class="favorite-btn favorited" data-id="${fav.movie.id}" title="Bỏ yêu thích">
                     <i class="fa fa-heart"></i>
                 </button>
@@ -65,5 +64,6 @@
             });
         });
     </script>
+<%@ include file="../../common/footer.jsp" %>
 </body>
 </html>

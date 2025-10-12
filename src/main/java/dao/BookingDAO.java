@@ -48,7 +48,8 @@ public class BookingDAO {
         String jpql = "DELETE FROM BookingSeat bs " +
                         "WHERE (bs.status = :status1 " +
                         "AND bs.createdAt < :expireTime1) " +
-                       "OR (bs.status = :status2 and bs.showtime.startTime < :expireTime2)";
+                       "OR (bs.status = :status2 AND bs.showtime.id IN (\n" +
+                    "SELECT s.id FROM Showtime s WHERE s.startTime < :expireTime2\n))";
         em.getTransaction().begin();
         LocalDateTime expireTime1 = LocalDateTime.now().minusMinutes(5);
         LocalDateTime expireTime2 = LocalDateTime.now().minusDays(1);

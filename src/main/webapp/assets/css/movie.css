@@ -135,29 +135,62 @@ body {
     pointer-events: none;
 }
 
-/* Icon yêu thích */
+.rating {
+    color: #1db954;
+    font-weight: 600;
+}
+
+/* ========== FAVORITE HEART ICON ========== */
 .favorite-icon {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 20px;
     font-size: 26px;
-    color: #4dd0e1;
+    color: gray;
     cursor: pointer;
     transition: color 0.25s ease, transform 0.2s ease;
     z-index: 10;
-    background: rgba(10, 15, 31, 0.8);
+    background: rgba(255,255,255,0.7);
     border-radius: 50%;
     padding: 6px;
     backdrop-filter: blur(5px);
     box-shadow: 0 0 8px rgba(0,255,255,0.3);
 }
 
+/* Khi phim đã được yêu thích */
 .favorite-icon.favorited {
     color: #ff3b6b;
     text-shadow: 0 0 6px rgba(255,59,107,0.7);
 }
 
+/* Hiệu ứng hover tim */
 .favorite-icon:hover {
-    color: #00ffff;
+    color: orange;
+    transform: scale(1.2);
+}
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px; /* tăng giảm để tim cách mép phải */
+    font-size: 26px;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.2s ease;
+    z-index: 10;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    padding: 4px;
+    border: none;
+}
+
+/* Khi đã yêu thích */
+.favorite-btn.favorited {
+    color: red;
+}
+
+/* Hover hiệu ứng tim */
+.favorite-btn:hover {
+    color: orange;
     transform: scale(1.2);
 }

@@ -1,12 +1,12 @@
 package controller;
 
+
 import model.Cinema;
 import model.Movie;
 import model.Showtime;
+import service.ShowtimeService;
 import service.CinemaService;
 import service.MovieService;
-import service.ShowtimeService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,4 +87,11 @@ public class HomeController extends HttpServlet {
             throw new ServletException("Lỗi cơ sở dữ liệu", e);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
 }
