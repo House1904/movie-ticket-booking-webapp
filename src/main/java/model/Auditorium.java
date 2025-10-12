@@ -24,8 +24,7 @@ public class Auditorium implements Serializable {
         this.cinema = cinema;
     }
 
-    public Auditorium(long id, String name, AuditFormat format, List<Seat> seats) {
-        this.id = id;
+    public Auditorium(String name, AuditFormat format, List<Seat> seats) {
         this.name = name;
         this.format = format;
         this.seats = seats;

@@ -23,7 +23,7 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(String userName, String password, Role role, LocalDateTime createdAt, User user) {
+    public Account(String userName, String password, Role role, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userName = userName;
         this.password = password;
         this.role = role;
@@ -90,4 +90,3 @@ public class Account implements Serializable {
         this.user = user;
     }
 }
-

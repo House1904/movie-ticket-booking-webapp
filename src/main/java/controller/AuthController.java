@@ -6,6 +6,7 @@ import model.Customer;
 import model.Partner;
 import model.enums.Role;
 import service.AccountService;
+import service.CustomerService;
 import service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -26,9 +27,8 @@ public class  AuthController extends HttpServlet {
     private UserService userService =  new UserService();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-      String action = request.getParameter("action");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
         if ("login".equals(action)) {
             String username = request.getParameter("username");
@@ -38,8 +38,6 @@ public class  AuthController extends HttpServlet {
                 Account account = accountService.login(username, password);
 
                 if (account != null) {
-                    // Truy cập user liên kết
-
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
 
@@ -48,21 +46,18 @@ public class  AuthController extends HttpServlet {
                         Admin  admin = (Admin) account.getUser();
                         session.setAttribute("user", admin);
                         response.sendRedirect(request.getContextPath() + "/admin.jsp");
-                    }
-
-                    else if (account.getRole() == Role.PARTNER) {
+                    } else if (account.getRole() == Role.PARTNER) {
+                        // Lưu Partner vào session
                         Partner partner = (Partner) account.getUser();
                         session.setAttribute("user", partner);
-                        response.sendRedirect(request.getContextPath() + "/partner.jsp");
-                    }
-
-                    else {
+                        response.sendRedirect(request.getContextPath() + "/dashboard");
+                    } else {
+                        // Truy cập user liên kết
                         Customer user = (Customer) account.getUser();
                         user.setMemberShip(true);
                         session.setAttribute("user", user);
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
-
                 } else {
                     // Sai thông tin đăng nhập
                     request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
@@ -86,17 +81,16 @@ public class  AuthController extends HttpServlet {
               String username = request.getParameter("username");
               String password = request.getParameter("password");
 
-              Account account = new Account(username, password, Role.CUSTOMER, LocalDateTime.now(), customer);
-              if (accountService.register(account)){
-                  RequestDispatcher rd =  request.getRequestDispatcher("/common/login.jsp");
-                  rd.forward(request, response);
-              }
-          }
-          else{
-              request.setAttribute("error", "Tạo tài khoản thất bại!");
-          }
-      }
-}
+                Account account = new Account(username, password, Role.CUSTOMER, LocalDateTime.now(), customer);
+                if (accountService.register(account)) {
+                    RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
+                    rd.forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Tạo tài khoản thất bại!");
+            }
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,8 +106,7 @@ public class  AuthController extends HttpServlet {
             // Chuyển về trang home
             response.sendRedirect(request.getContextPath() + "/home");
             return;
-        }
-        else if ("signup".equals(action)) {
+        } else if ("signup".equals(action)) {
             // Chuyển đến trang đăng ký
             rd = request.getRequestDispatcher("/common/register.jsp");
         } else {
@@ -122,5 +115,4 @@ public class  AuthController extends HttpServlet {
         }
         rd.forward(request, response);
     }
-
 }
