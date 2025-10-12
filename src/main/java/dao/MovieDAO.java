@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 
 public class MovieDAO {
 
-    public List<Movie> getAllMovies() throws SQLException {
+    public List<Movie> getAllMovies(){
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
@@ -58,4 +58,13 @@ public class MovieDAO {
         movies = query1.getResultList();
         return movies;
     }
+
+    public List<Movie> getMovieByKeyword(String keyword) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        String jpql = "SELECT m FROM Movie m WHERE LOWER(m.title) LIKE LOWER(:keyword) OR LOWER(m.actor) LIKE LOWER(:keyword)";
+        return em.createQuery(jpql, Movie.class)
+                    .setParameter("keyword", "%" + keyword + "%")
+                    .getResultList();
+    }
+
 }

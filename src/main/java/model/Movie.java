@@ -66,7 +66,7 @@ public class Movie {
         this.description = description;
     }
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"))
     @Column(name = "genre")
     public List<String> getGenre() {

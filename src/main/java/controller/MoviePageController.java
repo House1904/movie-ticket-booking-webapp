@@ -24,14 +24,32 @@ public class MoviePageController extends HttpServlet {
         String action = request.getParameter("action");
         List<String> genreList = null;
         List<Movie> movies = null;
-        System.out.println(action);
+        String h1 = "";
+        String p = "";
         if ("showing".equals(action)) {
+            h1 = "Phim đang chiếu";
+            p = "Danh sách các phim đang chiếu trên toàn quốc";
             movies = movieService.getMoviesbyIsShowing();
-            session.setAttribute("movies", movies);
         }
         else if ("comming".equals(action)) {
+            h1 = "Phim sắp chiếu";
+            p = "Danh sách các phim sắp chiếu trên toàn quốc";
             movies = movieService.getMoviesbyCommingSoon();
-            session.setAttribute("movies", movies);
+        }
+
+        else if ("search".equals(action)) {
+            h1 = "Phim theo tìm kiếm";
+            String keyword = request.getParameter("q");
+            p = "Từ khóa: " + keyword;
+            if (keyword != null) {
+                movies = movieService.getMoviesbyKeyWord(keyword);
+            }
+            else movies = movieService.getMovies();
+        }
+        else {
+            h1 = "Tất cả phim";
+            p = "Hãy lựa chọn cho bạn một bộ phim yêu thích";
+            movies = movieService.getMovies();
         }
 
         try {
@@ -41,7 +59,9 @@ public class MoviePageController extends HttpServlet {
             session.setAttribute("error", "Có lỗi xảy ra khi tìm thể loại phim!");
             throw new RuntimeException(e);
         }
-
+        session.setAttribute("h1", h1);
+        session.setAttribute("p", p);
+        session.setAttribute("movies", movies);
         request.getRequestDispatcher("/view/customer/movie.jsp").forward(request, response);
 
     }

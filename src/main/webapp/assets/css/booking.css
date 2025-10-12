@@ -1,43 +1,77 @@
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background-color: #f5f3fa;
-    color: #333;
+    background-color: #0a0f1a;
+    color: #e4f0ff;
     text-align: center;
     margin: 0;
- }
+}
 
 h1 {
-    color: #5b2c83;
+    color: #00bcd4;
     margin-bottom: 20px;
-}
-div > div {
-    display: block;
-    justify-content: center;
-    margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(0, 188, 212, 0.6);
 }
 
+/* Layout chính */
 .booking {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
+
+/* Box tổng kết bên phải */
+.summary-box {
+    background: #111827;
+    color: #e4f0ff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 188, 212, 0.15);
+    font-family: "Poppins", sans-serif;
+    transition: all 0.2s ease;
+}
+
+.summary-box:hover {
+    box-shadow: 0 6px 25px rgba(0, 188, 212, 0.3);
+}
+
+/* Info suất chiếu */
 .booking .showtimeInfo {
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    border-radius: 16px;
+    background: #0d1524;
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.15);
     text-align: left;
+    min-width: 320px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
+.booking .showtimeInfo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 188, 212, 0.3);
+}
+
 .booking .showtimeInfo p {
-    margin-bottom: 20px;
-    margin-top: 20px   ;
+    color: #cce8ff;
+    margin: 20px 0;
     font-size: 20px;
+    line-height: 1.5;
+    font-weight: 500;
 }
+
+.booking .showtimeInfo p strong {
+    color: #00e5ff;
+}
+
+/* Khu vực chọn ghế */
 .booking .bookSeat {
     padding: 10px;
     width: 1000px;
 }
-/* Thanh "màn hình" */
+
+/* Thanh “MÀN HÌNH” */
 .screen {
-    background: linear-gradient(to bottom, #c7b8e0, #a286d1);
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
     border-radius: 10px;
     width: 90%;
     margin: 20px auto;
@@ -45,80 +79,89 @@ div > div {
     color: white;
     font-weight: bold;
     letter-spacing: 2px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0, 180, 216, 0.6);
 }
 
-/* Container cho từng hàng ghế */
+/* Hàng ghế */
 .seat-row {
     display: flex;
     justify-content: center;
     margin: 8px 0;
 }
 
-/* Ghế cơ bản */
+/* Ghế */
 .seat {
     display: inline-flex;
     width: 60px;
     height: 40px;
     border-radius: 8px;
-    border: 2px solid #7e3ff2;
-    color: #7e3ff2;
-    background-color: #fff;
+    border: 2px solid #00bcd4;
+    color: #00e5ff;
+    background-color: #0f1a2b;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     margin: 5px;
-    transition: 0.2s ease-in-out;
+    transition: 0.25s ease-in-out;
     cursor: pointer;
 }
 
-/* Hiệu ứng hover cho ghế trống */
+/* Hover ghế trống */
 .seat:hover {
-    background-color: #e6dcff;
+    background-color: #13233c;
     transform: scale(1.1);
 }
 
-/* Ghế đã được đặt */
+/* Ghế đã đặt */
 .booked {
-    background-color: #666;
-    color: #ccc;
+    background-color: #333;
+    color: #777;
     border-color: #444;
     cursor: not-allowed;
 }
 
-/* Ẩn checkbox nhưng vẫn click được */
+/* Checkbox ẩn */
 input[type="checkbox"] {
     display: none;
 }
+
 .seat span {
     pointer-events: none;
 }
-label.seat.NORMAL { border-color: #888; color: #444; }
-label.seat.VIP { border-color: gold; color: #b58900; }
-label.seat.COUPLE { border-color: hotpink; color: #b30059; }
+
+/* Loại ghế */
+label.seat.NORMAL { border-color: #00bcd4; color: #00e5ff; }
+label.seat.VIP { border-color: #ffc107; color: #ffd54f; }
+label.seat.COUPLE { border-color: #ff4081; color: #ff80ab; }
+
+/* Hover từng loại */
 label.seat:hover {
     transform: scale(1.05);
-    border-color: #60a5fa;
-}
-/* Khi checkbox được chọn */
-input[type="checkbox"]:checked + label.seat {
-    background: #c084fc;
-    color: white;
-    border-color: #9333ea;
-    transform: scale(1.1);
+    border-color: #00e5ff;
 }
 
-/* Hàng chữ ghế (A, B, C...) */
+/* Ghế được chọn */
+input[type="checkbox"]:checked + label.seat {
+    background: linear-gradient(90deg, #00b4d8, #0077b6);
+    color: white;
+    border-color: #00e5ff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+}
+
+/* Label hàng ghế */
 .row-label {
     font-weight: bold;
-    color: #7e3ff2;
+    color: #00e5ff;
     margin-right: 10px;
     width: 20px;
 }
+
+/* Nút thanh toán */
 .pay-btn {
     display: block;
     margin: 30px auto;
-    background: linear-gradient(90deg, #9333ea, #c084fc);
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
     color: white;
     padding: 12px 40px;
     font-size: 18px;
@@ -127,9 +170,10 @@ input[type="checkbox"]:checked + label.seat {
     cursor: pointer;
     transition: 0.3s;
     font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
 }
 
 .pay-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+    box-shadow: 0 0 25px rgba(0, 224, 255, 0.8);
 }
