@@ -8,14 +8,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import java.util.List;
-
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
-    public List<Movie> getMovies() {
+    public List<Movie> getMovies() throws SQLException {
         return movieDAO.getAllMovies();
     }
-
     public Movie getMovie(long movie_id) {
         return movieDAO.getMovieById(movie_id);
     }

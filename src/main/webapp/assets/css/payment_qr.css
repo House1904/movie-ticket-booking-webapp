@@ -1,0 +1,138 @@
+/* ==== QR CARD LAYOUT (căn giữa, không tràn màn hình) ==== */
+.qr-card {
+    width: 85%;
+    max-width: 900px;             /* Giới hạn tối đa chiều ngang */
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    padding: 28px;
+    margin: auto;
+}
+
+/* ==== GRID CHIA 2 CỘT GỌN GÀNG ==== */
+.qr-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;  /* QR hơi to hơn chút */
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .qr-grid {
+        grid-template-columns: 1fr;       /* Mobile: xếp dọc */
+        text-align: center;
+    }
+}
+
+/* ==== QR HÌNH ẢNH ==== */
+.qr-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.qr-img {
+    width: 100%;
+    max-width: 260px;           /* 🔥 Giảm từ 360px → 260px */
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+/* ==== THÔNG TIN THANH TOÁN ==== */
+.info {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 14px 18px;
+}
+
+.info h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.info-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.info-label {
+    color: #ffe3e3;
+    font-weight: 600;
+}
+
+.info-value {
+    text-align: right;
+    color: #fff;
+}
+
+/* ==== COUNTDOWN ==== */
+.countdown {
+    margin: 16px auto 0;
+    width: fit-content;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ==== NÚT HÀNH ĐỘNG ==== */
+.actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.2s all ease;
+}
+
+.btn-success {
+    background: var(--success);
+}
+.btn-success:hover {
+    background: var(--success-d);
+}
+
+.btn-danger {
+    background: var(--danger);
+}
+.btn-danger:hover {
+    background: var(--danger-d);
+}
