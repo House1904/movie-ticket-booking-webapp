@@ -42,21 +42,23 @@ public class PartnerService {
     public boolean isEmailExists(String email) {
         List<Partner> partners = getAllPartners();
         for (Partner p : partners) {
-            if (p.getEmail().equalsIgnoreCase(email)) {
+            if (p.getEmail() != null && p.getEmail().equalsIgnoreCase(email)) {
                 return true;
             }
         }
         return false;
     }
 
+
     public boolean isPhoneExists(String phone) {
         List<Partner> partners = getAllPartners();
         for (Partner p : partners) {
-            if (p.getPhone().equals(phone)) {
+            if (p.getPhone() != null && p.getPhone().equals(phone)) {
                 return true;
             }
         }
         return false;
     }
+
 
 }
