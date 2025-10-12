@@ -41,7 +41,7 @@
         <li class="dropdown">
             <a href="#">TIN TỨC</a>
             <ul class="dropdown-content">
-                <li><a href="<%= request.getContextPath() %>/public/articles">Tin tức & Khuyến mãi</a></li>
+                <li><a href="<%= request.getContextPath() %>/public/articles">Tin tức</a></li>
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>
