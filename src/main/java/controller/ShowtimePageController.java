@@ -51,28 +51,6 @@ public class ShowtimePageController extends HttpServlet{
             }
             session.setAttribute("cinemas", cinemas);
 
-            String movieIdParam = req.getParameter("movieId");
-            Movie selectedMovie = null;
-            if (movieIdParam != null && !movieIdParam.isEmpty()) {
-                long movieId = Long.parseLong(movieIdParam);
-                selectedMovie = movieService.getMovie(movieId);
-            }
-
-            if (selectedMovie == null) {
-                resp.sendRedirect(req.getContextPath() + "/movie");
-                return;
-            }
-
-            req.setAttribute("selectedMovie", selectedMovie);
-
-            // Kiểm tra yêu thích
-            User user = (User) session.getAttribute("currentUser");
-            boolean isFavorite = false;
-            if (user != null && selectedMovie != null) {
-                isFavorite = favoriteService.isFavorite(user, selectedMovie.getId());
-            }
-            req.setAttribute("isFavorite", isFavorite);
-
             String action = req.getParameter("action");
             if ("filter".equals(action)) {
                 String idParam = req.getParameter("id");

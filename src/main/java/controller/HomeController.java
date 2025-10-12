@@ -1,19 +1,21 @@
 package controller;
 
-
+import dao.MovieDAO;
 import model.Cinema;
 import model.Movie;
 import model.Showtime;
+import model.User;
 import service.ShowtimeService;
 import service.CinemaService;
 import service.MovieService;
+import service.FavoriteService;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,6 +26,14 @@ public class HomeController extends HttpServlet {
     private MovieService movieService = new MovieService();
     private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
+    private MovieDAO movieDAO = new MovieDAO() ;
+    private FavoriteService favoriteService;
+
+    @Override
+    public void init() throws ServletException {
+        EntityManager em = util.DBConnection.getEmFactory().createEntityManager();
+        this.favoriteService = new FavoriteService(new dao.FavoriteDAO(em));
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,6 +61,7 @@ public class HomeController extends HttpServlet {
                 if (movieIdStr != null) {
                     long movieId = Long.parseLong(movieIdStr);
                     Movie movie = movieService.getMovie(movieId);
+
                     if (movie != null) {
                         HttpSession session = req.getSession();
                         session.setAttribute("selectedMovie", movie);
@@ -74,8 +85,18 @@ public class HomeController extends HttpServlet {
 
                         session.setAttribute("cinemas", cinemas);
                         session.setAttribute("selectedDate", selectedDate);
+
+                        User user = (User) req.getSession().getAttribute("user");                        boolean isFavorite = false;
+                        if (user != null) {
+                            isFavorite = favoriteService.isFavorite(user, movieId);
+                        }
+
+                        req.setAttribute("isFavorite", isFavorite);
+
                         RequestDispatcher rd = req.getRequestDispatcher("/view/customer/selectShowtime.jsp");
                         rd.forward(req, resp);
+
+
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Phim không tồn tại");
                     }

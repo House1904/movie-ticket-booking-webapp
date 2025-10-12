@@ -20,10 +20,10 @@
     <div class="movie-info">
         <h2>${movie.title}</h2>
 
-        <p><strong>Giới hạn Độ tuổi:</strong>
+        <p><strong>Giới hạn độ tuổi:</strong>
             <c:choose>
                 <c:when test="${not empty movie.ageLimit}">
-                    ${movie.ageLimit}+
+                    ${movie.ageLimit}
                 </c:when>
                 <c:otherwise>Đang cập nhật</c:otherwise>
             </c:choose>
@@ -69,15 +69,46 @@
         <p class="desc">${movie.description}</p>
 
         <div class="movie-actions">
-            <button class="favorite-btn">
-                <i class="fa fa-heart"></i> Yêu thích
+            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" data-id="${movie.id}">
+                <i class="fa fa-heart"></i> <span>${isFavorited ? 'Bỏ yêu thích' : 'Yêu thích'}</span>
             </button>
             <a href="${movie.trailerUrl}" target="_blank" class="trailer-btn">
                 📽️ Trailer
             </a>
+            <a href="${pageContext.request.contextPath}/selectShowtime?movieId=${movie.id}" class="book-ticket">
+                🎟️ Đặt Vé
+            </a>
         </div>
     </div>
 </div>
+
+<script>
+    // Xử lý sự kiện click nút yêu thích
+    document.querySelector('.favorite-btn').addEventListener('click', function() {
+        const btnEl = this;
+        const movieId = this.dataset.id;
+
+        fetch('${pageContext.request.contextPath}/favorite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'movieId=' + movieId
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'added') {
+                btnEl.classList.add('favorited');
+                btnEl.querySelector('span').textContent = 'Bỏ yêu thích';
+            } else if (data.status === 'removed') {
+                btnEl.classList.remove('favorited');
+                btnEl.querySelector('span').textContent = 'Yêu thích';
+            } else if (data.message === 'not_logged_in') {
+                alert("Vui lòng đăng nhập để thêm yêu thích!");
+                window.location.href = '${pageContext.request.contextPath}/common/login.jsp';
+            }
+        })
+        .catch(err => console.error(err));
+    });
+</script>
 
 <%@ include file="/common/footer.jsp" %>
 </body>
