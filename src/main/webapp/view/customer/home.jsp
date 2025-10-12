@@ -93,6 +93,7 @@
             <a href="upcomingPosters.jsp" class="view-more">Xem thêm</a>
         </div>
 
+
         <!-- Upcoming Section -->
         <div class="upcoming-section">
             <button class="carousel-btn prev" onclick="scrollUpcoming(-1)">&#10094;</button>

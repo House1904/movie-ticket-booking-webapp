@@ -8,10 +8,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <!-- Kết nối PostgreSQL với UTF-8 -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/projweb?characterEncoding=UTF-8"/>
-            <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="18092003"/>
+            <!-- Kết nối PostgreSQL -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dpg-d3kbdk9r0fns73eou6i0-a.singapore-postgres.render.com/ticketbooking_kqrq?sslmode=require"/>
+            <property name="javax.persistence.jdbc.user" value="tenfinity"/>
+            <property name="javax.persistence.jdbc.password" value="2cdWOL1IzGkgIXpB1Z0ijiJgilmSTY4x"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <!-- Hibernate config -->
