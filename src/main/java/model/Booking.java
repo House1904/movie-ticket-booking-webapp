@@ -24,6 +24,10 @@ public class Booking {
         this.tickets = tickets;
         this.status = status;
     }
+    public Booking(Status status, Customer customer) {
+        this.status = status;
+        this.customer = customer;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,5 +87,14 @@ public class Booking {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public double totalPrice()
+    {
+        double total = 0;
+        for (Ticket ticket : tickets){
+            total += ticket.getPrice();
+        }
+        return total;
     }
 }

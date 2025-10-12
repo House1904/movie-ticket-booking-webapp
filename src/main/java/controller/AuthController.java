@@ -5,7 +5,6 @@ import model.Customer;
 import model.Partner;
 import model.enums.Role;
 import service.AccountService;
-import service.CustomerService;
 import service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +27,7 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String redirect = request.getParameter("redirect"); // Get redirect parameter
 
         if ("login".equals(action)) {
             String username = request.getParameter("username");
@@ -47,7 +47,9 @@ public class AuthController extends HttpServlet {
                         // Lưu Partner vào session
                         Partner partner = (Partner) account.getUser();
                         session.setAttribute("user", partner);
-                        response.sendRedirect(request.getContextPath() + "/dashboard");
+                        // Redirect to the intended destination or dashboard
+                        String redirectUrl = (redirect != null && !redirect.isEmpty()) ? redirect : "/dashboard";
+                        response.sendRedirect(request.getContextPath() + redirectUrl);
                     } else {
                         // Truy cập user liên kết
                         Customer user = (Customer) account.getUser();

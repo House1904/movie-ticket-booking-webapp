@@ -30,9 +30,9 @@ public class HomeController extends HttpServlet {
         String servletPath = req.getServletPath();
         try {
             if ("/home".equals(servletPath)) {
-                List<Movie> nowShowingMovies = movieService.getNowShowingMovies();
-                List<Movie> upcomingMovies = movieService.getUpcomingMovies();
-                List<Cinema> cinemas = cinemaService.getCinemas();
+                List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
+                List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
+                List<Cinema> cinemas = cinemaService.getAllCinemas();
 
                 HttpSession session = req.getSession();
                 session.setAttribute("nowShowingMovies", nowShowingMovies);
@@ -54,7 +54,7 @@ public class HomeController extends HttpServlet {
                     if (movie != null) {
                         HttpSession session = req.getSession();
                         session.setAttribute("selectedMovie", movie);
-                        List<Cinema> cinemas = cinemaService.getCinemas();
+                        List<Cinema> cinemas = cinemaService.getAllCinemas();
 
                         // Lưu danh sách suất chiếu cho tất cả rạp (tùy chọn, có thể bỏ nếu chỉ cần suất chiếu cho rạp đã chọn)
                         for (Cinema cinema : cinemas) {

@@ -11,12 +11,12 @@ public class AccountService {
 
     public Account login(String username, String password) throws SQLException
     {
-        Account validAccount = accountDAO.getAccountByUsername(username);
-        System.out.println(validAccount.getUserName());
-        if (validAccount != null && (password.equals(validAccount.getPassword())))
-            return validAccount;
-        else
-            return null;
+      Account validAccount = accountDAO.getAccountByUsername(username);
+      System.out.println(validAccount.getUserName());
+      if (validAccount != null && (password.equals(validAccount.getPassword())))
+          return validAccount;
+      else
+          return null;
     }
 
     public boolean register(Account account) {
@@ -26,7 +26,7 @@ public class AccountService {
                 accountDAO.addAccount(account);
                 return true;
             }
-            return false; //account với username này đã được đăng ý trước đó
+                return false; //account với username này đã được đăng ý trước đó
         }
         catch (SQLException e) {
             return false;

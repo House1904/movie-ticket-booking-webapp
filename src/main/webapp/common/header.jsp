@@ -1,3 +1,4 @@
+<%@ page import="model.Customer" %>
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
@@ -24,8 +25,8 @@
         <li class="dropdown">
             <a href="#">PHIM 🍿▾</a>
             <ul class="dropdown-content">
-                <li><a href="showingMovie.jsp">Đang chiếu🎥</a></li>
-                <li><a href="coming_soon.jsp">Sắp chiếu</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=showing">Đang chiếu🎥</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=comming">Sắp chiếu</a></li>
             </ul>
         </li>
 
@@ -36,6 +37,7 @@
         </li>
 
         <!-- Dropdown Tin tức -->
+        <!-- Dropdown Rạp -->
         <li class="dropdown">
             <a href="#">TIN TỨC</a>
             <ul class="dropdown-content">
@@ -47,15 +49,16 @@
     <ul class="cloud">
         <!-- Search box -->
         <li>
-            <form class="search-box" action="search.jsp" method="get">
+            <form action="movie" class="search-box" method="get">
+                <input type="hidden" name="action" value="search">
                 <input type="text" name="q" placeholder="Tìm phim...">
                 <button type="submit">🔍</button>
             </form>
         </li>
         <li><a href="contact.jsp">LIÊN HỆ</a></li>
         <%
-            String username = (String) session.getAttribute("username");
-            if (username == null) {
+            Customer customer = (Customer) session.getAttribute("user");
+            if (customer == null) {
         %>
         <li><a href="<%= request.getContextPath() %>/common/login.jsp" class="btn-login">LOGIN</a></li>
         <%
@@ -63,11 +66,12 @@
         %>
         <!-- Nếu đã login -->
         <li class="dropdown">
-            <a href="#" class="dropbtn">👤 <%= username %></a>
-            <div class="dropdown-content">
-                <a href="profile.jsp">View Profile</a>
-                <a href="logout.jsp">Logout</a>
-            </div>
+            <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
+            <ul class="dropdown-content">
+                <li><a href="profile.jsp">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
+                <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
+            </ul>
         </li>
         <%
             }

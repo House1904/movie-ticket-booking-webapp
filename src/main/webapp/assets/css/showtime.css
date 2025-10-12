@@ -1,7 +1,7 @@
 /* Reset nhẹ */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f8f9fa;
+    background: #2E294E;
     color: #333;
     width: 100%;
     height: 100vh;
@@ -221,6 +221,12 @@ body {
     color: #0d6efd;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+.showtime-buttons .time-btn.past {
+    background-color: #444;
+    color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 .time-btn:hover {

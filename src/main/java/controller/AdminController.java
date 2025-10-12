@@ -15,6 +15,6 @@ public class AdminController extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
 
         // ✅ Chuyển hướng đến trang quản lý suất chiếu
-        resp.sendRedirect(req.getContextPath() + "/dashboard");
+        resp.sendRedirect(req.getContextPath() + "/manageShowtime");
     }
 }

@@ -1,4 +1,3 @@
-
 function openPopup() {
     document.getElementById("rapPopup").style.display = "flex";
 }
