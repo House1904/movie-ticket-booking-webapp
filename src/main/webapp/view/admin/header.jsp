@@ -13,7 +13,7 @@
     <ul class="nav" id="navMenu">
         <!-- Dashboard -->
         <li>
-            <a href="dashboard.jsp">DASHBOARD</a>
+            <a href="${pageContext.request.contextPath}/admin">DASHBOARD</a>
         </li>
         <!-- Dropdown Quản lý hệ thống -->
         <li class="dropdown">

@@ -9,18 +9,25 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.sql.*;
 
-import model.Showtime;
-import model.Movie;
-import model.Cinema;
-import model.enums.PromotionType;
-import service.CinemaService;
-import service.MovieService;
-import service.ShowtimeService;
+import model.*;
+import service.*;
+import dao.FavoriteDAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 @WebServlet("/showtime")
 public class ShowtimePageController extends HttpServlet{
-    private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
+    private PartnerService partnerService = new PartnerService();
+    private MovieService movieService = new MovieService();
+
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProjectLoad");
+    private EntityManager em = emf.createEntityManager();
+    private FavoriteService favoriteService = new FavoriteService(new FavoriteDAO(em));
+
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp)
                 throws ServletException, IOException {
@@ -30,13 +37,27 @@ public class ShowtimePageController extends HttpServlet{
         protected void doGet(HttpServletRequest req, HttpServletResponse resp)
                 throws ServletException, IOException {
             HttpSession session = req.getSession();
-            List<Cinema> cinemas = null;
-            try {
-              cinemas = cinemaService.getCinemas();
-            } catch (SQLException e) {
-               throw new RuntimeException(e);
+
+            List<Partner> partners = null;
+            partners = partnerService.getAllPartners();
+            session.setAttribute("partners", partners);
+
+            String movieIdParam = req.getParameter("movieId");
+            Movie selectedMovie = null;
+            if (movieIdParam != null && !movieIdParam.isEmpty()) {
+                long movieId = Long.parseLong(movieIdParam);
+                selectedMovie = movieService.getMovie(movieId);
             }
-            session.setAttribute("cinemas", cinemas);
+
+            req.setAttribute("selectedMovie", selectedMovie);
+
+            // Kiểm tra yêu thích
+            User user = (User) session.getAttribute("currentUser");
+            boolean isFavorite = false;
+            if (user != null && selectedMovie != null) {
+                isFavorite = favoriteService.isFavorite(user, selectedMovie.getId());
+            }
+            req.setAttribute("isFavorite", isFavorite);
 
             String action = req.getParameter("action");
             if ("filter".equals(action)) {
@@ -47,9 +68,6 @@ public class ShowtimePageController extends HttpServlet{
                 }
                 long cinemaId = Long.parseLong(idParam);
                 req.setAttribute("selectedCinemaId", cinemaId);
-                Cinema cinema = cinemaService.findCinemaById(cinemaId);
-                System.out.println(cinema.getName());
-                session.setAttribute("cinema", cinema);
                 String selectedDateStr = req.getParameter("selectedDate");
                 LocalDate selectedDate = (selectedDateStr == null || selectedDateStr.isEmpty())
                         ? LocalDate.now()

@@ -15,6 +15,7 @@ public class CinemaDAO {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Cinema> cinemas = null;
 
+        String sql = "SELECT c FROM Cinema c ORDER BY c.partner.brand DESC";
         try {
             cinemas = entity.createQuery("SELECT c FROM Cinema c", Cinema.class)
                     .getResultList();
@@ -30,4 +31,5 @@ public class CinemaDAO {
         entity.close();
         return cinema;
     }
+
 }

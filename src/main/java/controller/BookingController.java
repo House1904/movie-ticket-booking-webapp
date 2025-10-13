@@ -31,9 +31,14 @@ public class BookingController extends HttpServlet {
         String action = request.getParameter("action");
         bookingService.deletedBookingSeat();
 
+        if (action == null) {
+            action = "showtimeSl";
+        }
+
         if("showtimeSl".equals(action)){
             HttpSession session = request.getSession();
             long showtimeID = Long.parseLong(request.getParameter("showtimeID"));
+
 
             Showtime st = showtimeService.getShowtime(showtimeID);
             Auditorium auditorium = st.getAuditorium();
@@ -67,6 +72,11 @@ public class BookingController extends HttpServlet {
         }
         else if("goPay".equals(action)){
             HttpSession session = request.getSession();
+            Customer customer = (Customer) session.getAttribute("user");
+            if (customer == null) {
+                request.getRequestDispatcher("/common/login.jsp").forward(request, response);
+                return;
+            }
             String[] selectedSeatIds = request.getParameterValues("selectedSeats");
             if (selectedSeatIds == null || selectedSeatIds.length == 0) {
                 request.setAttribute("errorMessage", "Vui lòng chọn ít nhất một ghế!");
@@ -75,7 +85,6 @@ public class BookingController extends HttpServlet {
 
             Showtime sht = (Showtime) session.getAttribute("st");
             Auditorium au = (Auditorium) session.getAttribute("auditorium");
-            Customer customer = (Customer) session.getAttribute("user");
             Booking booking = new Booking(Status.PENDING, customer);
             boolean res = bookingService.insertBooking(booking);
             if(res){

@@ -80,4 +80,5 @@ public class Payment {
     public void setStatus(PaymentStatus status) {
         this.status = status;
     }
+
 }

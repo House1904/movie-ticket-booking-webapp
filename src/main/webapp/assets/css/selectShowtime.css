@@ -315,3 +315,86 @@ p {
         transform: translateY(0);
     }
 }
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+.favorite-btn, .rating-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+/* Nút yêu thích */
+.favorite-btn {
+    background-color: #ff4b5c;
+    color: white;
+}
+
+.favorite-btn.favorited {
+    background-color: #c82333;
+}
+
+/* Nút đánh giá */
+.rating-btn {
+    background-color: #f8d64e;
+    color: #333;
+}
+
+.rating-btn:hover {
+    background-color: #f3c72e;
+}
+
+.rating-popup {
+    display: none; /* Ẩn ban đầu */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 10px;
+    width: 450px;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+.close-popup {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.rating-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.rating-item:last-child {
+    border-bottom: none;
+}
+
+.rating-stars {
+    color: #FFD700; /* Màu sao vàng */
+}

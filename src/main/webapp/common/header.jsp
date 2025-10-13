@@ -68,7 +68,7 @@
         <li class="dropdown">
             <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
             <ul class="dropdown-content">
-                <li><a href="profile.jsp">View Profile</a></li>
+                <li><a href="profile">View Profile</a></li>
                 <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
             </ul>

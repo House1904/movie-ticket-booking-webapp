@@ -2,6 +2,7 @@ package service;
 
 import dao.TicketDAO;
 import model.Movie;
+import model.Ticket;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +15,10 @@ public class TicketService {
     private Map<Long, Integer> ticketsSoldCache = new HashMap<>();
     private Map<Long, Double> revenueCache = new HashMap<>();
     private Map<Long, Double> revenueByCinemaCache = new HashMap<>();
+
+    public List<Ticket> getTicketList(long customerID){
+        return ticketDAO.getTicketByCustomer(customerID);
+    }
 
     public double getTotalRevenue(String dateRange, List<Long> cinemaIds) {
         LocalDate endDate = LocalDate.now();

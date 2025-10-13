@@ -18,15 +18,20 @@
             <div class="cinema-list">
                 <h6 class="fw-bold mb-3">Rạp</h6>
                 <ul class="list-group">
-                    <c:forEach var="cinema" items="${cinemas}">
-                        <li class="list-group-item">
-                            <form action="showtime" method="post">
-                                <input type="hidden" name="id" value="${cinema.id}">
-                                <input type="hidden" name="action" value="filter">
-                                <input type="hidden" name="selectedDate" value="${selectedDate}">
-                                <button type="submit" class="cinemaBtn ${cinema.id == selectedCinemaId ? 'selected' : ''}">${cinema.name}</button>
-                            </form>
-                        </li>
+                    <c:forEach var="p" items="${partners}">
+                        <div class="brand-section">
+                            <h2 class="brand-name">${p.brand}</h2>
+                            <c:forEach var="cinema" items="${p.cinemas}">
+                                <li class="list-group-item">
+                                    <form action="showtime" method="post">
+                                        <input type="hidden" name="id" value="${cinema.id}">
+                                        <input type="hidden" name="action" value="filter">
+                                        <input type="hidden" name="selectedDate" value="${selectedDate}">
+                                        <button type="submit" class="cinemaBtn ${cinema.id == selectedCinemaId ? 'selected' : ''}">${cinema.name}</button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </div>
                     </c:forEach>
                 </ul>
             </div>
@@ -51,7 +56,7 @@
                         LocalDate d = today.plusDays(i);
                         String label = dateFmt.format(d) + "<br>" + days[d.getDayOfWeek().getValue() % 7];
                         boolean isSelected = selectedDate != null && selectedDate.equals(d);
-                        String btnClass = isSelected ? "btn btn-primary" : "btn btn-light border";
+                        String btnClass = isSelected ? "btn btn-primary" : "btn btn-light";
                 %>
                 <form action="showtime" method="post" style="display:inline;">
                     <input type="hidden" name="selectedDate" value="<%= d.toString() %>">
@@ -64,7 +69,6 @@
                 %>
             </div>
 
-            <!-- Phim 1 -->
             <div class="showtime-card">
                 <div class="d-flex">
                     <c:forEach var="entry" items="${movieShowtimes}">
