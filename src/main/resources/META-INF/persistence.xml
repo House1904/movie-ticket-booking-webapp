@@ -14,6 +14,7 @@
             <property name="javax.persistence.jdbc.password" value="2cdWOL1IzGkgIXpB1Z0ijiJgilmSTY4x"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
+
             <!-- Hibernate config -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>

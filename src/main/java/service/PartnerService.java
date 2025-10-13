@@ -5,7 +5,10 @@ import model.Partner;
 
 public class PartnerService {
     private PartnerDAO partnerDAO = new PartnerDAO();
-    public boolean addPartner(Partner partner) {
-        return partnerDAO.insert(partner);
+    public void addPartner(Partner partner) {
+        partnerDAO.insert(partner);
+    }
+    public void updatePartner(Partner partner) {
+        partnerDAO.update(partner);
     }
 }

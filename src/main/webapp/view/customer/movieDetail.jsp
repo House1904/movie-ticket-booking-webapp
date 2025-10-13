@@ -20,6 +20,26 @@
     <div class="movie-info">
         <h2>${movie.title}</h2>
 
+        <div class="movie-rating-summary">
+            <span class="average-stars">
+                <c:forEach begin="1" end="${averageRatingFloor}" var="i">⭐</c:forEach>
+                <c:if test="${hasHalfStar}">✰</c:if>
+                <c:if test="${ratingCount == 0}">⭐☆☆☆☆</c:if>
+            </span>
+            <span class="average-score">
+                <c:choose>
+                    <c:when test="${ratingCount > 0}">(${averageRating}/5)</c:when>
+                    <c:otherwise>(0/5)</c:otherwise>
+                </c:choose>
+            </span>
+            <span class="rating-count">
+                <c:choose>
+                    <c:when test="${ratingCount > 0}">- ${ratingCount} lượt đánh giá</c:when>
+                    <c:otherwise>- Chưa có đánh giá</c:otherwise>
+                </c:choose>
+            </span>
+        </div>
+
         <p><strong>Giới hạn độ tuổi:</strong>
             <c:choose>
                 <c:when test="${not empty movie.ageLimit}">
@@ -108,6 +128,104 @@
         })
         .catch(err => console.error(err));
     });
+</script>
+
+<div class="rating-section">
+    <h3>💬 Đánh giá từ khán giả
+        <c:choose>
+            <c:when test="${canRate}">
+                <button id="openRatingBtn"
+                        class="btn btn-sm ${canRate ? 'btn-primary' : 'btn-secondary'} ms-2"
+                        ${canRate ? '' : 'disabled'}>
+                    ${canRate ? 'Đánh giá' : 'Xem phim để được đánh giá'}
+                </button>
+            </c:when>
+            <c:otherwise>
+                <button class="btn btn-sm btn-secondary ms-2" disabled>
+                    Xem phim để được đánh giá
+                </button>
+            </c:otherwise>
+        </c:choose>
+    </h3>
+    <div class="rating-list">
+        <c:choose>
+            <c:when test="${not empty ratings}">
+                <c:forEach var="r" items="${ratings}">
+                    <div class="rating-item">
+                        <div class="rating-header">
+                            <strong>${r.customer.fullName}</strong>
+                            <span class="stars">
+                                <c:forEach begin="1" end="${r.rating}" var="s">⭐</c:forEach>
+                            </span>
+                            <span class="rating-date">
+                                <fmt:formatDate value="${r.createdAtDate}" pattern="dd/MM/yyyy HH:mm"/>
+                            </span>
+                        </div>
+                        <div class="rating-body">
+                            <p>${r.content}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p>Hiện chưa có đánh giá nào cho phim này.</p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
+<jsp:include page="/view/customer/writeRating.jsp" />
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('rating-popup');
+    const openBtn = document.getElementById('openRatingBtn');
+    const closeBtn = popup?.querySelector('.close-popup');
+
+    if(openBtn && popup && !openBtn.disabled) {
+        openBtn.addEventListener('click', () => {
+            popup.style.display = 'flex';
+            document.getElementById('ticketId').value = '${movie.id}';
+        });
+    }
+
+    if(closeBtn) closeBtn.addEventListener('click', () => popup.style.display = 'none');
+
+    // Đóng popup khi click ngoài
+    window.addEventListener('click', (e) => {
+        if (e.target === popup) popup.style.display = 'none';
+    });
+
+    // Gửi đánh giá
+    const submitBtn = document.getElementById('submit-rating-btn');
+    if(submitBtn){
+        submitBtn.addEventListener('click', function() {
+            const movieId = document.getElementById('ticketId').value;
+            const comment = document.getElementById('comment').value;
+
+            if(selectedRating === 0){
+                alert('Vui lòng chọn số sao!');
+                return;
+            }
+
+            fetch('${pageContext.request.contextPath}/rating', {
+                method:'POST',
+                headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                body: 'movieId=' + movieId + '&rating=' + selectedRating + '&comment=' + encodeURIComponent(comment)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                if(data.success){
+                    alert('Đã gửi đánh giá!');
+                    popup.style.display='none';
+                    location.reload();
+                } else {
+                    alert('Lỗi: '+(data.error || 'Không xác định'));
+                }
+            }).catch(err=>alert('Lỗi gửi đánh giá!'));
+        });
+    }
+});
 </script>
 
 <%@ include file="/common/footer.jsp" %>

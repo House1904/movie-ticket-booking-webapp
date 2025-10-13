@@ -5,12 +5,13 @@ import model.Cinema;
 import model.Movie;
 import model.Showtime;
 import model.User;
+import model.Rating;
 import service.ShowtimeService;
 import service.CinemaService;
 import service.MovieService;
 import service.FavoriteService;
+import service.RatingService;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +35,6 @@ public class HomeController extends HttpServlet {
         EntityManager em = util.DBConnection.getEmFactory().createEntityManager();
         this.favoriteService = new FavoriteService(new dao.FavoriteDAO(em));
     }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String servletPath = req.getServletPath();
@@ -93,9 +93,17 @@ public class HomeController extends HttpServlet {
 
                         req.setAttribute("isFavorite", isFavorite);
 
+                        EntityManager em = util.DBConnection.getEmFactory().createEntityManager();
+                        try {
+                            RatingService ratingService = new RatingService(new dao.RatingDAO(em));
+                            List<Rating> ratings = ratingService.getRatingsByMovie(movieId);
+                            req.setAttribute("ratings", ratings);
+                        } finally {
+                            em.close();
+                        }
+
                         RequestDispatcher rd = req.getRequestDispatcher("/view/customer/selectShowtime.jsp");
                         rd.forward(req, resp);
-
 
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Phim không tồn tại");
