@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
-    public List<Movie> getMovies(){
+    public List<Movie> getMovies() throws SQLException {
         return movieDAO.getAllMovies();
     }
 
@@ -36,6 +36,10 @@ public class MovieService {
             }
         }
         return new ArrayList<>(genres);
+    }
+
+    public List<Movie> getMoviesByCinemaId(long cinemaId) throws SQLException {
+        return movieDAO.getMoviesByCinema(cinemaId);
     }
     public List<Movie> getMoviesbyKeyWord(String keyword) {
         return movieDAO.getMovieByKeyword(keyword);

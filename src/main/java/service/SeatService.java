@@ -13,6 +13,20 @@ public class SeatService {
     public List<Seat> getSeatsByAu(long auditID) {
         return seatDAO.getSeatByShowtime(auditID);
     }
+    public boolean seatExists(long auditoriumId, String rowLabel, String seatNumber) {
+        return seatDAO.seatExists(auditoriumId, rowLabel, seatNumber);
+    }
+    public void save(Seat seat) {
+        seatDAO.save(seat);
+    }
+
+    public void update(Seat seat) {
+        seatDAO.update(seat);
+    }
+
+    public void delete(int seatId) {
+        seatDAO.delete(seatId);
+    }
     public double getPrice(Seat seat) {
         return seatDAO.getSeatPrice(seat);
     }

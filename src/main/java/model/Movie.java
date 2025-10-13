@@ -1,6 +1,9 @@
 package model;
 
+import service.TicketService;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.time.LocalDateTime;
 import javax.persistence.*;
@@ -21,8 +24,8 @@ public class Movie {
     private String actor;
     private List<Showtime> showtimes;
     private List<Rating> ratings;
-    public Movie() {
-    }
+    private TicketService ticketService;
+    private List<Long> cinemaIds;
 
     public Movie(String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor) {
         this.id = id;
@@ -146,5 +149,33 @@ public class Movie {
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    @Transient
+    public TicketService getTicketService() {
+        return ticketService;
+    }
+
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
+    @Transient
+    public List<Long> getCinemaIds() {
+        return cinemaIds;
+    }
+
+    public void setCinemaIds(List<Long> cinemaIds) {
+        this.cinemaIds = cinemaIds;
+    }
+
+    public int getTicketsSold(String dateRange) {
+        if (ticketService == null) return 0;
+        return ticketService.getTicketsSoldForMovie(id, dateRange, cinemaIds);
+    }
+
+    public double getRevenue(String dateRange) {
+        if (ticketService == null) return 0.0;
+        return ticketService.getRevenueForMovie(id, dateRange, cinemaIds);
     }
 }

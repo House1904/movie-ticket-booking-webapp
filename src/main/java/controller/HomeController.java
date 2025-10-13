@@ -47,10 +47,9 @@ public class HomeController extends HttpServlet {
         String servletPath = req.getServletPath();
         try {
             if ("/home".equals(servletPath)) {
-                // Lấy danh sách phim và rạp
                 List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
                 List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
-                List<Cinema> cinemas = cinemaService.getCinemas();
+                List<Cinema> cinemas = cinemaService.getAllCinemas();
                 // Lấy danh sách banner và sắp xếp theo created_at giảm dần
                 List<Banner> banners = bannerService.getAllBanners()
                         .stream()
@@ -81,11 +80,10 @@ public class HomeController extends HttpServlet {
                 if (movieIdStr != null) {
                     long movieId = Long.parseLong(movieIdStr);
                     Movie movie = movieService.getMovie(movieId);
-
                     if (movie != null) {
                         HttpSession session = req.getSession();
                         session.setAttribute("selectedMovie", movie);
-                        List<Cinema> cinemas = cinemaService.getCinemas();
+                        List<Cinema> cinemas = cinemaService.getAllCinemas();
 
                         // Lưu danh sách suất chiếu cho tất cả rạp (tùy chọn, có thể bỏ nếu chỉ cần suất chiếu cho rạp đã chọn)
                         for (Cinema cinema : cinemas) {
@@ -125,7 +123,6 @@ public class HomeController extends HttpServlet {
 
                         RequestDispatcher rd = req.getRequestDispatcher("/view/customer/selectShowtime.jsp");
                         rd.forward(req, resp);
-
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Phim không tồn tại");
                     }
@@ -134,9 +131,7 @@ public class HomeController extends HttpServlet {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ServletException("Lỗi cơ sở dữ liệu", e);
         }
     }
 
@@ -145,4 +140,5 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         doGet(req, resp);
     }
+
 }

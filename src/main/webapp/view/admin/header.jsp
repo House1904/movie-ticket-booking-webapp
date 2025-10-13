@@ -23,8 +23,8 @@
         <li class="dropdown">
             <a href="#">QUẢN LÝ HỆ THỐNG ▾</a>
             <ul class="dropdown-content">
-                <li><a href="new.jsp">Quản lý đối tác</a></li>
-                <li><a href="<%= request.getContextPath() %>/promotion">Quản lý khuyến mãi</a></li>
+                <li><a href="${pageContext.request.contextPath}/admin?action=list">Quản lý đối tác</a></li>
+                <li><a href="${pageContext.request.contextPath}/promotion">Quản lý khuyến mãi</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/articles">Quản lý tin tức</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/banners">Quản lý banner</a></li>
                 <li><a href="<%= request.getContextPath() %>/manageMovie">Quản lý Movie</a></li>

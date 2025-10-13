@@ -67,7 +67,7 @@ public class CustomerProfileController extends HttpServlet {
 
         // 🔹 4. Parse ngày sinh (nếu có)
         if (dateOfBirthStr != null && !dateOfBirthStr.isEmpty()) {
-            customer.setDateOfBirth(LocalDate.parse(dateOfBirthStr).atStartOfDay());
+            customer.setDateOfBirth(LocalDate.parse(dateOfBirthStr));
         }
 
         // 🔹 5. Cập nhật DB
