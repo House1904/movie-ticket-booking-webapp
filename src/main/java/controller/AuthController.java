@@ -112,6 +112,56 @@ public class  AuthController extends HttpServlet {
                 rd.forward(request, response);
             }
         }
+        else if ("changePassword".equals(action)) {
+            HttpSession session = request.getSession(false);
+
+            if (session == null || session.getAttribute("account") == null) {
+                // Nếu chưa đăng nhập, chuyển về login
+                response.sendRedirect(request.getContextPath() + "/auth?action=login");
+                return;
+            }
+
+            Account account = (Account) session.getAttribute("account");
+            String oldPassword = request.getParameter("oldPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmPassword = request.getParameter("confirmPassword");
+
+            try {
+                // Kiểm tra mật khẩu cũ
+                if (!BCrypt.checkpw(oldPassword, account.getPassword())) {
+                    request.setAttribute("error", "Mật khẩu hiện tại không đúng!");
+                    request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
+                    return;
+                }
+
+                // Kiểm tra xác nhận mật khẩu
+                if (!newPassword.equals(confirmPassword)) {
+                    request.setAttribute("error", "Mật khẩu mới và xác nhận không khớp!");
+                    request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
+                    return;
+                }
+
+                // Hash và update
+                String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                boolean updated = accountService.updatePassword(account);
+
+                if (updated) {
+                    account.setPassword(hashedNewPassword);
+                    session.setAttribute("account", account);
+                    request.setAttribute("message", "Đổi mật khẩu thành công!");
+                } else {
+                    request.setAttribute("error", "Đổi mật khẩu thất bại, vui lòng thử lại!");
+                }
+
+                // Luôn forward về form để hiển thị thông báo
+                request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
+
+            } catch (Exception e) {
+                e.printStackTrace(); // In ra log server
+                request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
+                request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
+            }
+        }
 
     }
 

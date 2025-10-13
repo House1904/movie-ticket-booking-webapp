@@ -42,4 +42,13 @@ public class AccountDAO {
         em.getTransaction().commit();
         em.close();
     }
+
+    public  void updateAccount(Account account) throws SQLException
+    {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        em.getTransaction().begin();
+        em.merge(account);
+        em.getTransaction().commit();
+        em.close();
+    }
 }

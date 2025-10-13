@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Đổi Mật Lhẩu</title>
+    <title>Đổi Mật Khẩu</title>
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/assets/css/auth.css">
 </head>
 <body>
@@ -17,14 +17,21 @@
         <label for="password">Mật khẩu cũ:</label>
         <div class="password-wrapper">
             <script src="${pageContext.request.contextPath}/assets/js/toogleHiddenPassword.js"></script>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="oldPassword" required>
             <a href="javascript:void(0);" class="toggle-password" onclick="togglePassword()">👁</a>
         </div>
 
         <label for="password">Mật khẩu mới:</label>
         <div class="password-wrapper">
             <script src="${pageContext.request.contextPath}/assets/js/toogleHiddenPassword.js"></script>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="newPassword" required>
+            <a href="javascript:void(0);" class="toggle-password" onclick="togglePassword()">👁</a>
+        </div>
+
+        <label for="password">Nhập lại mật khẩu mới:</label>
+        <div class="password-wrapper">
+            <script src="${pageContext.request.contextPath}/assets/js/toogleHiddenPassword.js"></script>
+            <input type="password" id="password" name="confirmPassword" required>
             <a href="javascript:void(0);" class="toggle-password" onclick="togglePassword()">👁</a>
         </div>
 
@@ -36,11 +43,6 @@
     <c:if test="${not empty error}">
         <p class="error">${error}</p>
     </c:if>
-
-    <a class="register-link" href="${pageContext.request.contextPath}/common/register.jsp">
-        Chưa có tài khoản? Đăng ký ngay
-    </a>
 </div>
-<script></script>
 </body>
 </html>

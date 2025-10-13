@@ -38,4 +38,14 @@ public class AccountService {
     public void addAccount(Account account) throws SQLException {
         accountDAO.addAccount(account);
     }
+    public boolean updatePassword(Account account) throws SQLException {
+        try {
+            accountDAO.updateAccount(account);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }
