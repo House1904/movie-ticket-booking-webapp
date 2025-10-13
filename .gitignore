@@ -63,7 +63,6 @@ Thumbs.db               # Windows thumbnail cache
 # -------------------------------
 *.class
 *.jar
-*.war
 *.ear
 
 # -------------------------------

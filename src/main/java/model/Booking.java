@@ -1,7 +1,6 @@
 package model;
 
 import model.enums.Status;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
@@ -23,6 +22,10 @@ public class Booking {
         this.promotions = promotions;
         this.tickets = tickets;
         this.status = status;
+    }
+    public Booking(Status status, Customer customer) {
+        this.status = status;
+        this.customer = customer;
     }
 
     @Id
@@ -74,7 +77,7 @@ public class Booking {
     public void setStatus(Status status) {
         this.status = status;
     }
-
+    
     @ManyToOne
     @JoinColumn(name = "customerID")
     public Customer getCustomer() {
@@ -83,5 +86,14 @@ public class Booking {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public double totalPrice()
+    {
+        double total = 0;
+        for (Ticket ticket : tickets){
+            total += ticket.getPrice();
+        }
+        return total;
     }
 }

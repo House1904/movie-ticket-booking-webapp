@@ -1,5 +1,5 @@
 <%@ include file="/common/header.jsp" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.time.LocalDate"%>
@@ -18,15 +18,20 @@
             <div class="cinema-list">
                 <h6 class="fw-bold mb-3">Rạp</h6>
                 <ul class="list-group">
-                    <c:forEach var="cinema" items="${cinemas}">
-                        <li class="list-group-item">
-                            <form action="showtime" method="post">
-                                <input type="hidden" name="id" value="${cinema.id}">
-                                <input type="hidden" name="action" value="filter">
-                                <input type="hidden" name="selectedDate" value="${selectedDate}">
-                                <button type="submit" class="cinemaBtn ${cinema.id == selectedCinemaId ? 'selected' : ''}">${cinema.name}</button>
-                            </form>
-                        </li>
+                    <c:forEach var="p" items="${partners}">
+                        <div class="brand-section">
+                            <h2 class="brand-name">${p.brand}</h2>
+                            <c:forEach var="cinema" items="${p.cinemas}">
+                                <li class="list-group-item">
+                                    <form action="showtime" method="post">
+                                        <input type="hidden" name="id" value="${cinema.id}">
+                                        <input type="hidden" name="action" value="filter">
+                                        <input type="hidden" name="selectedDate" value="${selectedDate}">
+                                        <button type="submit" class="cinemaBtn ${cinema.id == selectedCinemaId ? 'selected' : ''}">${cinema.name}</button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </div>
                     </c:forEach>
                 </ul>
             </div>
@@ -51,7 +56,7 @@
                         LocalDate d = today.plusDays(i);
                         String label = dateFmt.format(d) + "<br>" + days[d.getDayOfWeek().getValue() % 7];
                         boolean isSelected = selectedDate != null && selectedDate.equals(d);
-                        String btnClass = isSelected ? "btn btn-primary" : "btn btn-light border";
+                        String btnClass = isSelected ? "btn btn-primary" : "btn btn-light";
                 %>
                 <form action="showtime" method="post" style="display:inline;">
                     <input type="hidden" name="selectedDate" value="<%= d.toString() %>">
@@ -64,7 +69,6 @@
                 %>
             </div>
 
-            <!-- Phim 1 -->
             <div class="showtime-card">
                 <div class="d-flex">
                     <c:forEach var="entry" items="${movieShowtimes}">
@@ -76,13 +80,22 @@
                             <img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster">
                             <div class="showtime-buttons">
                                 <c:forEach var="s" items="${showtimes}">
-                                    <form action="booking" method="post" style="display:inline;">
-                                        <input type="hidden" name="showtimeID" value="${s.id}">
-                                        <input type="hidden" name="action" value="showtimeSl">
-                                        <button type="submit" class="time-btn">
-                                                ${fn:substring(s.startTime, 11, 16)}
-                                        </button>
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${s.startTime lt now}">
+                                            <button type="button" class="time-btn past" disabled>
+                                                    ${fn:substring(s.startTime, 11, 16)}
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form action="booking" method="post" style="display:inline;">
+                                                <input type="hidden" name="showtimeID" value="${s.id}">
+                                                <input type="hidden" name="action" value="showtimeSl">
+                                                <button type="submit" class="time-btn">
+                                                        ${fn:substring(s.startTime, 11, 16)}
+                                                </button>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:forEach>
                             </div>
                         </div>

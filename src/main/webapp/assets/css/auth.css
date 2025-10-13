@@ -1,0 +1,122 @@
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #0d0d0d; /* đen chủ đạo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #f5f5f5;
+}
+
+.login-container {
+    background: #1a1a1a; /* đen xám nhẹ */
+    padding: 35px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+    width: 340px;
+    border: 1px solid rgba(255, 215, 0, 0.25);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #ffd700; /* vàng gold */
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+label {
+    font-weight: bold;
+    color: #e5e5e5;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #111;
+    color: #f0f0f0;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #ffd700;
+    outline: none;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}
+
+button {
+    width: 100%;
+    background: linear-gradient(90deg, #ffd700, #b8860b);
+    color: #000;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.error {
+    color: #ff4d4d;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 14px;
+    display: block;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Password field */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    flex: 1;
+    padding: 10px 40px 10px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #111;
+    color: #f0f0f0;
+    font-size: 14px;
+}
+
+.password-wrapper input:focus {
+    border-color: #ffd700;
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 12px;
+    color: #ffd700;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.password-wrapper .toggle-password:hover {
+    color: #fff;
+    transform: scale(1.1);
+}

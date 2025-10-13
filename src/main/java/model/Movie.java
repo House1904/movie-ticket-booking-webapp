@@ -1,6 +1,8 @@
 package model;
 
 
+import service.TicketService;
+
 import java.util.List;
 import java.time.LocalDateTime;
 import javax.persistence.*;
@@ -21,10 +23,12 @@ public class Movie {
     private String actor;
     private List<Showtime> showtimes;
     private List<Rating> ratings;
-    public Movie() {
-    }
+    private TicketService ticketService;
+    private List<Long> cinemaIds;
 
-    public Movie(long id, String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor, List<Showtime> showtimes, List<Rating> ratings) {
+    public Movie() {}
+
+    public Movie(String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -36,8 +40,6 @@ public class Movie {
         this.posterUrl = posterUrl;
         this.trailerUrl = trailerUrl;
         this.actor = actor;
-        this.showtimes = showtimes;
-        this.ratings = ratings;
     }
 
     @Id
@@ -66,13 +68,12 @@ public class Movie {
         this.description = description;
     }
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"))
     @Column(name = "genre")
     public List<String> getGenre() {
         return genre;
     }
-
     public void setGenre(List<String> genre) {
         this.genre = genre;
     }
@@ -149,5 +150,34 @@ public class Movie {
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    @Transient
+    public TicketService getTicketService() {
+        return ticketService;
+    }
+
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
+    @Transient
+    public List<Long> getCinemaIds() {
+        return cinemaIds;
+    }
+
+    public void setCinemaIds(List<Long> cinemaIds) {
+        this.cinemaIds = cinemaIds;
+    }
+
+
+    public int getTicketsSold(String dateRange) {
+        if (ticketService == null) return 0;
+        return ticketService.getTicketsSoldForMovie(id, dateRange, cinemaIds);
+    }
+
+    public double getRevenue(String dateRange) {
+        if (ticketService == null) return 0.0;
+        return ticketService.getRevenueForMovie(id, dateRange, cinemaIds);
     }
 }

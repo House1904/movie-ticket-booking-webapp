@@ -10,16 +10,13 @@ import model.Cinema;
 @PrimaryKeyJoinColumn(name = "partnerID")
 public class Partner extends User {
     private String brand;
-    private boolean is_activate;
     private List<Cinema> cinemas;
 
     public Partner() {}
 
-    public Partner(long id, String fullName, String email, String phone, String brand, String status, boolean is_activate, List<Cinema> cinemas) {
-        super(id, fullName, email, phone);
+    public Partner(String fullName, String email, String phone, String brand) {
+        super(fullName, email, phone);
         this.brand = brand;
-        this.is_activate = is_activate;
-        this.cinemas = cinemas;
     }
 
     public String getBrand() {
@@ -30,18 +27,11 @@ public class Partner extends User {
         this.brand = brand;
     }
 
-    public boolean isIs_activate() {
-        return is_activate;
-    }
-
-    public void setIs_activate(boolean is_activate) {
-        this.is_activate = is_activate;
-    }
-
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Cinema> getCinemas() {
         return cinemas;
     }
+
 
     public void setCinemas(List<Cinema> cinemas) {
         this.cinemas = cinemas;

@@ -5,20 +5,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.sql.*;
+import java.sql.SQLException;
 
-import model.Showtime;
-import model.Movie;
-import model.Cinema;
-import service.CinemaService;
-import service.MovieService;
-import service.ShowtimeService;
+import model.*;
+import service.*;
+import dao.FavoriteDAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 @WebServlet("/showtime")
 public class ShowtimePageController extends HttpServlet{
     private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
+    private PartnerService partnerService = new PartnerService();
+    private MovieService movieService = new MovieService();
+
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProjectLoad");
+    private EntityManager em = emf.createEntityManager();
+    private FavoriteService favoriteService = new FavoriteService(new FavoriteDAO(em));
+
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp)
                 throws ServletException, IOException {
@@ -28,13 +38,27 @@ public class ShowtimePageController extends HttpServlet{
         protected void doGet(HttpServletRequest req, HttpServletResponse resp)
                 throws ServletException, IOException {
             HttpSession session = req.getSession();
-            List<Cinema> cinemas = null;
-            try {
-              cinemas = cinemaService.getCinemas();
-            } catch (SQLException e) {
-               throw new RuntimeException(e);
+
+            List<Partner> partners = null;
+            partners = partnerService.getAllPartners();
+            session.setAttribute("partners", partners);
+
+            String movieIdParam = req.getParameter("movieId");
+            Movie selectedMovie = null;
+            if (movieIdParam != null && !movieIdParam.isEmpty()) {
+                long movieId = Long.parseLong(movieIdParam);
+                selectedMovie = movieService.getMovie(movieId);
             }
-            session.setAttribute("cinemas", cinemas);
+
+            req.setAttribute("selectedMovie", selectedMovie);
+
+            // Kiểm tra yêu thích
+            User user = (User) session.getAttribute("currentUser");
+            boolean isFavorite = false;
+            if (user != null && selectedMovie != null) {
+                isFavorite = favoriteService.isFavorite(user, selectedMovie.getId());
+            }
+            req.setAttribute("isFavorite", isFavorite);
 
             String action = req.getParameter("action");
             if ("filter".equals(action)) {
@@ -59,13 +83,23 @@ public class ShowtimePageController extends HttpServlet{
 
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
+                LocalDateTime now = LocalDateTime.now();
                 for (Showtime s : showtimes) {
                     Movie movie = s.getMovie();
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
+                req.setAttribute("now", now);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
-            req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);
+
+            String from = req.getParameter("from");
+            if (from == null || from.isEmpty()) {
+                req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);
+            }
+            else
+            {
+                req.getRequestDispatcher("/view/customer/cinemaDetails.jsp").forward(req, resp);
+            }
         }
     }

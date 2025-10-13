@@ -1,7 +1,10 @@
 package model;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "rating")
@@ -9,20 +12,18 @@ public class Rating {
     private int id;
     private Customer customer;
     private Movie movie;
-    private String rating;
-    private String title;
+    private int rating;
     private String content;
     private LocalDateTime created_at;
 
     public Rating() {
     }
 
-    public Rating(int id, Customer customer, Movie movie, String rating, String title, String content, LocalDateTime created_at) {
+    public Rating(int id, Customer customer, Movie movie, int rating, String content, LocalDateTime created_at) {
         this.id = id;
         this.customer = customer;
         this.movie = movie;
         this.rating = rating;
-        this.title = title;
         this.content = content;
         this.created_at = created_at;
     }
@@ -57,20 +58,12 @@ public class Rating {
         this.movie = movie;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -87,6 +80,11 @@ public class Rating {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    @Transient
+    public java.util.Date getCreatedAtDate() {
+        return java.util.Date.from(created_at.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
