@@ -8,7 +8,7 @@ public class CinemaService {
     private CinemaDAO cinemaDAO = new CinemaDAO();
 
     public Cinema findById(long id) {
-        return cinemaDAO.getCinemaById(id);
+        return cinemaDAO.findCinemaById(id);
     }
 
     public List<Cinema> getAllCinemas() {
