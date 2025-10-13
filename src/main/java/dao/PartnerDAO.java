@@ -81,13 +81,7 @@ public class PartnerDAO {
     }
 
     // 🧾 Lấy danh sách tất cả đối tác (cho admin)
-    public List<Partner> findAll() {
-        EntityManager em = DBConnection.getEmFactory().createEntityManager();
-        List<Partner> list = em.createQuery("SELECT p FROM Partner p", Partner.class)
-                .getResultList();
-        em.close();
-        return list;
-    }
+
     public List<Partner> selectAll() {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         List<Partner> partners = null;
