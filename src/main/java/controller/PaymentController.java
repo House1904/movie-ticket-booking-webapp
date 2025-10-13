@@ -113,12 +113,29 @@ public class PaymentController extends HttpServlet {
             if ("0:0:0:0:0:0:0:1".equals(ipAddress)) ipAddress = "127.0.0.1";
             vnp_Params.put("vnp_IpAddr", ipAddress);
 
-            // Thời gian tạo và hết hạn (VNPay dùng GMT+7)
-            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//            // Thời gian tạo và hết hạn (VNPay dùng GMT+7)
+//            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//            String vnp_CreateDate = formatter.format(cld.getTime());
+//            vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+//            cld.add(Calendar.MINUTE, 15);
+//            String vnp_ExpireDate = formatter.format(cld.getTime());
+//            vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
+            // ===== Thời gian tạo và hết hạn (ép chính xác sang giờ Việt Nam) =====
+
+            // Lấy thời gian hiện tại của server (UTC)
+            Calendar cld = Calendar.getInstance();
+
+            // Render server UTC → cộng thêm 7 tiếng để khớp giờ Việt Nam
+            cld.add(Calendar.HOUR_OF_DAY, 7);
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
             String vnp_CreateDate = formatter.format(cld.getTime());
             vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
-            cld.add(Calendar.MINUTE, 15);
+
+            // Tăng thêm 30 phút để tránh timeout sớm do độ trễ Render
+            cld.add(Calendar.MINUTE, 30);
             String vnp_ExpireDate = formatter.format(cld.getTime());
             vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
