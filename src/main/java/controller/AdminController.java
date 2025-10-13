@@ -69,7 +69,6 @@ public class AdminController extends HttpServlet {
             partner.setEmail(request.getParameter("email"));
             partner.setPhone(request.getParameter("phone"));
             partner.setBrand(request.getParameter("brand"));
-            partner.setIs_activate(true);
 
             String errorCode = null;
 
@@ -82,6 +81,8 @@ public class AdminController extends HttpServlet {
                 errorCode = "invalid_phone";
             } else if (!partner.getEmail().matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
                 errorCode = "invalid_email";
+            }else if (partnerService.isBrandExists(partner.getBrand())) {
+            errorCode = "brand_exists";
             }
 
             if (errorCode != null) {

@@ -59,6 +59,15 @@ public class PartnerService {
         }
         return false;
     }
-
+    // Kiểm tra xem brand đã tồn tại hay chưa
+    public boolean isBrandExists(String brand) {
+        List<Partner> partners = getAllPartners();
+        for (Partner p : partners) {
+            if (p.getBrand() != null && p.getBrand().equalsIgnoreCase(brand)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
