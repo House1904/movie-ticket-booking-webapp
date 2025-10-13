@@ -1,8 +1,7 @@
 <!--admin-->
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ include file="header.jsp" %>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin-article-banner.css">
 </head>
 <body>
-<%@ include file="header.jsp" %>
 <div class="admin-container">
     <!-- Phần tiêu đề -->
     <div class="admin-header">

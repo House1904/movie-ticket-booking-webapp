@@ -44,11 +44,7 @@ public class ShowtimeController extends HttpServlet {
         String action = req.getParameter("action");
 
         List<Movie> movies;
-        try {
-            movies = movieService.getMovies();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        movies = movieService.getMovies();
 
         // Lấy thông tin auditorium và cinema dựa trên auditoriumId
         Auditorium auditorium = null;

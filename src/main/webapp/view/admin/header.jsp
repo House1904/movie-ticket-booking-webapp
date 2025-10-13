@@ -1,5 +1,9 @@
+<%@ page import="model.Customer" %>
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/assets/css/styles.css">
-<%@ page pageEncoding="UTF-8" isELIgnored="false" %>
+<script src="${pageContext.request.contextPath}/assets/js/popup.js"></script>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
+
+
 <div class="header">
     <!-- Logo -->
     <div class="logo">

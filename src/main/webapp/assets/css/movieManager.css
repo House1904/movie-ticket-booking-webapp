@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+    background: linear-gradient(135deg, #0a0f1f, #1a2a4f);
+    font-family: 'Poppins', sans-serif;
+    color: #e6e9f0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* ====== MAIN CARD ====== */
+.movie-card {
+    background: #111827;
+    border-radius: 20px;
+    padding: 30px 40px;
+    margin: 40px auto;
+    max-width: 1300px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    color: #f3f4f6;
+}
+
+h2 {
+    color: #60a5fa;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* ====== TABLE ====== */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    color: #f9fafb;
+    table-layout: fixed;
+}
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 60px; /* ID column nhỏ gọn */
+    text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 90px; /* Poster */
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 200px; /* Tên phim */
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 90px; /* Mô tả */
+}
+.table th:nth-child(7),
+.table td:nth-child(7) {
+    width: 200px; /* Mô tả */
+}
+
+.table th:last-child,
+.table td:last-child {
+    width: 130px; /* Hành động */
+}
+
+
+.table thead th {
+    background-color: #1f2937;
+    color: #9ca3af;
+    padding: 12px 10px;
+    text-align: center;
+    border: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.table tbody tr {
+    background-color: #1e293b;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #334155;
+}
+
+.table td {
+    padding: 14px 10px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.95rem;
+    border: none;
+    word-wrap: break-word;
+}
+
+/* ====== POSTER ====== */
+.poster {
+    width: 65px;
+    height: 95px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #374151;
+    transition: transform 0.3s ease;
+}
+
+.poster:hover {
+    transform: scale(1.05);
+}
+
+/* ====== BUTTONS ====== */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 6px 14px;
+    color: #fff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Add Movie */
+.btn-add {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    margin-bottom: 20px;
+    display: inline-block;
+    min-height: 50px;
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, #11328f, #091d60);
+    transform: translateY(-2px);
+}
+
+/* Edit */
+.btn-edit {
+    background: #22c55e;
+    margin-right: 8px;
+}
+
+.btn-edit:hover {
+    background: #0f6a31;
+    transform: translateY(-1px);
+}
+
+/* Delete */
+.btn-delete {
+    background: #ef4444;
+}
+
+.btn-delete:hover {
+    background: #871414;
+    transform: translateY(-1px);
+}
+
+/* ====== BADGES ====== */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.bg-success {
+    background-color: #22c55e;
+    color: white;
+}
+
+.bg-warning {
+    background-color: #f59e0b;
+    color: #111;
+}
+/* Popup */
+/* ===== Popup (Modal) ===== */
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0; /* top:0, right:0, bottom:0, left:0 */
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup-content {
+    background: #bde3f6;
+    padding: 25px 30px;
+    border-radius: 18px;
+    width: min(450px, 90%);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: slideUp 0.3s ease;
+    position: relative;
+}
+
+.popup-content h3 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+    color: #2c1c5c;
+}
+
+.popup-content label {
+    font-weight: 600;
+    color: rgba(33, 36, 77, 0.96);
+    font-size: 0.95rem;
+}
+
+.popup-content input,
+.popup-content select,
+.popup-content textarea {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    background-color: #4aa2bd;
+    transition: border 0.2s, background 0.2s;
+}
+
+.popup-content input:focus,
+.popup-content select:focus,
+.popup-content textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+}
+
+.popup-content textarea {
+    resize: none;
+    height: 90px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-save {
+    background: #2c1c5c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn-save:hover {
+    background: #35b860;
+    color: #d8d844;
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn-cancel:hover {
+    background: rgba(14, 12, 12, 0.84);
+    color: red;
+    transform: translateY(-1px);
+}
+
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 992px) {
+    .table td,
+    .table th {
+        font-size: 0.85rem;
+        padding: 10px 6px;
+    }
+
+    .poster {
+        width: 55px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 600px) {
+    .movie-card {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+}

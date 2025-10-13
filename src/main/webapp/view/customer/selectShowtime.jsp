@@ -133,6 +133,8 @@
     </div>
 </div>
 
+<c:set var="ratings" value="${requestScope.ratings}" />
+
 <!-- Include popup đánh giá -->
 <jsp:include page="ratingPopup.jsp" />
 
@@ -158,11 +160,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         ratingList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
                     } else {
                         data.forEach(r => {
+                            const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+                            const createdAt = new Date(r.createdAt).toLocaleString();
                             const div = document.createElement('div');
                             div.className = 'rating-item';
                             div.innerHTML = `
-                                <div class="rating-stars">${'★'.repeat(r.stars)}${'☆'.repeat(10 - r.stars)}</div>
-                                <p><strong>${r.username}</strong>: ${r.comment}</p>
+                                <div class="rating-header">
+                                    <strong>${r.customerName}</strong>
+                                    <span class="stars">${stars}</span>
+                                    <span class="rating-date">${createdAt}</span>
+                                </div>
+                                <div class="rating-body">
+                                    <p>${r.content || ''}</p>
+                                </div>
                             `;
                             ratingList.appendChild(div);
                         });

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.sql.*;
+import java.sql.SQLException;
 
 import model.*;
 import service.*;
@@ -20,6 +20,7 @@ import javax.persistence.Persistence;
 
 @WebServlet("/showtime")
 public class ShowtimePageController extends HttpServlet{
+    private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
     private PartnerService partnerService = new PartnerService();
     private MovieService movieService = new MovieService();
@@ -91,6 +92,7 @@ public class ShowtimePageController extends HttpServlet{
                 req.setAttribute("now", now);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
+
             String from = req.getParameter("from");
             if (from == null || from.isEmpty()) {
                 req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);

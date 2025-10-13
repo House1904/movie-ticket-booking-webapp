@@ -196,4 +196,20 @@ public class TicketDAO {
         em.close();
         return result;
     }
+
+    public List<Ticket> getTicketByCustomerAndMovie(long customerId, long movieId) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        String jpql = "SELECT t FROM Booking b " +
+                "JOIN b.tickets t " +
+                "JOIN t.showtime st " +
+                "WHERE b.customer.id = :customerId " +
+                "AND st.movie.id = :movieId " +
+                "ORDER BY st.startTime DESC";
+        TypedQuery<Ticket> q = em.createQuery(jpql, Ticket.class);
+        q.setParameter("customerId", customerId);
+        q.setParameter("movieId", movieId);
+        List<Ticket> result = q.getResultList();
+        em.close();
+        return result;
+    }
 }

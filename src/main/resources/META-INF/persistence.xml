@@ -20,7 +20,10 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <!-- Đảm bảo UTF-8 -->
+            <property name="hibernate.connection.characterEncoding" value="UTF-8"/>
+            <property name="hibernate.connection.CharSet" value="UTF-8"/>
+            <property name="hibernate.connection.useUnicode" value="true"/>
         </properties>
     </persistence-unit>
-
 </persistence>

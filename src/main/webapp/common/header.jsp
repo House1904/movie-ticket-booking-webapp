@@ -19,7 +19,7 @@
     <!-- Menu -->
     <ul class="nav" id="navMenu">
         <li>
-            <a href="showtime"> SUẤT CHIẾU</a>
+            <a href="<%= request.getContextPath() %>/showtime"> SUẤT CHIẾU</a>
         </li>
         <!-- Dropdown Phim -->
         <li class="dropdown">
@@ -67,7 +67,7 @@
         <li class="dropdown">
             <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
             <ul class="dropdown-content">
-                <li><a href="profile">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/profile">View Profile</a></li>
                 <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
             </ul>

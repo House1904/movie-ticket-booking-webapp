@@ -47,14 +47,12 @@ public class CustomerProfileController extends HttpServlet {
         String dateOfBirthStr = req.getParameter("dateOfBirth");
         boolean isMemberShip = req.getParameter("isMemberShip") != null;
 
-        // 🔹 1. Kiểm tra tên không được để trống
         if (fullName == null || fullName.trim().isEmpty()) {
             req.setAttribute("error", "Không được để trống họ tên.");
             req.getRequestDispatcher("/view/customer/profile.jsp").forward(req, resp);
             return;
         }
 
-        // 🔹 2. Kiểm tra số điện thoại hợp lệ
         String phoneRegex = "^(0[0-9]{9})$"; // 10 chữ số, bắt đầu bằng 0
         if (phone == null || phone.trim().isEmpty() || !phone.matches(phoneRegex)) {
             req.setAttribute("error", "Số điện thoại không hợp lệ. Vui lòng nhập đúng định dạng (10 chữ số, bắt đầu bằng 0).");
@@ -62,7 +60,6 @@ public class CustomerProfileController extends HttpServlet {
             return;
         }
 
-        // 🔹 3. Cập nhật thông tin user
         customer.setAvatarUrl(avatarUrl);
         customer.setFullName(fullName.trim());
         customer.setPhone(phone.trim());

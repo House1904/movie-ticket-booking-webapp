@@ -39,13 +39,7 @@ public class AccountService {
         accountDAO.addAccount(account);
     }
     public boolean updatePassword(Account account) throws SQLException {
-        try {
-            accountDAO.updateAccount(account);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
+        return accountDAO.updateAccount(account);
     }
 
 }

@@ -114,4 +114,7 @@ public class TicketService {
         return revenue;
     }
 
+    public List<Ticket> getTicketByCustomerAndMovie(long customerId, long movieId) {
+        return ticketDAO.getTicketByCustomerAndMovie(customerId, movieId);
+    }
 }

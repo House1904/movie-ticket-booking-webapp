@@ -5,7 +5,6 @@ import util.DBConnection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class PromotionDAO {

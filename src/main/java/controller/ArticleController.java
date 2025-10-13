@@ -1,5 +1,6 @@
 package controller;
 
+import model.Admin;
 import model.Article;
 import service.ArticleService;
 
@@ -21,7 +22,12 @@ public class ArticleController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         String url = request.getParameter("url");
-
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("user");
+        if (admin == null){
+            response.sendRedirect(request.getContextPath() + "/common/login.jsp");
+            return;
+        }
         // Always load articles list for display
         List<Article> articles = articleService.getAllArticles();
         request.setAttribute("articles", articles);

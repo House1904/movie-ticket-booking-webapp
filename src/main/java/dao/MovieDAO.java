@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 public class MovieDAO {
 
-    public List<Movie> getAllMovies() throws SQLException {
+    public List<Movie> getAllMovies(){
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
@@ -19,16 +19,15 @@ public class MovieDAO {
         } finally {
             entity.close();
         }
-
         return movies;
     }
+
     public Movie getMovieById(long movieId) {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Movie movie = null;
         try {
             movie = entity.find(Movie.class, movieId);
-        }
-        finally {
+        } finally {
             entity.close();
         }
         return movie;
@@ -87,6 +86,55 @@ public class MovieDAO {
         return em.createQuery(jpql, Movie.class)
                     .setParameter("keyword", "%" + keyword + "%")
                     .getResultList();
+    }
+
+    public boolean insert(Movie movie){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.persist(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
+        finally {
+            em.close();
+        }
+    }
+
+    public boolean update(Movie movie){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.merge(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
+    }
+
+    public boolean delete(long id){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            Movie movie = em.find(Movie.class, id);
+            em.remove(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
     }
 
 }

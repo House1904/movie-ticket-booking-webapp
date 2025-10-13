@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<header><%@ include file="header.jsp" %></header>
 <html lang="vi">
 <head>
     <title>Danh sách ưu đãi 🎁</title>
@@ -12,7 +13,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/promotion.css">
 </head>
-
 <body>
 <header class="main-header"><%@ include file="header.jsp" %></header>
 <div class="container py-5 fade-in" style="margin-top: 150px">

@@ -5,6 +5,8 @@ import service.TicketService;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "movie")
@@ -24,8 +26,22 @@ public class Movie {
     private List<Rating> ratings;
     private TicketService ticketService;
     private List<Long> cinemaIds;
+    public Movie() {
+    }
 
-    // Constructor, getters, setters như cũ
+    public Movie(String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor) {
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.duration = duration;
+        this.ageLimit = ageLimit;
+        this.releaseDate = releaseDate;
+        this.language = language;
+        this.posterUrl = posterUrl;
+        this.trailerUrl = trailerUrl;
+        this.actor = actor;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
@@ -127,7 +143,7 @@ public class Movie {
         this.actor = actor;
     }
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie",  cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Rating> getRatings() {
         return ratings;
     }

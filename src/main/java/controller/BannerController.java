@@ -1,5 +1,6 @@
 package controller;
 
+import model.Admin;
 import model.Banner;
 import service.BannerService;
 
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -17,6 +19,12 @@ public class BannerController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("user");
+        if (admin == null){
+            response.sendRedirect(request.getContextPath() + "/common/login.jsp");
+            return;
+        }
         if ("edit".equals(action)) {
             String idStr = request.getParameter("id");
             try {

@@ -47,12 +47,8 @@ public class MoviePageController extends HttpServlet {
                 movies = movieService.getMoviesbyKeyWord(keyword);
             }
             else {
-                try {
-                    movies = movieService.getMovies();
-                    session.setAttribute("movies", movies);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                movies = movieService.getMovies();
+                session.setAttribute("movies", movies);
             }
         }
 

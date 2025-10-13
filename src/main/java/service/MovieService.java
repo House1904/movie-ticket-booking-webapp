@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MovieService {
     private MovieDAO movieDAO = new MovieDAO();
-    public List<Movie> getMovies() throws SQLException {
+    public List<Movie> getMovies(){
         return movieDAO.getAllMovies();
     }
 
@@ -43,5 +43,15 @@ public class MovieService {
     }
     public List<Movie> getMoviesbyKeyWord(String keyword) {
         return movieDAO.getMovieByKeyword(keyword);
+    }
+
+    public boolean insertMovie(Movie movie) {
+        return movieDAO.insert(movie);
+    }
+    public boolean updateMovie(Movie movie) {
+        return movieDAO.update(movie);
+    }
+    public boolean deleteMovie(long id) {
+        return movieDAO.delete(id);
     }
 }

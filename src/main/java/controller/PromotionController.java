@@ -1,8 +1,10 @@
 package controller;
 
+import model.Admin;
 import model.Partner;
 import dao.PromotionDAO;
 import model.Promotion;
+import model.User;
 import model.enums.PromotionStatus;
 import model.enums.PromotionType;
 import service.PromotionService;
@@ -12,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +36,12 @@ public class PromotionController extends HttpServlet {
         Promotion promo = promotionService.getPromotionById(id);
         if (action == null) action = "list";
 
+        HttpSession session = req.getSession();
+        Admin admin = (Admin) session.getAttribute("user");
+        if (admin == null){
+            resp.sendRedirect(req.getContextPath() + "/common/login.jsp");
+            return;
+        }
         switch (action) {
             case "cancel":
                 resp.sendRedirect("promotion");
