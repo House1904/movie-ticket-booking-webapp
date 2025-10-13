@@ -1,0 +1,88 @@
+body {
+    background-color: #0d0d0d;
+    color: #f5f5f5;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+}
+
+.dashboard-body {
+    margin-top: 100px; /* đẩy xuống dưới header */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ----------- Container của mỗi biểu đồ ----------- */
+.chart-container {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    flex: 1 1 400px;
+    box-sizing: border-box;
+}
+
+/* ----------- Tiêu đề ----------- */
+h2 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ----------- Bảng dữ liệu ----------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+}
+
+/* ----------- Form chọn ngày ----------- */
+form {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="date"] {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 15px;
+}
+

@@ -10,7 +10,6 @@ import model.Cinema;
 @PrimaryKeyJoinColumn(name = "partnerID")
 public class Partner extends User {
     private String brand;
-    private boolean is_activate;
     private List<Cinema> cinemas;
 
     public Partner() {}
@@ -28,18 +27,11 @@ public class Partner extends User {
         this.brand = brand;
     }
 
-    public boolean isIs_activate() {
-        return is_activate;
-    }
-
-    public void setIs_activate(boolean is_activate) {
-        this.is_activate = is_activate;
-    }
-
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Cinema> getCinemas() {
         return cinemas;
     }
+
 
     public void setCinemas(List<Cinema> cinemas) {
         this.cinemas = cinemas;

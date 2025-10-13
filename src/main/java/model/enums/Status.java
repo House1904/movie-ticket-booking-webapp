@@ -4,6 +4,5 @@ public enum Status {
     PENDING,
     ISSUED,
     USED,
-    CANCELLED,
-    REFUNDED
+    CANCELLED
 }

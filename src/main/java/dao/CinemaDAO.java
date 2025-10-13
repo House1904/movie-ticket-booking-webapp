@@ -2,6 +2,7 @@ package dao;
 
 import model.Cinema;
 import model.Movie;
+import service.CinemaService;
 import util.DBConnection;
 import java.sql.*;
 import java.util.*;
