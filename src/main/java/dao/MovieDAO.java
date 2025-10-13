@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -67,6 +68,53 @@ public class MovieDAO {
                     .getResultList();
     }
 
+    public boolean insert(Movie movie){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.persist(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
+        finally {
+            em.close();
+        }
+    }
 
+    public boolean update(Movie movie){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.merge(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
+    }
+
+    public boolean delete(long id){
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            Movie movie = em.find(Movie.class, id);
+            em.remove(movie);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e){
+            transaction.rollback();
+            return false;
+        }
+    }
 
 }

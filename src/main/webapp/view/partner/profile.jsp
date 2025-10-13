@@ -49,12 +49,6 @@
                 </div>
             </div>
 
-            <div class="form-check mt-3">
-                <input type="checkbox" class="form-check-input" id="is_activate"
-                       name="is_activate" ${partner.is_activate ? "checked" : ""}>
-                <label class="form-check-label" for="is_activate">Tài khoản đã kích hoạt</label>
-            </div>
-
             <!-- Danh sách rạp -->
             <div class="mt-4">
                 <h5 class="fw-semibold text-secondary mb-2">Danh sách rạp quản lý:</h5>
