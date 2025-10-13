@@ -46,7 +46,7 @@ public class ShowtimeController extends HttpServlet {
         List<Movie> movies;
         try {
             movies = movieService.getMovies();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

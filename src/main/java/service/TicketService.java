@@ -16,10 +16,6 @@ public class TicketService {
     private Map<Long, Double> revenueCache = new HashMap<>();
     private Map<Long, Double> revenueByCinemaCache = new HashMap<>();
 
-    public List<Ticket> getTicketList(long customerID){
-        return ticketDAO.getTicketByCustomer(customerID);
-    }
-
     public double getTotalRevenue(String dateRange, List<Long> cinemaIds) {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = switch (dateRange) {

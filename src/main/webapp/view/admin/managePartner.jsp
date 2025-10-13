@@ -11,7 +11,7 @@
 <div class="container" style="margin-top: 150px">
     <h2>Quản lý Đối tác</h2>
 
-    <div class="form-section"">
+    <div class="form-section">
         <!-- Form thêm/sửa đối tác -->
         <div class="add-form">
             <h3>${partner == null ? 'Thêm Đối tác Mới' : 'Chỉnh sửa Đối tác'}</h3>
@@ -21,17 +21,7 @@
                 <input type="text" name="fullName" value="${partner.fullName}" placeholder="Họ và Tên" required>
                 <input type="email" name="email" value="${partner.email}" placeholder="Email" required>
                 <input type="text" name="phone" value="${partner.phone}" placeholder="Số điện thoại" required>
-                <select name="brand" required>
-                    <option value="" ${partner.brand == null ? 'selected' : ''}>Thương hiệu</option>
-                    <option value="CGV" ${partner.brand == 'CGV' ? 'selected' : ''}>CGV</option>
-                    <option value="Lotte" ${partner.brand == 'Lotte' ? 'selected' : ''}>Lotte</option>
-                    <option value="Galaxy" ${partner.brand == 'Galaxy' ? 'selected' : ''}>Galaxy</option>
-                    <option value="BHD" ${partner.brand == 'BHD' ? 'selected' : ''}>BHD</option>
-                    <option value="Beta" ${partner.brand == 'Beta' ? 'selected' : ''}>Beta</option>
-                    <option value="Cinestar" ${partner.brand == 'Cinestar' ? 'selected' : ''}>Cinestar</option>
-                    <option value="Đống Đa" ${partner.brand == 'Đống Đa' ? 'selected' : ''}>Đống Đa</option>
-                    <option value="Mega GS" ${partner.brand == 'Mega GS' ? 'selected' : ''}>Mega GS</option>
-                </select>
+                <input type="text" name="brand" value="${partner.brand}" placeholder="Thương hiệu" required>
                 <button type="submit">Lưu</button>
             </form>
         </div>
@@ -81,6 +71,10 @@
 </c:if>
 <c:if test="${param.error == 'invalid_email'}">
     <script>alert("Email không hợp lệ!");</script>
+</c:if>
+
+<c:if test="${param.error == 'brand_exists'}">
+    <script>alert("Thương hiệu này đã có đối tác! Vui lòng chọn thương hiệu khác.");</script>
 </c:if>
 </body>
 </html>

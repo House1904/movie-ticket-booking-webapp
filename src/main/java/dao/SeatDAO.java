@@ -20,21 +20,17 @@ public class SeatDAO {
         }
         return seat;
     }
-    public List<Seat> getSeatByShowtime(long auditID) {
+    public List<Seat> getSeatByAudit(long auditID) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
 
-        try {
-            String jpql = "SELECT s FROM Seat s " +
-                    "JOIN FETCH s.auditorium a " +
-                    "WHERE a.id = :auditID " +
-                    "order by s.rowLabel";
+        String jpql = "SELECT s FROM Seat s " +
+                "JOIN FETCH s.auditorium a " +
+                "WHERE a.id = :auditID " +
+                "order by s.rowLabel";
 
-            return em.createQuery(jpql, Seat.class)
-                    .setParameter("auditID", auditID)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery(jpql, Seat.class)
+                .setParameter("auditID", auditID)
+                .getResultList();
     }
 
     public boolean seatExists(long auditoriumId, String rowLabel, String seatNumber) {

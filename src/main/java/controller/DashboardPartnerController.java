@@ -76,7 +76,6 @@ public class DashboardPartnerController extends HttpServlet {
                 movie.setCinemaIds(filteredCinemaIds);
             }
 
-
             session.setAttribute("cinemas", cinemas);
             req.setAttribute("totalRevenue", totalRevenue);
             req.setAttribute("totalTickets", totalTickets);

@@ -50,7 +50,7 @@ public class MoviePageController extends HttpServlet {
                 try {
                     movies = movieService.getMovies();
                     session.setAttribute("movies", movies);
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }

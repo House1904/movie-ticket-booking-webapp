@@ -35,7 +35,7 @@ public class PartnerService {
     }
 
     public List<Partner> getAllPartners() {
-        return partnerDAO.findAll();
+        return partnerDAO.selectAll();
     }
 
     // Phương thức để tìm tài khoản dựa trên partnerId
@@ -60,5 +60,14 @@ public class PartnerService {
         return false;
     }
 
-
+    // Kiểm tra xem brand đã tồn tại hay chưa
+    public boolean isBrandExists(String brand) {
+        List<Partner> partners = getAllPartners();
+        for (Partner p : partners) {
+            if (p.getBrand() != null && p.getBrand().equalsIgnoreCase(brand)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

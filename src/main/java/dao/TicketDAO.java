@@ -99,7 +99,6 @@ public class TicketDAO {
         em.close();
         return result;
     }
-}
 
 public double getTotalRevenue(LocalDateTime start, LocalDateTime end, List<Long> cinemaIds) {
     EntityManager em = DBConnection.getEmFactory().createEntityManager();
@@ -266,4 +265,5 @@ public double getRevenueForMovie(long movieId, LocalDateTime start, LocalDateTim
     } finally {
         em.close();
     }
+}
 }

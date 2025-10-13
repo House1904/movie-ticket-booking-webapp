@@ -13,7 +13,6 @@ public class PartnerDAO {
     public Partner findById(Long id) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         Partner partner = em.find(Partner.class, id);
-        em.close();
         return partner;
     }
 
@@ -88,6 +87,7 @@ public class PartnerDAO {
         em.close();
         return list;
     }
+
     public List<Partner> selectAll() {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         List<Partner> partners = null;

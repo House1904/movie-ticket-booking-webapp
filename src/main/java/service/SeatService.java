@@ -11,7 +11,7 @@ public class SeatService {
         return seatDAO.getSeatbyID(seatID);
     }
     public List<Seat> getSeatsByAu(long auditID) {
-        return seatDAO.getSeatByShowtime(auditID);
+        return seatDAO.getSeatByAudit(auditID);
     }
     public boolean seatExists(long auditoriumId, String rowLabel, String seatNumber) {
         return seatDAO.seatExists(auditoriumId, rowLabel, seatNumber);
