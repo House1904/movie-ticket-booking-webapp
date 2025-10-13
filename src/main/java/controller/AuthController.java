@@ -62,14 +62,11 @@ public class  AuthController extends HttpServlet {
                         session.setAttribute("user", user);
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
-                } else {
-                    // Sai thông tin đăng nhập
-                    request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-                    RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
-                    rd.forward(request, response);
                 }
           } catch (SQLException e) {
-              throw new RuntimeException(e);
+                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
+                RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
+                rd.forward(request, response);
           }
       }
         else if ("signup".equals(action)) {

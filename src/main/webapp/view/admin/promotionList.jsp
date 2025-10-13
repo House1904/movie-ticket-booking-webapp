@@ -3,7 +3,6 @@
 <html lang="vi">
 <head>
     <title>Danh sách ưu đãi 🎁</title>
-
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -15,7 +14,8 @@
 </head>
 
 <body>
-<div class="container py-5 fade-in">
+<header class="main-header"><%@ include file="header.jsp" %></header>
+<div class="container py-5 fade-in" style="margin-top: 150px">
     <div class="card border-0 shadow-lg p-4 rounded-4">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">

@@ -18,6 +18,10 @@ public class AccountService {
           return null;
     }
 
+    public Account CheckAccount(long id) {
+        return accountDAO.findAccountByPartnerId(id);
+    }
+
     public boolean register(Account account) {
         try {
             if (accountDAO.getAccountByUsername(account.getUserName()) == null)
@@ -30,5 +34,8 @@ public class AccountService {
         catch (SQLException e) {
             return false;
         }
+    }
+    public void addAccount(Account account) throws SQLException {
+        accountDAO.addAccount(account);
     }
 }
