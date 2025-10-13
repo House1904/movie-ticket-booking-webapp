@@ -14,6 +14,11 @@
             favoriteMap.put(f.getMovie().getId(), true);
         }
     }
+    else {
+        String currentURL = request.getRequestURI() +
+                (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+        session.setAttribute("redirectAfterLogin", currentURL);
+    }
     pageContext.setAttribute("favoriteMap", favoriteMap);
 %>
 

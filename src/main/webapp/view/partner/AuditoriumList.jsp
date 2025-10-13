@@ -33,7 +33,6 @@
                 <td>${auditorium.id}</td>
                 <td>${auditorium.name}</td>
                 <td>${auditorium.format}</td>
-                <td>${auditorium.createdAt}</td>
                 <td>
                     <c:if test="${auditorium.id != null && cinema != null && cinema.id != null}">
                         <button class="sua-btn" onclick="window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=edit&id=${auditorium.id}&cinemaId=${cinema.id}'">Sửa</button>

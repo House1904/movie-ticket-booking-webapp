@@ -48,6 +48,9 @@ public class FavoriteController extends HttpServlet {
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (user == null) {
+            String currentURL = request.getRequestURI() +
+                    (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+            session.setAttribute("redirectAfterLogin", currentURL);
             out.print("{\"status\":\"error\",\"message\":\"not_logged_in\"}");
             out.flush();
             return;
@@ -86,7 +89,11 @@ public class FavoriteController extends HttpServlet {
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
+        String currentURL = "";
         if (user == null) {
+            currentURL = request.getRequestURI() +
+                    (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+            session.setAttribute("redirectAfterLogin", currentURL);
             response.sendRedirect(request.getContextPath() + "/common/login.jsp");
             return;
         }

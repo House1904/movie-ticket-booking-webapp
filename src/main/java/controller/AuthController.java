@@ -60,7 +60,14 @@ public class  AuthController extends HttpServlet {
                         Customer user = (Customer) account.getUser();
                         user.setMemberShip(true);
                         session.setAttribute("user", user);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        String redirectURL = (String) session.getAttribute("redirectAfterLogin");
+
+                        if (redirectURL != null) {
+                            session.removeAttribute("redirectAfterLogin"); // dọn cho sạch
+                            response.sendRedirect(redirectURL);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/home");
+                        }
                     }
                 }
           } catch (SQLException e) {
