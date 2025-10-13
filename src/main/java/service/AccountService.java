@@ -1,13 +1,16 @@
 package service;
 
 import dao.AccountDAO;
+import dao.UserDAO;
 import model.Account;
+import model.Customer;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
 public class AccountService {
     private AccountDAO accountDAO = new AccountDAO();
+    private UserDAO userDAO = new UserDAO();
 
     public Account login(String username, String password) throws SQLException
     {
@@ -22,18 +25,9 @@ public class AccountService {
         return accountDAO.findAccountByPartnerId(id);
     }
 
-    public boolean register(Account account) {
-        try {
-            if (accountDAO.getAccountByUsername(account.getUserName()) == null)
-            {
-                accountDAO.addAccount(account);
-                return true;
-            }
-                return false; //account với username này đã được đăng ý trước đó
-        }
-        catch (SQLException e) {
-            return false;
-        }
+    public boolean register(Account account, Customer customer){
+        if (accountDAO.register(account, customer)) return true;
+        return false;
     }
     public void addAccount(Account account) throws SQLException {
         accountDAO.addAccount(account);

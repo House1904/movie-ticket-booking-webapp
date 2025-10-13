@@ -1,6 +1,7 @@
 package dao;
 
 import model.Account;
+import model.Customer;
 import service.AccountService;
 import util.DBConnection;
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import java.sql.SQLException;
 
 public class AccountDAO {
+    private UserDAO userDAO = new UserDAO();
     public Account getAccountByUsername(String username) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         return em.createQuery(
@@ -61,6 +63,24 @@ public class AccountDAO {
             if (em != null && em.isOpen()) {
                 em.close();
             }
+        }
+    }
+
+    public boolean register (Account account, Customer customer) {
+
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            userDAO.addUser(customer);
+            addAccount(account);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            return false;
+        } finally {
+            em.close();
         }
     }
 }
