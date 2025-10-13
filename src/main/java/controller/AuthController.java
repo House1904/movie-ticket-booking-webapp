@@ -5,6 +5,7 @@ import model.Admin;
 import model.Customer;
 import model.Partner;
 import model.enums.Role;
+import org.mindrot.jbcrypt.BCrypt;
 import service.AccountService;
 import service.CustomerService;
 import service.UserService;
@@ -31,7 +32,6 @@ public class  AuthController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-
         String action = request.getParameter("action");
 
         if ("login".equals(action)) {
@@ -72,36 +72,54 @@ public class  AuthController extends HttpServlet {
               throw new RuntimeException(e);
           }
       }
-      else if ("signup".equals(action)) {
-            String fullname = request.getParameter("fullname");
-            String email = request.getParameter("email");
-            String phone = request.getParameter("phone");
-            String dobStr = request.getParameter("dateOfBirth");
-            LocalDate dateOfBirth = LocalDate.parse(dobStr);
-            String avatarUrl = request.getParameter("avatarUrl");
+        else if ("signup".equals(action)) {
+            try {
+                String fullname = request.getParameter("fullname");
+                String email = request.getParameter("email");
+                String phone = request.getParameter("phone");
+                String dobStr = request.getParameter("dateOfBirth");
+                LocalDate dateOfBirth = LocalDate.parse(dobStr);
+                String avatarUrl = request.getParameter("avatarUrl");
 
-            Customer customer = new Customer(fullname, email, phone, dateOfBirth, avatarUrl);
-            if (userService.userRegister(customer)) {
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
+                Customer customer = new Customer(fullname, email, phone, dateOfBirth, avatarUrl);
 
-                Account account = new Account(username, password, Role.CUSTOMER, LocalDateTime.now(), customer);
-                if (accountService.register(account)) {
-                    RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
-                    rd.forward(request, response);
+                if (userService.userRegister(customer)) {
+                    // Đăng ký Customer thành công
+                    String username = request.getParameter("username");
+                    String password = request.getParameter("password");
+                    String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+                    Account account = new Account(username, hashedPassword, Role.CUSTOMER, LocalDateTime.now(), customer);
+
+                    if (accountService.register(account)) {
+                        // Thành công
+                        RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
+                        rd.forward(request, response);
+                    } else {
+                        // Tạo account thất bại
+                        request.setAttribute("error", "Tên đăng nhập đã tồn tại hoặc tạo tài khoản thất bại!");
+                        RequestDispatcher rd = request.getRequestDispatcher("/common/register.jsp");
+                        rd.forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("error", "Tạo tài khoản thất bại!");
+                    // Đăng ký Customer thất bại (email đã tồn tại)
+                    request.setAttribute("error", "Email đã được sử dụng!");
+                    RequestDispatcher rd = request.getRequestDispatcher("/common/register.jsp");
+                    rd.forward(request, response);
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Đã xảy ra lỗi trong quá trình đăng ký!");
+                RequestDispatcher rd = request.getRequestDispatcher("/common/register.jsp");
+                rd.forward(request, response);
             }
         }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-
         String action = request.getParameter("action");
 
         RequestDispatcher rd;

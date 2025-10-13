@@ -12,8 +12,7 @@ public class AccountService {
     public Account login(String username, String password) throws SQLException
     {
       Account validAccount = accountDAO.getAccountByUsername(username);
-      System.out.println(validAccount.getUserName());
-      if (validAccount != null && (password.equals(validAccount.getPassword())))
+      if (validAccount != null && (BCrypt.checkpw(password, validAccount.getPassword())))
           return validAccount;
       else
           return null;
