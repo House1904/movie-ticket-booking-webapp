@@ -30,8 +30,8 @@ public class HomeController extends HttpServlet {
         String servletPath = req.getServletPath();
         try {
             if ("/home".equals(servletPath)) {
-                List<Movie> nowShowingMovies = movieService.getNowShowingMovies();
-                List<Movie> upcomingMovies = movieService.getUpcomingMovies();
+                List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
+                List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
                 List<Cinema> cinemas = cinemaService.getCinemas();
 
                 HttpSession session = req.getSession();

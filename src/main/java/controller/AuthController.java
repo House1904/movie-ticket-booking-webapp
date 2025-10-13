@@ -28,6 +28,10 @@ public class  AuthController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
         String action = request.getParameter("action");
 
         if ("login".equals(action)) {
@@ -45,7 +49,7 @@ public class  AuthController extends HttpServlet {
                     if (account.getRole() == Role.ADMIN) {
                         Admin  admin = (Admin) account.getUser();
                         session.setAttribute("user", admin);
-                        response.sendRedirect(request.getContextPath() + "/admin.jsp");
+                        response.sendRedirect(request.getContextPath() + "/admin");
                     } else if (account.getRole() == Role.PARTNER) {
                         // Lưu Partner vào session
                         Partner partner = (Partner) account.getUser();
@@ -68,32 +72,36 @@ public class  AuthController extends HttpServlet {
               throw new RuntimeException(e);
           }
       }
-      else if ("signup".equals(action)){
-          String fullname = request.getParameter("fullname");
-          String email = request.getParameter("email");
-          String phone = request.getParameter("phone");
-          String dobStr = request.getParameter("dateOfBirth");
-          LocalDate dateOfBirth = LocalDate.parse(dobStr);
-          String avatarUrl = request.getParameter("avatarUrl");
+      else if ("signup".equals(action)) {
+            String fullname = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String dobStr = request.getParameter("dateOfBirth");
+            LocalDate dateOfBirth = LocalDate.parse(dobStr);
+            String avatarUrl = request.getParameter("avatarUrl");
 
-          Customer customer = new Customer(fullname, email, phone, dateOfBirth, avatarUrl);
-          if (userService.userRegister(customer)){
-              String username = request.getParameter("username");
-              String password = request.getParameter("password");
+            Customer customer = new Customer(fullname, email, phone, dateOfBirth, avatarUrl);
+            if (userService.userRegister(customer)) {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
 
                 Account account = new Account(username, password, Role.CUSTOMER, LocalDateTime.now(), customer);
                 if (accountService.register(account)) {
                     RequestDispatcher rd = request.getRequestDispatcher("/common/login.jsp");
                     rd.forward(request, response);
+                } else {
+                    request.setAttribute("error", "Tạo tài khoản thất bại!");
                 }
-            } else {
-                request.setAttribute("error", "Tạo tài khoản thất bại!");
             }
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
         String action = request.getParameter("action");
 
         RequestDispatcher rd;

@@ -1,5 +1,5 @@
 <%@ page import="model.Customer" %>
-<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>

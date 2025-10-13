@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
@@ -9,14 +9,15 @@
 <div class="login-container">
     <h2>Đăng nhập</h2>
 
-    <!-- Gửi form đến servlet /login -->
-    <form action="${pageContext.request.contextPath}/auth?action=login" method="post">
+    <!-- Gửi form đến servlet /auth-->
+    <form action="${pageContext.request.contextPath}/auth" method="post">
         <label for="username">Tên đăng nhập:</label>
         <input type="text" id="username" name="username" required>
 
         <label for="password">Mật khẩu:</label>
         <input type="password" id="password" name="password" required>
 
+        <input type="hidden" name="action" value="login">
         <button type="submit">Đăng nhập</button>
     </form>
 
