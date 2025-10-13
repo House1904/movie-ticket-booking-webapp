@@ -147,6 +147,19 @@
             });
         }, 3000);
     }
+
+    function scrollCarousel(direction) {
+        const container = document.querySelector('.now-showing-posters');
+        const scrollAmount = 315;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
+    function scrollUpcoming(direction) {
+        const container = document.querySelector('.upcoming-posters');
+        const scrollAmount = 315;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
 </script>
 
 <%@ include file="../../common/footer.jsp" %>

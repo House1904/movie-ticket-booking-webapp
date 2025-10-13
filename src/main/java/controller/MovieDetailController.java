@@ -86,6 +86,14 @@ public class MovieDetailController extends HttpServlet {
                 isFavorited = favoriteService.isFavorite(user, movieId);
             }
 
+            else {
+                HttpSession session = request.getSession();
+                String currentURL = request.getRequestURI() +
+                        (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                session.setAttribute("redirectAfterLogin", currentURL);
+
+            }
+
             request.setAttribute("isFavorited", isFavorited);
 
             Customer customer = (Customer) user; // ép kiểu sang Customer

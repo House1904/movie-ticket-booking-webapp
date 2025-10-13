@@ -56,6 +56,12 @@ public class MoviePageController extends HttpServlet {
             }
         }
 
+        else {
+            h1 = "Tất cả phim";
+            p = "Danh sách các phim trên toàn quốc";
+            movies = movieService.getMovies();
+        }
+
         try {
             genreList = movieService.getGenres();
             session.setAttribute("genreList", genreList);

@@ -25,7 +25,6 @@
             <th>ID</th>
             <th>Tên phòng</th>
             <th>Định dạng</th>
-            <th>Ngày tạo</th>
             <th>Hành động</th>
         </tr>
         <c:forEach var="auditorium" items="${auditoriums}">
@@ -33,7 +32,6 @@
                 <td>${auditorium.id}</td>
                 <td>${auditorium.name}</td>
                 <td>${auditorium.format}</td>
-                <td>${auditorium.createdAt}</td>
                 <td>
                     <c:if test="${auditorium.id != null && cinema != null && cinema.id != null}">
                         <button class="sua-btn" onclick="window.location.href='${pageContext.request.contextPath}/AuditoriumController?action=edit&id=${auditorium.id}&cinemaId=${cinema.id}'">Sửa</button>

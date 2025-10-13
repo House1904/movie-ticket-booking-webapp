@@ -89,6 +89,9 @@ public class BookingController extends HttpServlet {
 
             // Kiểm tra user đã đăng nhập chưa
             if (customer == null) {
+                String currentURL = request.getRequestURI() +
+                        (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                session.setAttribute("redirectAfterLogin", currentURL);
                 request.setAttribute("errorMessage", "Bạn cần đăng nhập trước khi đặt vé!");
                 request.getRequestDispatcher("/common/login.jsp").forward(request, response);
                 return;
@@ -126,5 +129,10 @@ public class BookingController extends HttpServlet {
         }
 
         request.getRequestDispatcher(url).forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/view/customer/booking.jsp").forward(request, response);
     }
 }
