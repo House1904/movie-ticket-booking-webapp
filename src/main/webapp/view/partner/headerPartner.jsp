@@ -15,10 +15,13 @@
             <li><a href="${pageContext.request.contextPath}/manage-seat">Quản lý Ghế Ngồi</a></li>
         </ul>
     </nav>
-    <div class="user-info">
-        <c:if test="${not empty user}">
-            <span>Xin chào, ${user.fullName}</span>
-        </c:if>
-        <a href="${pageContext.request.contextPath}/auth?action=logout" class="btn-login">Đăng xuất</a>
+    <div class="cloud">
+        <li class="dropdown">
+            <a href="#" class="dropbtn">👤 ${user.fullName}</a>
+            <ul class="dropdown-content">
+                <li><a href="partnerProfile">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
+            </ul>
+        </li>
     </div>
 </header>

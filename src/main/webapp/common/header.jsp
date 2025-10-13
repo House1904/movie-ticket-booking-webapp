@@ -55,7 +55,6 @@
                 <button type="submit">🔍</button>
             </form>
         </li>
-        <li><a href="contact.jsp">LIÊN HỆ</a></li>
         <%
             Customer customer = (Customer) session.getAttribute("user");
             if (customer == null) {
