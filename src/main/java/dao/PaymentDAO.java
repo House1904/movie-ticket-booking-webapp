@@ -52,7 +52,7 @@ public class PaymentDAO {
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
-            System.out.println("❌ Error updating payment status: " + ex.getMessage());
+            System.out.println("Error updating payment status: " + ex.getMessage());
         } finally {
             em.close();
         }

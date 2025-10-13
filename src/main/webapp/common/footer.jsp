@@ -4,7 +4,9 @@
         <!-- LEFT: Company Info -->
         <div class="footer-company">
             <div class="footer-logo">
+                <a href="home">
                 <img src="${pageContext.request.contextPath}/assets/images/LogoWeb.png" alt="Tenfinity Logo">
+                </a>
                 <div class="footer-info">
                     <h4>TENFINITY VIỆT NAM</h4>
                     <p>
