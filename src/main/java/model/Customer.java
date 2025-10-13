@@ -1,7 +1,6 @@
 package model;
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -9,14 +8,14 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "customerID")
 public class Customer extends User {
     private boolean isMemberShip;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String avatarUrl;
     private List<Rating> ratings;
     private List<Booking> bookings;
 
     public Customer() {}
 
-    public Customer(String fullName, String email, String phone, LocalDateTime dateOfBirth, String avatarUrl) {
+    public Customer(String fullName, String email, String phone, LocalDate dateOfBirth, String avatarUrl) {
         super(fullName, email, phone);
         this.dateOfBirth = dateOfBirth;
         this.avatarUrl = avatarUrl;
@@ -31,11 +30,11 @@ public class Customer extends User {
         isMemberShip = memberShip;
     }
 
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

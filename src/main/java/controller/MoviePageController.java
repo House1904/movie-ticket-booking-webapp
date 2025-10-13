@@ -30,11 +30,13 @@ public class MoviePageController extends HttpServlet {
             h1 = "Phim đang chiếu";
             p = "Danh sách các phim đang chiếu trên toàn quốc";
             movies = movieService.getMoviesbyIsShowing();
+            session.setAttribute("movies", movies);
         }
         else if ("comming".equals(action)) {
             h1 = "Phim sắp chiếu";
             p = "Danh sách các phim sắp chiếu trên toàn quốc";
             movies = movieService.getMoviesbyCommingSoon();
+            session.setAttribute("movies", movies);
         }
 
         else if ("search".equals(action)) {
@@ -44,12 +46,14 @@ public class MoviePageController extends HttpServlet {
             if (keyword != null) {
                 movies = movieService.getMoviesbyKeyWord(keyword);
             }
-            else movies = movieService.getMovies();
-        }
-        else {
-            h1 = "Tất cả phim";
-            p = "Hãy lựa chọn cho bạn một bộ phim yêu thích";
-            movies = movieService.getMovies();
+            else {
+                try {
+                    movies = movieService.getMovies();
+                    session.setAttribute("movies", movies);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         try {

@@ -1,0 +1,209 @@
+/* ========== RESET CƠ BẢN ========== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6fb;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========== CONTAINER CHÍNH ========== */
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+.container:hover {
+    transform: translateY(-2px);
+}
+
+/* ========== TIÊU ĐỀ CHÍNH ========== */
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+h1::before {
+    content: "🎬";
+    margin-right: 10px;
+    font-size: 30px;
+}
+
+/* ========== FORM THÊM / SỬA ========== */
+form {
+    background: #f9fafc;
+    padding: 25px 30px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 35px;
+}
+
+form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+form input[type="text"],
+form input[type="datetime-local"],
+form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    transition: all 0.25s ease;
+    font-size: 15px;
+}
+
+form input:focus,
+form select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+    outline: none;
+}
+
+button,
+input[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    display: inline-block;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* ========== BẢNG DANH SÁCH ========== */
+table {
+    border-collapse: separate;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border-spacing: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+td {
+    background-color: #fff;
+    font-size: 14px;
+}
+
+tr:nth-child(even) td {
+    background-color: #f9fafb;
+}
+
+tr:hover td {
+    background-color: #eef6ff;
+}
+
+/* ========== CỘT HÀNH ĐỘNG (SỬA / XÓA) ========== */
+td.actions {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* --- Nút chung --- */
+td.actions a {
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+    padding: 8px 18px; /* 🔹 tăng kích thước */
+    border-radius: 25px; /* 🔹 bo tròn hơn */
+    font-weight: 600;
+    font-size: 1rem; /* 🔹 to hơn chút */
+    line-height: 1.4;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    margin: 0 8px; /* 🔹 khoảng cách đều hơn */
+}
+
+/* --- Nút Sửa (màu xanh nhạt) --- */
+a.text-blue-500 {
+    background-color: #e0f2fe;
+    color: #2563eb;
+    border: 1px solid #93c5fd;
+}
+
+a.text-blue-500:hover {
+    background-color: #bfdbfe;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+}
+
+/* --- Nút Xóa (màu đỏ nhạt) --- */
+a.text-red-500 {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+a.text-red-500:hover {
+    background-color: #fecaca;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.2);
+}
+
+
+/* ========== TIÊU ĐỀ PHỤ ========== */
+h2, h3 {
+    text-align: center;
+    font-size: 22px;
+    color: #2c3e50;
+    border-left: 5px solid #3498db;
+    padding-left: 12px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* ========== SCROLL MỀM & RESPONSIVE ========== */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    table, th, td {
+        font-size: 13px;
+    }
+
+    form input, form select {
+        font-size: 13px;
+    }
+}

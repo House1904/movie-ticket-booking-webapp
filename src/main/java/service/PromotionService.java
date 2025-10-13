@@ -24,4 +24,32 @@ public class PromotionService {
     public void deletePromotion(Promotion promotion) {
         promotionDAO.delete(promotion);
     }
+
+    // ✅ Lấy danh sách khuyến mãi hợp lệ theo tổng tiền đơn hàng
+    public List<Promotion> getValidPromotions(double totalPrice) {
+        return promotionDAO.findValidPromotions(totalPrice);
+    }
+
+    // ⚙️ Cập nhật trạng thái hết hạn tự động
+    public void updateExpiredPromotions() {
+        promotionDAO.expireOutdatedPromotions();
+    }
+
+    // 💰 Tính tổng tiền sau khi áp dụng nhiều khuyến mãi
+    public double applyPromotions(double originalPrice, List<Promotion> promotions) {
+        double total = originalPrice;
+        for (Promotion p : promotions) {
+            switch (p.getPromotionType()) {
+                case PERCENT:
+                    total -= total * (p.getDiscountValue() / 100);
+                    break;
+                case AMOUNT:
+                    total -= p.getDiscountValue();
+                    break;
+            }
+        }
+        return Math.max(total, 0); // tránh âm
+    }
+
+
 }

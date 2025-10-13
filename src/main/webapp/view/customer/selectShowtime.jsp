@@ -29,8 +29,9 @@
                         class="favorite-btn ${isFavorite ? 'favorited' : ''}"
                         data-id="${selectedMovie.id}">
                     <i class="fa fa-heart"></i>
-                    <span class="favorite-text">${isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}</span>
-
+                    <span class="favorite-text">
+                        ${isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
+                    </span>
                 </button>
 
 
@@ -42,35 +43,35 @@
         </div>
 
         <script>
-        const favoriteBtn = document.getElementById('favorite-btn');
-        if (favoriteBtn) {
-            const favoriteText = favoriteBtn.querySelector('.favorite-text');
+            const favoriteBtn = document.getElementById('favorite-btn');
+            if (favoriteBtn) {
+                const favoriteText = favoriteBtn.querySelector('.favorite-text');
 
-            favoriteBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const movieId = this.dataset.id;
+                favoriteBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const movieId = this.dataset.id;
 
-                fetch('<%=request.getContextPath()%>/favorite', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: 'movieId=' + movieId
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === 'added') {
-                        favoriteBtn.classList.add('favorited');
-                        favoriteText.textContent = 'Bỏ yêu thích';
-                    } else if (data.status === 'removed') {
-                        favoriteBtn.classList.remove('favorited');
-                        favoriteText.textContent = 'Yêu thích';
-                    } else if (data.message === 'not_logged_in') {
-                        alert("Vui lòng đăng nhập để thêm yêu thích!");
-                        window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
-                    }
-                })
-                .catch(err => console.error(err));
-            });
-        }
+                    fetch('<%=request.getContextPath()%>/favorite', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: 'movieId=' + movieId
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'added') {
+                            favoriteBtn.classList.add('favorited');
+                            favoriteText.textContent = 'Bỏ yêu thích';
+                        } else if (data.status === 'removed') {
+                            favoriteBtn.classList.remove('favorited');
+                            favoriteText.textContent = 'Yêu thích';
+                        } else if (data.message === 'not_logged_in') {
+                            alert("Vui lòng đăng nhập để thêm yêu thích!");
+                            window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
+                        }
+                    })
+                    .catch(err => console.error(err));
+                });
+            }
         </script>
 
         <!-- Showtime Selection Section (Right) -->
@@ -148,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ratingBtn) {
         ratingBtn.addEventListener('click', function() {
             ratingPopup.style.display = 'flex';
+            // Xóa cũ trước khi load mới
             ratingList.innerHTML = '<p>Đang tải đánh giá...</p>';
 
             fetch('<%=request.getContextPath()%>/rating?movieId=' + movieId)

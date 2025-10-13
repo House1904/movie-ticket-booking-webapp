@@ -78,4 +78,63 @@ public class BookingDAO {
         }
         return false;
     }
+
+    public void updateBooking(Booking booking) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.merge(booking);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx.isActive()) tx.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Booking getBookingById(long id) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        try {
+            return em.find(Booking.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    // 🔍 Tìm BookingSeat theo seatId + showtimeId
+    public BookingSeat findBookingSeatBySeatAndShowtime(int seatId, long showtimeId) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        try {
+            String jpql = "SELECT bs FROM BookingSeat bs " +
+                    "WHERE bs.seat.id = :seatId AND bs.showtime.id = :showtimeId";
+            TypedQuery<BookingSeat> query = em.createQuery(jpql, BookingSeat.class);
+            query.setParameter("seatId", seatId);  // <-- Integer
+            query.setParameter("showtimeId", showtimeId); // <-- Long
+            List<BookingSeat> result = query.getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } finally {
+            em.close();
+        }
+    }
+
+
+    // 🔄 Cập nhật trạng thái ghế (HOLD → CONFIRMED / EXPIRED)
+    public void updateBookingSeatStatus(BookingSeat bookingSeat, model.enums.SeatBookedFormat newStatus) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            bookingSeat.setStatus(newStatus);
+            em.merge(bookingSeat);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx.isActive()) tx.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
 }

@@ -1,5 +1,5 @@
 <%@ page import="model.Customer" %>
-<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +32,7 @@
 
         <!-- Rạp (POPUP) -->
         <li>
-            <a href="cinema" onclick="openPopup(); return false;">RẠP 🎬</a>
+            <a href="${pageContext.request.contextPath}/cinema?action=cinemas" onclick="openPopup(); return false;">RẠP 🎬</a>
             <jsp:include page="/view/customer/cinemaPopup.jsp" />
         </li>
 
@@ -45,6 +45,10 @@
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>
+
+        <li>
+            <a href="${pageContext.request.contextPath}/tickets">VÉ CỦA TÔI 🎫</a>
+        </li>
     </ul>
     <ul class="cloud">
         <!-- Search box -->
@@ -55,7 +59,6 @@
                 <button type="submit">🔍</button>
             </form>
         </li>
-        <li><a href="contact.jsp">LIÊN HỆ</a></li>
         <%
             Customer customer = (Customer) session.getAttribute("user");
             if (customer == null) {

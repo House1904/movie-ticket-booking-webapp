@@ -78,15 +78,9 @@
                 </button>
             </div>
             <div class="text-center mt-4">
-                <a href="${pageContext.request.contextPath}/promotion" class="btn btn-outline-primary">
-                    Quản lý ưu đãi / Voucher
-                </a>
-                <!-- 🆕 Nút Đổi mật khẩu -->
-                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                    Đổi mật khẩu
-                </button>
+            <a href="${pageContext.request.contextPath}/common/changePassword.jsp" class="btn btn-outline-primary">
+            Đổi mật khẩu</a>
             </div>
-
         </form>
     </div>
 </div>

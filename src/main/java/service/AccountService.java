@@ -12,11 +12,14 @@ public class AccountService {
     public Account login(String username, String password) throws SQLException
     {
       Account validAccount = accountDAO.getAccountByUsername(username);
-      System.out.println(validAccount.getUserName());
-      if (validAccount != null && (password.equals(validAccount.getPassword())))
+      if (validAccount != null && (BCrypt.checkpw(password, validAccount.getPassword())))
           return validAccount;
       else
           return null;
+    }
+
+    public Account CheckAccount(long id) {
+        return accountDAO.findAccountByPartnerId(id);
     }
 
     public boolean register(Account account) {
@@ -32,4 +35,17 @@ public class AccountService {
             return false;
         }
     }
+    public void addAccount(Account account) throws SQLException {
+        accountDAO.addAccount(account);
+    }
+    public boolean updatePassword(Account account) throws SQLException {
+        try {
+            accountDAO.updateAccount(account);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }

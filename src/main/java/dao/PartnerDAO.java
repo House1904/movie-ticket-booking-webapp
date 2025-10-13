@@ -9,15 +9,14 @@ import java.util.List;
 
 public class PartnerDAO {
 
-    // 🔍 Tìm đối tác theo ID
+    // Tìm đối tác theo ID
     public Partner findById(Long id) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         Partner partner = em.find(Partner.class, id);
-        em.close();
         return partner;
     }
 
-    // 🔍 Tìm đối tác theo email (để đăng nhập)
+    // Tìm đối tác theo email (để đăng nhập)
     public Partner findByEmail(String email) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         Partner partner = null;
@@ -32,7 +31,7 @@ public class PartnerDAO {
         return partner;
     }
 
-    // 💾 Cập nhật thông tin đối tác
+    // Cập nhật thông tin đối tác
     public void update(Partner partner) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
@@ -47,7 +46,7 @@ public class PartnerDAO {
         }
     }
 
-    // ➕ Thêm mới đối tác (nếu cần)
+    // Thêm mới đối tác (nếu cần)
     public void insert(Partner partner) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
@@ -62,7 +61,7 @@ public class PartnerDAO {
         }
     }
 
-    // ❌ Xóa đối tác
+    // Xóa đối tác
     public void delete(Long id) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
         try {
@@ -80,7 +79,14 @@ public class PartnerDAO {
         }
     }
 
-    // 🧾 Lấy danh sách tất cả đối tác (cho admin)
+    // Lấy danh sách tất cả đối tác (cho admin)
+    public List<Partner> findAll() {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        List<Partner> list = em.createQuery("SELECT p FROM Partner p", Partner.class)
+                .getResultList();
+        em.close();
+        return list;
+    }
 
     public List<Partner> selectAll() {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
