@@ -25,4 +25,7 @@ public class TicketService {
     public List<Ticket> getTicketList(long customerID){
         return ticketDAO.getTicketByCustomer(customerID);
     }
+    public List<Ticket> getTicketByCustomerAndMovie(long customerId, long movieId) {
+        return ticketDAO.getTicketByCustomerAndMovie(customerId, movieId);
+    }
 }

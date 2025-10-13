@@ -1,7 +1,6 @@
 package model;
 
 import model.enums.Status;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
@@ -78,7 +77,7 @@ public class Booking {
     public void setStatus(Status status) {
         this.status = status;
     }
-
+    
     @ManyToOne
     @JoinColumn(name = "customerID")
     public Customer getCustomer() {

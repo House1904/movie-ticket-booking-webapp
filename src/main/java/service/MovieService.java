@@ -40,4 +40,14 @@ public class MovieService {
     public List<Movie> getMoviesbyKeyWord(String keyword) {
         return movieDAO.getMovieByKeyword(keyword);
     }
+
+    public boolean insertMovie(Movie movie) {
+        return movieDAO.insert(movie);
+    }
+    public boolean updateMovie(Movie movie) {
+        return movieDAO.update(movie);
+    }
+    public boolean deleteMovie(long id) {
+        return movieDAO.delete(id);
+    }
 }

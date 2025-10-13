@@ -4,7 +4,6 @@ import model.Customer;
 import util.DBConnection;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 public class CustomerDAO {
 

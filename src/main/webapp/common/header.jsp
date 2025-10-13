@@ -10,7 +10,7 @@
 <div class="header">
     <!-- Logo -->
     <div class="logo">
-        <a href="home">
+        <a href="<%= request.getContextPath() %>/home">
             <img alt="ICON" src="<%= request.getContextPath() %>/assets/images/LogoWeb.png">
         </a>
     </div>
@@ -41,7 +41,7 @@
         <li class="dropdown">
             <a href="#">TIN TỨC</a>
             <ul class="dropdown-content">
-                <li><a href="promo.jsp">Khuyến mãi</a></li>
+                <li><a href="<%= request.getContextPath() %>/public/articles">Tin tức</a></li>
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>
@@ -72,7 +72,7 @@
         <li class="dropdown">
             <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
             <ul class="dropdown-content">
-                <li><a href="profile">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/profile">View Profile</a></li>
                 <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
             </ul>

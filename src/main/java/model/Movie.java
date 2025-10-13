@@ -24,7 +24,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(long id, String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor, List<Showtime> showtimes, List<Rating> ratings) {
+    public Movie(String title, String description, List<String> genre, long duration, String ageLimit, LocalDateTime releaseDate, String language, String posterUrl, String trailerUrl, String actor) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -36,8 +36,6 @@ public class Movie {
         this.posterUrl = posterUrl;
         this.trailerUrl = trailerUrl;
         this.actor = actor;
-        this.showtimes = showtimes;
-        this.ratings = ratings;
     }
 
     @Id
@@ -72,7 +70,6 @@ public class Movie {
     public List<String> getGenre() {
         return genre;
     }
-
     public void setGenre(List<String> genre) {
         this.genre = genre;
     }

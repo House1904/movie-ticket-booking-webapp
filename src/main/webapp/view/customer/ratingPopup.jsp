@@ -1,45 +1,34 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div id="rating-popup" class="rating-popup">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/rating.css">
+
+<div id="rating-popup" class="rating-popup" style="display:none;">
     <div class="popup-content">
         <span class="close-popup">&times;</span>
         <h3>Đánh giá từ người xem</h3>
-        <div id="rating-list"></div>
+        <c:choose>
+            <c:when test="${not empty ratings}">
+                <c:forEach var="r" items="${ratings}">
+                    <div class="rating-item">
+                        <div class="rating-header">
+                            <strong>${r.customer.fullName}</strong>
+                            <span class="stars">
+                                <c:forEach begin="1" end="${r.rating}" var="s">⭐</c:forEach>
+                            </span>
+                            <span class="rating-date">
+                                <fmt:formatDate value="${r.createdAtDate}" pattern="dd/MM/yyyy HH:mm"/>
+                            </span>
+                        </div>
+                        <div class="rating-body">
+                            <p>${r.content}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p>Chưa có đánh giá nào.</p>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
-
-<style>
-.rating-popup {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-}
-.popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 12px;
-    width: 450px;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-.close-popup {
-    position: absolute;
-    top: 10px; right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-.rating-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-.rating-stars {
-    color: gold;
-    font-size: 18px;
-}
-</style>
