@@ -82,7 +82,7 @@
                 </a>
                 <!-- Nút Đổi mật khẩu -->
                 <button type="button" class="btn btn-outline-warning"
-                        onclick="window.location.href='${pageContext.request.contextPath}/changePassword.jsp'">
+                        onclick="window.location.href='${pageContext.request.contextPath}/common/changePassword.jsp'">
                     Đổi mật khẩu
                 </button>
 

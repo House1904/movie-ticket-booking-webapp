@@ -21,7 +21,6 @@ public class AccountDAO {
     }
     public Account findAccountByPartnerId(long partnerId) {
         EntityManager em = DBConnection.getEmFactory().createEntityManager();
-        try {
             String query = "SELECT a FROM Account a " +
                     "JOIN a.user u " +
                     "WHERE u.id = :partnerId";
@@ -29,9 +28,6 @@ public class AccountDAO {
             query1.setParameter("partnerId", partnerId);
             List<Account> accounts = query1.getResultList();
             return accounts.isEmpty() ? null : accounts.get(0);
-        } finally {
-            em.close();
-        }
     }
 
     public void addAccount(Account account) throws SQLException
@@ -40,15 +36,31 @@ public class AccountDAO {
         em.getTransaction().begin();
         em.persist(account);
         em.getTransaction().commit();
-        em.close();
     }
 
-    public  void updateAccount(Account account) throws SQLException
-    {
-        EntityManager em = DBConnection.getEmFactory().createEntityManager();
-        em.getTransaction().begin();
-        em.merge(account);
-        em.getTransaction().commit();
-        em.close();
+    public boolean updateAccount(Account account) {
+        EntityManager em = null;
+        EntityTransaction tx = null;
+
+        try {
+            em = DBConnection.getEmFactory().createEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+
+            em.merge(account);
+
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 }

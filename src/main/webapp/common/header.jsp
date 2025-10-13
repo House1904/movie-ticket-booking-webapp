@@ -19,7 +19,7 @@
     <!-- Menu -->
     <ul class="nav" id="navMenu">
         <li>
-            <a href="showtime"> SUẤT CHIẾU</a>
+            <a href="<%= request.getContextPath() %>/showtime"> SUẤT CHIẾU</a>
         </li>
         <!-- Dropdown Phim -->
         <li class="dropdown">

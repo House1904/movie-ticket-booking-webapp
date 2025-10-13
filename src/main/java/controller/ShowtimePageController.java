@@ -92,6 +92,7 @@ public class ShowtimePageController extends HttpServlet{
                 req.setAttribute("now", now);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
+
             String from = req.getParameter("from");
             if (from == null || from.isEmpty()) {
                 req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);

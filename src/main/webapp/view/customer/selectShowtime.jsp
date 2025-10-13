@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(res => res.json())
                 .then(data => {
                     ratingList.innerHTML = '';
-                    if (!data || data.length === 0) {
+                    if (data.length === 0) {
                         ratingList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
                     } else {
                         data.forEach(r => {

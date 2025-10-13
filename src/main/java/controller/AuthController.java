@@ -33,6 +33,7 @@ public class  AuthController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
 
         if ("login".equals(action)) {
             String username = request.getParameter("username");
@@ -62,6 +63,10 @@ public class  AuthController extends HttpServlet {
                         session.setAttribute("user", user);
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
+                }
+                else {
+                    request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
+                    request.getRequestDispatcher("/common/login.jsp").forward(request, response);
                 }
           } catch (SQLException e) {
                 request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
@@ -113,14 +118,6 @@ public class  AuthController extends HttpServlet {
             }
         }
         else if ("changePassword".equals(action)) {
-            HttpSession session = request.getSession(false);
-
-            if (session == null || session.getAttribute("account") == null) {
-                // Nếu chưa đăng nhập, chuyển về login
-                response.sendRedirect(request.getContextPath() + "/auth?action=login");
-                return;
-            }
-
             Account account = (Account) session.getAttribute("account");
             String oldPassword = request.getParameter("oldPassword");
             String newPassword = request.getParameter("newPassword");
@@ -143,18 +140,15 @@ public class  AuthController extends HttpServlet {
 
                 // Hash và update
                 String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                account.setPassword(hashedNewPassword);
                 boolean updated = accountService.updatePassword(account);
 
                 if (updated) {
-                    account.setPassword(hashedNewPassword);
-                    session.setAttribute("account", account);
-                    request.setAttribute("message", "Đổi mật khẩu thành công!");
+                    session.invalidate();
+                    request.getRequestDispatcher("/common/login.jsp").forward(request, response);
                 } else {
                     request.setAttribute("error", "Đổi mật khẩu thất bại, vui lòng thử lại!");
                 }
-
-                // Luôn forward về form để hiển thị thông báo
-                request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
 
             } catch (Exception e) {
                 e.printStackTrace(); // In ra log server
