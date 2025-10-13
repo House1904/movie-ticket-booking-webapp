@@ -111,11 +111,11 @@ public class AdminReportDAO {
             LocalDateTime start = today.atStartOfDay();
             LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-            String jpql = "SELECT m.title, SUM(t.price)"+
+            String jpql = "SELECT m.title, SUM(t.price) "+
                     "FROM Ticket t "+
                     "JOIN t.showtime s "+
                     "JOIN s.movie m "+
-                    "WHERE t.status = model.enums.Status.ISSUED AND t.createdAt BETWEEN :start AND :end "+
+                    "WHERE t.createdAt BETWEEN :start AND :end "+
                     "GROUP BY m.title "+
                     " ORDER BY SUM(t.price) DESC";
             return em.createQuery(jpql, Object[].class)

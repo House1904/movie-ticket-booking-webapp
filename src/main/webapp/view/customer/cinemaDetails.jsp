@@ -52,7 +52,7 @@
 
                     <div class="movie-info" style="display: block">
                         <h4>${movie.title}</h4>
-                        <p><strong>Thể loại:</strong></p>
+                        <p><strong>Thể loại:</strong>${movie.genre}</p>
                         <p><strong>Thời lượng:</strong> ${movie.duration} phút</p>
                     </div>
                 </div>

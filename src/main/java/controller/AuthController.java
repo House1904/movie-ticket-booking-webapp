@@ -148,9 +148,6 @@ public class  AuthController extends HttpServlet {
                     request.setAttribute("error", "Đổi mật khẩu thất bại, vui lòng thử lại!");
                 }
 
-                // Luôn forward về form để hiển thị thông báo
-                request.getRequestDispatcher("/common/changePassword.jsp").forward(request, response);
-
             } catch (Exception e) {
                 e.printStackTrace(); // In ra log server
                 request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
