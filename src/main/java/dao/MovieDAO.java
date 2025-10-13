@@ -19,15 +19,16 @@ public class MovieDAO {
         } finally {
             entity.close();
         }
+
         return movies;
     }
-
     public Movie getMovieById(long movieId) {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Movie movie = null;
         try {
             movie = entity.find(Movie.class, movieId);
-        } finally {
+        }
+        finally {
             entity.close();
         }
         return movie;

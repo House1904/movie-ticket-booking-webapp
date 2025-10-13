@@ -26,33 +26,40 @@ public class MoviePageController extends HttpServlet {
         List<Movie> movies = null;
         String h1 = "";
         String p = "";
-        try {
-            if ("showing".equals(action)) {
-                h1 = "Phim đang chiếu";
-                p = "Danh sách các phim đang chiếu trên toàn quốc";
-                movies = movieService.getMoviesbyIsShowing();
-            } else if ("comming".equals(action)) {
-                h1 = "Phim sắp chiếu";
-                p = "Danh sách các phim sắp chiếu trên toàn quốc";
-                movies = movieService.getMoviesbyCommingSoon();
-            } else if ("search".equals(action)) {
-                h1 = "Phim theo tìm kiếm";
-                String keyword = request.getParameter("q");
-                p = "Từ khóa: " + keyword;
-                    if (keyword != null) {
-                        movies = movieService.getMoviesbyKeyWord(keyword);
-                    } else {
-                        movies = movieService.getMovies();
-                    }
-            } else {
-                h1 = "Tất cả phim";
-                p = "Hãy lựa chọn cho bạn một bộ phim yêu thích";
-                movies = movieService.getMovies();
+        if ("showing".equals(action)) {
+            h1 = "Phim đang chiếu";
+            p = "Danh sách các phim đang chiếu trên toàn quốc";
+            movies = movieService.getMoviesbyIsShowing();
+            session.setAttribute("movies", movies);
+        }
+        else if ("comming".equals(action)) {
+            h1 = "Phim sắp chiếu";
+            p = "Danh sách các phim sắp chiếu trên toàn quốc";
+            movies = movieService.getMoviesbyCommingSoon();
+            session.setAttribute("movies", movies);
+        }
+
+        else if ("search".equals(action)) {
+            h1 = "Phim theo tìm kiếm";
+            String keyword = request.getParameter("q");
+            p = "Từ khóa: " + keyword;
+            if (keyword != null) {
+                movies = movieService.getMoviesbyKeyWord(keyword);
             }
+            else {
+                try {
+                    movies = movieService.getMovies();
+                    session.setAttribute("movies", movies);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        try {
             genreList = movieService.getGenres();
             session.setAttribute("genreList", genreList);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             session.setAttribute("error", "Có lỗi xảy ra khi tìm thể loại phim!");
             throw new RuntimeException(e);
         }
