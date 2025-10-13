@@ -28,12 +28,11 @@ public class BookingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        bookingService.deletedBookingSeat();
 
         String url = "";
         String action = request.getParameter("action");
         if ("showtimeSl".equals(action)) {
-            bookingService.deletedBookingSeat();
-
             HttpSession session = request.getSession();
             long showtimeID = Long.parseLong(request.getParameter("showtimeID"));
 

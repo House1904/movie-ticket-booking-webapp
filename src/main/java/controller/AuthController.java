@@ -43,7 +43,6 @@ public class  AuthController extends HttpServlet {
                 Account account = accountService.login(username, password);
 
                 if (account != null) {
-                    HttpSession session = request.getSession();
                     session.setAttribute("account", account);
 
                     // Chuyển hướng theo role

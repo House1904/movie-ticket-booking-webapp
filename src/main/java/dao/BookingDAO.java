@@ -57,7 +57,7 @@ public class BookingDAO {
         query.setParameter("expireTime1", expireTime1);
         query.setParameter("status1", SeatBookedFormat.HOLD);
         query.setParameter("expireTime2", expireTime2);
-        query.setParameter("status2", SeatBookedFormat.EXPIRED);
+        query.setParameter("status2", SeatBookedFormat.CONFIRMED);
         query.executeUpdate();
         em.getTransaction().commit();
         em.close();

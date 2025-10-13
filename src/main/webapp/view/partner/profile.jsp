@@ -78,10 +78,6 @@
                 </button>
             </div>
             <div class="text-center mt-4">
-                <a href="${pageContext.request.contextPath}/promotion" class="btn btn-outline-primary">
-                    Quản lý ưu đãi / Voucher</a>
-            </div>
-            <div class="text-center mt-4">
             <a href="${pageContext.request.contextPath}/common/changePassword.jsp" class="btn btn-outline-primary">
             Đổi mật khẩu</a>
             </div>

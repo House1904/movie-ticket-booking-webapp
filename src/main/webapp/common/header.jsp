@@ -38,12 +38,8 @@
 
         <!-- Dropdown Tin tức -->
         <!-- Dropdown Rạp -->
-        <li class="dropdown">
-            <a href="#">TIN TỨC</a>
-            <ul class="dropdown-content">
-                <li><a href="<%= request.getContextPath() %>/public/articles">Tin tức</a></li>
-                <li><a href="blog.jsp">Cộng đồng</a></li>
-            </ul>
+        <li>
+            <a href="<%= request.getContextPath() %>/public/articles">TIN TỨC</a>
         </li>
 
         <li>
