@@ -126,10 +126,10 @@ public class AdminController extends HttpServlet {
                     partner.setBrand(request.getParameter("brand"));
                     partnerService.updatePartner(partner);
                 } else {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "KhĂ´ng tĂ¬m tháº¥y Ä‘á»‘i tĂ¡c");
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đối tác");
                 }
             } catch (NumberFormatException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID Ä‘á»‘i tĂ¡c khĂ´ng há»£p lá»‡");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID đối tác không hợp lệ");
             }
         }
         else if (action.equals("delete")) {
@@ -137,7 +137,7 @@ public class AdminController extends HttpServlet {
                 long partnerId = Long.parseLong(request.getParameter("id"));
                 partnerService.deletePartner(partnerId);
             } catch (NumberFormatException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID Ä‘á»‘i tĂ¡c khĂ´ng há»£p lá»‡");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID đối tác không hợp lệ");
             }
         }
 
