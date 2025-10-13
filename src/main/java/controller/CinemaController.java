@@ -27,16 +27,16 @@ public class CinemaController extends HttpServlet{
         if ("cinemas".equals(action)) {
             List<Cinema> cinemas = null;
             try {
-                cinemas = cinemaService.getCinemas();
+                cinemas = cinemaService.getAllCinemas();
                 session.setAttribute("cinemas", cinemas);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
         else if ("detail".equals(action)) {
             try {
                 long cinemaId = Long.parseLong(req.getParameter("cinemaId"));
-                Cinema cinema = cinemaService.findCinemaById(cinemaId);
+                Cinema cinema = cinemaService.findById(cinemaId);
                 List<Movie> movies = movieService.getMoviesByCinemaId(cinemaId);
                 session.setAttribute("cinema",  cinema);
                 session.setAttribute("movies", movies);

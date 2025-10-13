@@ -39,7 +39,7 @@ public class HomeController extends HttpServlet {
                 // Lấy danh sách phim và rạp
                 List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
                 List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
-                List<Cinema> cinemas = cinemaService.getCinemas();
+                List<Cinema> cinemas = cinemaService.getAllCinemas();
                 // Lấy danh sách banner và sắp xếp theo created_at giảm dần
                 List<Banner> banners = bannerService.getAllBanners()
                         .stream()
@@ -74,7 +74,7 @@ public class HomeController extends HttpServlet {
                     if (movie != null) {
                         HttpSession session = req.getSession();
                         session.setAttribute("selectedMovie", movie);
-                        List<Cinema> cinemas = cinemaService.getCinemas();
+                        List<Cinema> cinemas = cinemaService.getAllCinemas();
 
                         for (Cinema cinema : cinemas) {
                             List<Showtime> showtimes = showtimeService.getShowtimesByC(cinema.getId(), selectedDate);

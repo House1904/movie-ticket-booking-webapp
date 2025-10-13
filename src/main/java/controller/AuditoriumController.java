@@ -155,7 +155,6 @@ public class AuditoriumController extends HttpServlet {
             } else {
                 auditorium = new Auditorium();
                 auditorium.setCinema(cinema);
-                auditorium.setCreatedAt(LocalDateTime.now());
             }
 
             auditorium.setName(name);

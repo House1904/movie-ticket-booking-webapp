@@ -6,6 +6,7 @@ import util.DBConnection;
 import java.sql.*;
 import java.util.*;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
 public class CinemaDAO {
@@ -27,7 +28,7 @@ public class CinemaDAO {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Cinema cinema = null;
         try {
-            cinema = entity.find(Cinema.class, id);
+            cinema = entity.find(Cinema.class, cinemaId);
         } finally {
             entity.close();
         }
