@@ -10,7 +10,7 @@
 <div class="header">
     <!-- Logo -->
     <div class="logo">
-        <a href="home">
+        <a href="<%= request.getContextPath() %>/home">
             <img alt="ICON" src="<%= request.getContextPath() %>/assets/images/LogoWeb.png">
         </a>
     </div>
@@ -25,8 +25,8 @@
         <li class="dropdown">
             <a href="#">PHIM 🍿▾</a>
             <ul class="dropdown-content">
-                <li><a href="showingMovie.jsp">Đang chiếu🎥</a></li>
-                <li><a href="coming_soon.jsp">Sắp chiếu</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=showing">Đang chiếu🎥</a></li>
+                <li><a href="<%= request.getContextPath() %>/movie?action=comming">Sắp chiếu</a></li>
             </ul>
         </li>
 
@@ -41,7 +41,7 @@
         <li class="dropdown">
             <a href="#">TIN TỨC</a>
             <ul class="dropdown-content">
-                <li><a href="promo.jsp">Khuyến mãi</a></li>
+                <li><a href="<%= request.getContextPath() %>/public/articles">Tin tức</a></li>
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>
@@ -49,7 +49,8 @@
     <ul class="cloud">
         <!-- Search box -->
         <li>
-            <form class="search-box" action="search.jsp" method="get">
+            <form action="movie" class="search-box" method="get">
+                <input type="hidden" name="action" value="search">
                 <input type="text" name="q" placeholder="Tìm phim...">
                 <button type="submit">🔍</button>
             </form>
@@ -66,10 +67,11 @@
         <!-- Nếu đã login -->
         <li class="dropdown">
             <a href="#" class="dropbtn">👤 <%= customer.getFullName() %></a>
-            <div class="dropdown-content">
-                <a href="profile.jsp">View Profile</a>
-                <a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a>
-            </div>
+            <ul class="dropdown-content">
+                <li><a href="profile.jsp">View Profile</a></li>
+                <li><a href="${pageContext.request.contextPath}/favorite">Favorite</a></li>
+                <li><a href="${pageContext.request.contextPath}/auth?action=logout">Logout</a></li>
+            </ul>
         </li>
         <%
             }

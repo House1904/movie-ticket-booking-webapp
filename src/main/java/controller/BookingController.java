@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.enums.SeatBookedFormat;
+import model.enums.Status;
 import service.*;
 
 import javax.servlet.ServletException;
@@ -24,9 +25,7 @@ import model.Auditorium;
 public class BookingController extends HttpServlet {
     private BookingService bookingService = new BookingService();
     private ShowtimeService showtimeService = new ShowtimeService();
-    private MovieService movieService = new MovieService();
     private SeatService seatService = new SeatService();
-    private PartnerService partnerService = new PartnerService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "";
         String action = request.getParameter("action");
@@ -76,7 +75,13 @@ public class BookingController extends HttpServlet {
 
             Showtime sht = (Showtime) session.getAttribute("st");
             Auditorium au = (Auditorium) session.getAttribute("auditorium");
-
+            Customer customer = (Customer) session.getAttribute("user");
+            Booking booking = new Booking(Status.PENDING, customer);
+            boolean res = bookingService.insertBooking(booking);
+            if(res){
+                System.out.println("Booking inserted successfully");
+            }
+            else System.out.println("Booking insert failed");
 
             Map<Seat, BigDecimal> seatPrices = new LinkedHashMap<>();
             for (String id : selectedSeatIds) {
@@ -90,6 +95,7 @@ public class BookingController extends HttpServlet {
 
             }
 
+            session.setAttribute("booking", booking);
             session.setAttribute("seatPrices", seatPrices);
             session.setAttribute("showtime", sht);
 

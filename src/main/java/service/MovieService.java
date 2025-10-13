@@ -41,4 +41,7 @@ public class MovieService {
     public List<Movie> getMoviesByCinemaId(long cinemaId) throws SQLException {
         return movieDAO.getMoviesByCinema(cinemaId);
     }
+    public List<Movie> getMoviesbyKeyWord(String keyword) {
+        return movieDAO.getMovieByKeyword(keyword);
+    }
 }

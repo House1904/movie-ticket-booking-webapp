@@ -9,40 +9,42 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboardAdmin.css">
 </head>
 <body>
-<form action="admin">
-    <input type="date" name="date">
-</form>
+<header class="main-header"><%@ include file="header.jsp" %></header>
+<div class="dashboard-body">
+    <form action="admin">
+        <input type="date" name="date">
+    </form>
 
-<!-- Biểu đồ đường -->
-<div class="chart-container">
-    <h2> Doanh thu theo đối tác hôm nay</h2>
-    <canvas id="revenueChart" width="400" height="200"></canvas>
+    <!-- Biểu đồ đường -->
+    <div class="chart-container">
+        <h2> Doanh thu theo đối tác hôm nay</h2>
+        <canvas id="revenueChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Biểu đồ cột -->
+    <div class="chart-container">
+        <h2>Top 3 đối tác doanh thu cao nhất</h2>
+        <canvas id="topPartnerChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Bảng Top 5 phim -->
+    <div class="chart-container">
+        <h2>Top 5 phim doanh thu cao nhất</h2>
+        <table>
+            <thead>
+            <tr><th>Phim</th><th>Doanh thu (VND)</th></tr>
+            </thead>
+            <tbody>
+            <c:forEach var="row" items="${topMovies}">
+                <tr>
+                    <td>${row[0]}</td>
+                    <td><fmt:formatNumber value="${row[1]}" type="number" groupingUsed="true"/></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<!-- Biểu đồ cột -->
-<div class="chart-container">
-    <h2>Top 3 đối tác doanh thu cao nhất</h2>
-    <canvas id="topPartnerChart" width="400" height="200"></canvas>
-</div>
-
-<!-- Bảng Top 5 phim -->
-<div class="chart-container">
-    <h2>Top 5 phim doanh thu cao nhất</h2>
-    <table>
-        <thead>
-        <tr><th>Phim</th><th>Doanh thu (VND)</th></tr>
-        </thead>
-        <tbody>
-        <c:forEach var="row" items="${topMovies}">
-            <tr>
-                <td>${row[0]}</td>
-                <td><fmt:formatNumber value="${row[1]}" type="number" groupingUsed="true"/></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
-
 <script>
     // Dữ liệu biểu đồ đường
     const lineLabels = [

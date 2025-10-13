@@ -27,7 +27,23 @@
     <!-- Banner -->
     <div class="banner-container">
         <div class="banner">
-            <img id="bannerImg" src="https://colour.vn/wp-content/uploads/mau-banner-quang-cao-khuyen-mai.jpg" alt="Quảng cáo">
+            <c:forEach var="banner" items="${banners}" varStatus="status">
+                <c:if test="${banner.start_at <= now && banner.end_at >= now}">
+                    <div class="banner-slide ${status.index == 0 ? 'active' : ''}">
+                        <a href="${pageContext.request.contextPath}${banner.link_url}">
+                            <img src="${banner.image_url}" alt="${banner.title}">
+                        </a>
+                    </div>
+                </c:if>
+            </c:forEach>
+            <c:if test="${empty banners}">
+                <!-- Default banner if no valid banners -->
+                <div class="banner-slide active">
+                    <a href="${pageContext.request.contextPath}/home">
+                        <img src="https://colour.vn/wp-content/uploads/mau-banner-quang-cao-khuyen-mai.jpg" alt="Default Banner">
+                    </a>
+                </div>
+            </c:if>
             <button class="banner-btn prev" onclick="changeSlide(-1)">&#10094;</button>
             <button class="banner-btn next" onclick="changeSlide(1)">&#10095;</button>
         </div>
@@ -111,35 +127,28 @@
 
 <script>
     let currentSlide = 0;
-    const slideImages = [
-        'https://colour.vn/wp-content/uploads/mau-banner-quang-cao-khuyen-mai.jpg',
-        'https://vending-cdn.kootoro.com/torov-cms/upload/image/1669367204523-gi%C3%A1%20qu%E1%BA%A3ng%20c%C3%A1o%20t%E1%BA%A1i%20r%E1%BA%A1p%20chi%E1%BA%BFu%20phim%20cgv.jpg',
-        'https://hnm.1cdn.vn/2025/07/17/f65a255838/poster-mua-do.jpg'
-    ];
+    const slides = document.querySelectorAll('.banner-slide');
+    const totalSlides = slides.length;
 
     function changeSlide(direction) {
-        currentSlide = (currentSlide + direction + slideImages.length) % slideImages.length;
-        document.getElementById('bannerImg').src = slideImages[currentSlide];
+        currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+        slides.forEach((slide, index) => {
+            slide.style.display = index === currentSlide ? 'block' : 'none';
+        });
     }
 
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % slideImages.length;
-        document.getElementById('bannerImg').src = slideImages[currentSlide];
-    }, 3000);
-
-    function scrollCarousel(direction) {
-        const container = document.querySelector('.now-showing-posters');
-        const scrollAmount = 315;
-        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-    }
-
-    function scrollUpcoming(direction) {
-        const container = document.querySelector('.upcoming-posters');
-        const scrollAmount = 315;
-        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    if (totalSlides > 0) {
+        slides.forEach(slide => slide.style.display = 'none');
+        slides[0].style.display = 'block';
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            slides.forEach((slide, index) => {
+                slide.style.display = index === currentSlide ? 'block' : 'none';
+            });
+        }, 3000);
     }
 </script>
 
-</body>
 <%@ include file="../../common/footer.jsp" %>
+</body>
 </html>

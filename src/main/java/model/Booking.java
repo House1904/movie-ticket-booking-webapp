@@ -24,6 +24,10 @@ public class Booking {
         this.tickets = tickets;
         this.status = status;
     }
+    public Booking(Status status, Customer customer) {
+        this.status = status;
+        this.customer = customer;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

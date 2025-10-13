@@ -10,19 +10,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 public class CinemaDAO {
-    EntityManager entity = DBConnection.getEmFactory().createEntityManager();
 
     public List<Cinema> getAllCinemas() {
+        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Cinema> cinemas = null;
 
-        cinemas = entity.createQuery("SELECT c FROM Cinema c", Cinema.class)
-                .getResultList();
+        try {
+            cinemas = entity.createQuery("SELECT c FROM Cinema c", Cinema.class)
+                    .getResultList();
+        } finally {
+            entity.close();
+        }
 
         return cinemas;
     }
-
-    public Cinema getCinemaById(long cinemaId) {
+    public Cinema findCinemaById(long cinemaId) {
+        EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         Cinema cinema = entity.find(Cinema.class, cinemaId);
+        entity.close();
         return cinema;
     }
 }

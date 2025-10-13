@@ -9,8 +9,7 @@ public class CinemaService {
     public List<Cinema> getCinemas() throws SQLException{
         return cinemaDAO.getAllCinemas();
     }
-    public Cinema getCinema(long cinemaId){
-        Cinema cinema = cinemaDAO.getCinemaById(cinemaId);
-        return cinema;
+    public Cinema findCinemaById(long cinemaId) {
+        return cinemaDAO.findCinemaById(cinemaId);
     }
 }

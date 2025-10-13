@@ -34,7 +34,7 @@ public class CinemaController extends HttpServlet{
         else if ("detail".equals(action)) {
             try {
                 long cinemaId = Long.parseLong(req.getParameter("cinemaId"));
-                Cinema cinema = cinemaService.getCinema(cinemaId);
+                Cinema cinema = cinemaService.findCinemaById(cinemaId);
                 List<Movie> movies = movieService.getMoviesByCinemaId(cinemaId);
                 session.setAttribute("cinema",  cinema);
                 session.setAttribute("movies", movies);

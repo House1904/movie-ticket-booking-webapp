@@ -58,7 +58,6 @@ public class Movie {
     public List<String> getGenre() {
         return genre;
     }
-
     public void setGenre(List<String> genre) {
         this.genre = genre;
     }

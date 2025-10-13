@@ -13,8 +13,12 @@ public class MovieDAO {
         EntityManager entity = DBConnection.getEmFactory().createEntityManager();
         List<Movie> movies = null;
 
-        movies = entity.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genre", Movie.class)
-                .getResultList();
+        try {
+            movies = entity.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genre", Movie.class)
+                    .getResultList();
+        } finally {
+            entity.close();
+        }
         return movies;
     }
 
@@ -73,6 +77,15 @@ public class MovieDAO {
         }
 
         return movies;
+    }
+
+
+    public List<Movie> getMovieByKeyword(String keyword) {
+        EntityManager em = DBConnection.getEmFactory().createEntityManager();
+        String jpql = "SELECT m FROM Movie m WHERE LOWER(m.title) LIKE LOWER(:keyword) OR LOWER(m.actor) LIKE LOWER(:keyword)";
+        return em.createQuery(jpql, Movie.class)
+                    .setParameter("keyword", "%" + keyword + "%")
+                    .getResultList();
     }
 
 }
