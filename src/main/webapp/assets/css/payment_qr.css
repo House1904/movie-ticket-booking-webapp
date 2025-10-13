@@ -1,138 +1,215 @@
-/* ==== QR CARD LAYOUT (căn giữa, không tràn màn hình) ==== */
-.qr-card {
-    width: 85%;
-    max-width: 900px;             /* Giới hạn tối đa chiều ngang */
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    padding: 28px;
-    margin: auto;
+:root {
+    --bg-dark: linear-gradient(135deg, #0d1b2a, #1b263b);
+    --card-bg: #131b2c;
+    --accent: #00bcd4;
+    --accent-light: #33d6ff;
+    --success: #00e676;
+    --danger: #ff5252;
+    --text-light: #eaeaea;
+    --text-dim: #9ca3af;
+    --radius: 14px;
+    --shadow: 0 0 18px rgba(0,188,212,0.25);
 }
 
-/* ==== GRID CHIA 2 CỘT GỌN GÀNG ==== */
-.qr-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;  /* QR hơi to hơn chút */
-    gap: 24px;
-    align-items: start;
+/* Cấu trúc tổng thể */
+body {
+    background: var(--bg-dark);
+    font-family: "Segoe UI", sans-serif;
+    color: var(--text-light);
+    margin: 0;
 }
 
-@media (max-width: 900px) {
-    .qr-grid {
-        grid-template-columns: 1fr;       /* Mobile: xếp dọc */
-        text-align: center;
-    }
-}
-
-/* ==== QR HÌNH ẢNH ==== */
-.qr-box {
-    background: #fff;
-    border-radius: 14px;
-    padding: 16px;
+.qr-wrapper {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 100px);
+    padding: 40px 20px;
+}
+
+/* Khung chính */
+.qr-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,188,212,0.25);
+    max-width: 960px;
+    width: 95%;
+    padding: 32px 40px;
+    position: relative;
+    animation: fadeIn 0.4s ease;
+}
+
+.qr-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: radial-gradient(circle at top left, rgba(0,188,212,0.25), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.qr-card > * { position: relative; z-index: 1; }
+
+/* Tiêu đề và mô tả */
+.qr-title {
+    text-align: center;
+    color: var(--accent-light);
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(0,188,212,0.4);
+    margin-bottom: 8px;
+}
+.qr-sub {
+    text-align: center;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+}
+
+/* Lưới chứa QR và thông tin */
+.qr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 24px;
+}
+
+/* QR box */
+.qr-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius);
+    display: flex;
     align-items: center;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    border: 1px solid rgba(0,188,212,0.25);
+    box-shadow: inset 0 0 15px rgba(0,188,212,0.1);
+    padding: 16px;
 }
 
 .qr-img {
     width: 100%;
-    max-width: 260px;           /* 🔥 Giảm từ 360px → 260px */
+    max-width: 300px;
     height: auto;
-    display: block;
-    border-radius: 6px;
+    border-radius: 10px;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 0 18px rgba(0,188,212,0.25);
 }
 
-/* ==== THÔNG TIN THANH TOÁN ==== */
+/* Cột thông tin */
 .info {
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 14px;
-    padding: 14px 18px;
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius);
+    border: 1px solid rgba(0,188,212,0.25);
+    padding: 20px 28px;
+    box-shadow: inset 0 0 14px rgba(0,188,212,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .info h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.05rem;
+    color: var(--accent-light);
+    margin-bottom: 12px;
     font-weight: 700;
-    color: #fff;
+    text-shadow: 0 0 6px rgba(0,188,212,0.3);
 }
 
 .info-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 8px;
 }
 
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 0.9rem;
-    color: #fff;
+.info-list li {
+    padding: 5px 0;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.info-list span {
+    color: var(--text-dim);
+    margin-right: 5px;
 }
 
-.info-label {
-    color: #ffe3e3;
-    font-weight: 600;
+.highlight {
+    color: #4ade80;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(74,222,128,0.5);
 }
 
-.info-value {
-    text-align: right;
-    color: #fff;
-}
-
-/* ==== COUNTDOWN ==== */
+/* Countdown */
 .countdown {
-    margin: 16px auto 0;
-    width: fit-content;
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 999px;
-    padding: 8px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ==== NÚT HÀNH ĐỘNG ==== */
-.actions {
-    margin-top: 18px;
     display: flex;
     justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    color: var(--accent-light);
+    font-weight: 600;
+}
+.countdown .dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    animation: blink 1s infinite alternate;
+}
+@keyframes blink {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
 }
 
+/* Buttons */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+}
 .btn {
-    padding: 10px 18px;
-    font-weight: 700;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-weight: 700;
     cursor: pointer;
-    color: #fff;
-    transition: 0.2s all ease;
+    font-size: 15px;
+    transition: 0.25s;
 }
-
 .btn-success {
-    background: var(--success);
+    background: linear-gradient(90deg, var(--success), #1de9b6);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(0,188,212,0.3);
 }
 .btn-success:hover {
-    background: var(--success-d);
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(29,233,182,0.4);
 }
-
 .btn-danger {
-    background: var(--danger);
+    background: linear-gradient(90deg, var(--danger), #ff867c);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(255,82,82,0.25);
 }
 .btn-danger:hover {
-    background: var(--danger-d);
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(255,134,124,0.4);
+}
+
+/* Hiệu ứng mượt */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .qr-grid {
+        grid-template-columns: 1fr;
+    }
+    .info {
+        margin-top: 20px;
+    }
+    .qr-img {
+        max-width: 240px;
+    }
 }

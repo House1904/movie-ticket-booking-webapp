@@ -11,7 +11,7 @@
 
 <div class="container success">
     <h2>🎉 Thanh toán thành công!</h2>
-    <p>Cảm ơn bạn đã đặt vé tại <b>CinemaX</b>.</p>
+    <p>Cảm ơn bạn đã đặt vé tại <b>TENIFINITY</b>.</p>
 
     <!-- THÔNG TIN THANH TOÁN -->
     <c:if test="${not empty payment}">
@@ -60,8 +60,11 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="2">Tổng cộng</th>
-                    <th style="color:#f1c40f">${total} VND</th>
+                    <td style="font-weight:bold; color:#f1c40f;">Tổng cộng:</td>
+                    <td></td>
+                    <td style="text-align:right; font-weight:bold; color:#f1c40f;">
+                        <fmt:formatNumber value="${total}" type="number" pattern="#,##0"/> VND
+                    </td>
                 </tr>
                 </tfoot>
             </table>
@@ -76,12 +79,12 @@
                             ${p.name}
                         (<c:choose>
                         <c:when test="${p.promotionType eq 'PERCENT'}">-${p.discountValue}%</c:when>
-                        <c:otherwise>-<fmt:formatNumber value="${p.discountValue}" type="currency" currencySymbol="₫"/></c:otherwise>
+                        <c:otherwise>-<fmt:formatNumber value="${p.discountValue}" type="number" pattern="#,##0 ₫"/></c:otherwise>
                     </c:choose>)
                     </li>
                 </c:forEach>
             </ul>
-            <p><b>Tổng sau giảm:</b> <fmt:formatNumber value="${payment.totalAmount}" type="currency" currencySymbol="₫"/></p>
+            <p><b>Tổng sau giảm:</b> <fmt:formatNumber value="${totalAfter}" type="number" pattern="#,##0 ₫"/></p>
         </div>
     </c:if>
 

@@ -1,105 +1,239 @@
+:root {
+    --bg-dark: linear-gradient(135deg, #0d1b2a, #1b263b);
+    --card-bg: #121a2b;
+    --accent: #00bcd4;
+    --accent-light: #33d6ff;
+    --success: #00e676;
+    --warning: #f1c40f;
+    --text-main: #eaeaea;
+    --text-dim: #9ca3af;
+    --radius: 14px;
+    --shadow: 0 0 20px rgba(0,188,212,0.25);
+}
+
+/* Toàn trang */
 body {
+    background: var(--bg-dark);
     font-family: "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-    text-align: center;
-    padding-top: 60px;
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     min-height: 100vh;
 }
 
+/* Thẻ chính */
 .container.success {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    border-radius: 16px;
-    padding: 40px 30px;
-    width: 90%;
-    max-width: 650px;
-    margin: auto;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background: var(--card-bg);
+    border: 1px solid rgba(0,188,212,0.25);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px 50px;
+    max-width: 960px;
+    width: 95%;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+    position: relative;
 }
 
-h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
+.container.success::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: radial-gradient(circle at top left, rgba(0,188,212,0.2), transparent 70%);
+    pointer-events: none;
 }
 
-p {
-    font-size: 16px;
-    margin: 6px 0;
+/* Tiêu đề */
+.container.success h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--success);
+    text-shadow: 0 0 18px rgba(0,230,118,0.45);
+    margin-bottom: 8px;
 }
 
+.container.success p {
+    color: var(--text-dim);
+    margin-bottom: 24px;
+}
+
+/* Box thông tin */
 .summary-box {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 20px 0;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,188,212,0.25);
+    border-radius: var(--radius);
+    padding: 20px 26px;
     text-align: left;
+    margin-bottom: 22px;
+    box-shadow: inset 0 0 14px rgba(0,188,212,0.1);
 }
 
 .summary-box h3 {
-    text-align: center;
+    color: var(--accent-light);
     margin-bottom: 10px;
-    color: #f1c40f;
+    font-size: 1.1rem;
+    text-shadow: 0 0 8px rgba(0,188,212,0.5);
 }
 
-.summary-box table {
+.summary-box p {
+    margin: 6px 0;
+    color: var(--text-main);
+}
+.summary-box b {
+    color: var(--accent-light);
+}
+
+/* Bảng vé */
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+}
+thead th {
+    background: var(--accent);
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-main);
+}
+tfoot th {
+    padding: 10px;
+    background: rgba(255,255,255,0.04);
+    color: var(--warning);
+    text-align: right;
+    font-weight: 600;
 }
 
-.summary-box th,
-.summary-box td {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 8px 12px;
-    color: #fff;
+tfoot td {
+    background: #14273e;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding: 10px 16px;
+    font-size: 15px;
+}
+tfoot td:first-child {
+    text-align: left;
+    color: #f1c40f;
+    font-weight: 600;
+}
+tfoot td:last-child {
+    text-align: right;
+    color: #f1c40f;
+    font-weight: 700;
+}
+
+/* Danh sách khuyến mãi */
+.summary-box ul {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+.summary-box ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    color: var(--text-main);
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+}
+
+.summary-box ul li:last-child {
+    border-bottom: none;
+}
+
+.summary-box ul li .promo-name {
+    color: var(--text-dim);
+}
+
+.summary-box ul li .promo-discount {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.summary-box p:last-child {
+    margin-top: 10px;
     font-size: 15px;
 }
 
-.summary-box th {
-    background: rgba(0, 0, 0, 0.2);
-    text-transform: uppercase;
+.summary-box .highlight {
+    color: var(--success);
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(74,222,128,0.6);
 }
 
+/* Nhóm nút */
 .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
     margin-top: 30px;
+    flex-wrap: wrap;
 }
 
+/* Nút chung */
 .btn {
-    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 26px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
     text-decoration: none;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.2s;
-    margin: 0 5px;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
+/* Nút màu xanh lá - về trang chủ */
 .btn-success {
-    background: #2ecc71;
+    background: linear-gradient(90deg, #00e676, #1de9b6);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(0,230,118,0.35);
 }
-
 .btn-success:hover {
-    background: #27ae60;
     transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(0,230,118,0.55);
 }
 
+/* Nút màu xanh dương - xem vé */
 .btn-ticket {
-    background: #3498db;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    color: #fff;
+    box-shadow: 0 0 18px rgba(0,188,212,0.3);
 }
-
 .btn-ticket:hover {
-    background: #2980b9;
     transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(0,188,212,0.5);
 }
 
+/* Hiệu ứng mượt */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .container.success {
-        padding: 25px;
+        padding: 24px;
     }
-    h2 {
-        font-size: 22px;
+    table, th, td {
+        font-size: 14px;
+    }
+    .btn-group {
+        flex-direction: column;
+        gap: 12px;
     }
 }

@@ -1,91 +1,183 @@
+/* ========== Theme màu chính ========== */
+:root {
+    --bg-dark: linear-gradient(135deg, #0d1b2a, #1b263b);
+    --card-bg: #101728;
+    --accent: #00bcd4;
+    --accent-light: #33d6ff;
+    --text: #ecf0f1;
+    --text-dim: #aab6c2;
+    --radius: 14px;
+    --shadow: 0 0 18px rgba(0, 188, 212, 0.25);
+}
+
+/* ========== Layout ========== */
 body {
-    font-family: "Segoe UI", sans-serif;
-    background: #fafafa;
     margin: 0;
     padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
 }
 
+/* Bọc toàn trang để căn giữa chính xác */
+.payment-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px; /* tránh header */
+    padding-bottom: 60px;
+}
+
+/* ========== Container chính ========== */
 .container {
     width: 90%;
-    max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    padding: 30px 40px;
+    max-width: 850px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    animation: fadeIn 0.4s ease;
 }
 
+/* ========== Tiêu đề ========== */
 h2 {
-    color: #d63031;
-    margin-bottom: 10px;
+    text-align: center;
+    color: var(--accent-light);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 26px;
+    margin-top: 10px;
+    margin-bottom: 18px;
 }
 
+/* ========== Thông tin suất chiếu ========== */
 .summary-box {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 188, 212, 0.25);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    box-shadow: inset 0 0 12px rgba(0, 188, 212, 0.15);
 }
 
 .summary-box p {
     margin: 6px 0;
     font-size: 15px;
+    color: var(--text-dim);
+}
+
+/* ========== Bảng danh sách ghế ========== */
+h3 {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
-    font-size: 15px;
+    margin-top: 10px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.1);
 }
 
 th {
-    background: #d63031;
-    color: white;
+    background: var(--accent);
+    color: #fff;
     text-align: left;
-    padding: 10px;
+    padding: 12px;
+    text-transform: uppercase;
+    font-weight: 650;
+    font-size: 15px;
 }
 
 td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    font-size: 15px;
 }
 
-h3 {
-    margin-top: 25px;
-    color: #333;
+td:first-child {
+    color: var(--accent-light);
+    font-weight: 600;
 }
 
-button.btn {
-    display: inline-block;
-    background-color: #d63031;
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
+/* ========== Tổng tiền ========== */
+.total {
+    margin-top: 18px;
+    text-align: right;
+    font-size: 20px;
+    color: var(--text-dim);
+}
+
+.total span {
+    color: var(--accent-light);
+    font-weight: 700;
+    text-shadow: 0 0 6px rgba(51, 214, 255, 0.4);
+}
+
+/* ====== Cụm nút thanh toán ====== */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
     margin-top: 20px;
-    transition: 0.2s;
 }
 
-button.btn:hover {
-    background-color: #e74c3c;
-    transform: translateY(-1px);
+/* Nút cơ bản */
+.btn {
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 700;
+    padding: 14px 26px;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
+/* Nút chính */
+.btn-primary {
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    color: #fff;
+    box-shadow: 0 0 14px rgba(0, 188, 212, 0.4);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(51, 214, 255, 0.6);
+}
+
+/* Nút phụ (quay lại) */
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent-light);
+}
+.btn-outline:hover {
+    background: rgba(0, 188, 212, 0.1);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* ========== Animation nhỏ ========== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
-.container {
-        padding: 20px;
+    .container {
+        padding: 24px;
     }
-
+    h2 {
+        font-size: 22px;
+    }
     table, th, td {
         font-size: 14px;
     }
-
-    button.btn {
-        width: 100%;
-        text-align: center;
-    }
 }
+

@@ -45,6 +45,10 @@
                 <li><a href="blog.jsp">Cộng đồng</a></li>
             </ul>
         </li>
+
+        <li>
+            <a href="${pageContext.request.contextPath}/tickets">VÉ CỦA TÔI 🎫</a>
+        </li>
     </ul>
     <ul class="cloud">
         <!-- Search box -->

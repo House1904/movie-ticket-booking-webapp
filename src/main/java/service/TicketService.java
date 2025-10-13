@@ -22,5 +22,7 @@ public class TicketService {
     public boolean insert(Ticket ticket) {
         return ticketDAO.insert(ticket);
     }
-
+    public List<Ticket> getTicketList(long customerID){
+        return ticketDAO.getTicketByCustomer(customerID);
+    }
 }

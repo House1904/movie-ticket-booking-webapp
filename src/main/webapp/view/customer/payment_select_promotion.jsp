@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/common/header.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="vi_VN"/>
@@ -6,88 +7,80 @@
 <html>
 <head>
     <title>Chọn khuyến mãi</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/payment.css">
-    <style>
-        body {font-family: "Segoe UI"; background:#f5f7fb;}
-        .container {max-width:950px; margin:36px auto; background:#fff; border-radius:10px; padding:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,.08);}
-        table {width:100%; border-collapse:collapse; margin-top:16px;}
-        th,td {padding:12px; border-bottom:1px solid #eee;}
-        th {background:#fafafa; color:#555;}
-        .total-line {margin-top:12px; text-align:right; font-weight:600;}
-        .total-amount {color:#16a34a;}
-        .btn {background:#e74c3c; border:none; color:#fff; padding:10px 16px; border-radius:8px; cursor:pointer;}
-        .btn:hover {opacity:.92;}
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/select_promo.css">
 </head>
 <body>
-<div class="container">
-    <h2>🎁 Chọn khuyến mãi áp dụng</h2>
-    <p><b>Tổng tạm tính:</b>
-        <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0 ₫"/>
-    </p>
+<main class="promo-wrapper">
+    <div class="container">
+        <h2>🎁 Chọn khuyến mãi áp dụng</h2>
+        <p class="subtext">
+            <b>Tổng tạm tính:</b>
+            <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0 ₫"/>
+        </p>
 
-    <form action="${pageContext.request.contextPath}/payment" method="post" id="promoForm">
-        <input type="hidden" name="action" value="confirm"/>
+        <form action="${pageContext.request.contextPath}/payment" method="post" id="promoForm">
+            <input type="hidden" name="action" value="confirm"/>
 
-        <table>
-            <thead>
-            <tr>
-                <th>Chọn</th>
-                <th>Tên khuyến mãi</th>
-                <th>Loại</th>
-                <th>Giảm</th>
-                <th>Điều kiện</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="p" items="${promotions}">
+            <table>
+                <thead>
                 <tr>
-                    <td>
-                        <input type="checkbox"
-                               name="promotionIds"
-                               value="${p.id}"
-                               data-type="${p.promotionType}"
-                               data-value="${p.discountValue}"
-                               data-min="${p.minTotalPrice}"
-                               data-max="${p.maxTotalPrice}">
-                    </td>
-                    <td>${p.name}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${p.promotionType eq 'PERCENT'}">Giảm %</c:when>
-                            <c:otherwise>Giảm tiền</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${p.promotionType eq 'PERCENT'}">
-                                -<fmt:formatNumber value="${p.discountValue}" maxFractionDigits="0"/>%
-                            </c:when>
-                            <c:otherwise>
-                                -<fmt:formatNumber value="${p.discountValue}" type="number" pattern="#,##0 ₫"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        Từ <fmt:formatNumber value="${p.minTotalPrice}" type="number" pattern="#,##0 ₫"/>
-                    </td>
+                    <th>Chọn</th>
+                    <th>Tên khuyến mãi</th>
+                    <th>Loại</th>
+                    <th>Giảm</th>
+                    <th>Điều kiện</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach var="p" items="${promotions}">
+                    <tr>
+                        <td>
+                            <input type="checkbox"
+                                   name="promotionIds"
+                                   value="${p.id}"
+                                   data-type="${p.promotionType}"
+                                   data-value="${p.discountValue}"
+                                   data-min="${p.minTotalPrice}"
+                                   data-max="${p.maxTotalPrice}">
+                        </td>
+                        <td>${p.name}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${p.promotionType eq 'PERCENT'}">Giảm %</c:when>
+                                <c:otherwise>Giảm tiền</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${p.promotionType eq 'PERCENT'}">
+                                    -<fmt:formatNumber value="${p.discountValue}" maxFractionDigits="0"/>%
+                                </c:when>
+                                <c:otherwise>
+                                    -<fmt:formatNumber value="${p.discountValue}" type="number" pattern="#,##0 ₫"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            Từ <fmt:formatNumber value="${p.minTotalPrice}" type="number" pattern="#,##0 ₫"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
 
-        <div class="total-line">
-            Tổng sau giảm: <span id="discountedPrice" class="total-amount">
-        <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0 ₫"/>
-      </span>
-        </div>
+            <div class="total-line">
+                Tổng sau giảm: <span id="discountedPrice" class="total-amount">
+                    <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0 ₫"/>
+                </span>
+            </div>
 
-        <div style="text-align:center;margin-top:20px;">
-            <button type="submit" class="btn">Tiếp tục thanh toán ➜</button>
-        </div>
-    </form>
-</div>
+            <div class="actions">
+                <button type="button" class="btn btn-outline" onclick="history.back()">Quay lại</button>
+                <button type="submit" class="btn btn-primary">Tiếp tục thanh toán</button>
+            </div>
+        </form>
+    </div>
+</main>
 
 <script>
     const baseTotal = Number("${totalPrice}");

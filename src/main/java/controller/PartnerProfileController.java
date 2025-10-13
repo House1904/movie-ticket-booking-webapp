@@ -34,7 +34,6 @@ public class PartnerProfileController extends HttpServlet {
         partner.setFullName(req.getParameter("fullName"));
         partner.setPhone(req.getParameter("phone"));
         partner.setBrand(req.getParameter("brand"));
-        partner.setIs_activate(req.getParameter("is_activate") != null);
 
         partnerService.updatePartner(partner);
 

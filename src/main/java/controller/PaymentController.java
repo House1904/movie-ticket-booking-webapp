@@ -1,149 +1,3 @@
-//package controller;
-//
-//import model.*;
-//import model.enums.PaymentStatus;
-//import model.enums.SeatBookedFormat;
-//import model.enums.Status;
-//import service.*;
-//
-//import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
-//import javax.servlet.http.*;
-//import java.io.IOException;
-//import java.math.BigDecimal;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.Map;
-//
-//@WebServlet("/payment")
-//public class PaymentController extends HttpServlet {
-//    private final PaymentService paymentService = new PaymentService();
-//    private final TicketService ticketService = new TicketService();
-//    private final BookingService bookingService = new BookingService();
-//
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//
-//        String action = request.getParameter("action");
-//        HttpSession session = request.getSession();
-//        String url = "";
-//
-//        if ("confirm".equals(action)) {
-//            url = "/view/customer/payment_qr.jsp";
-//        }
-//
-//        else if ("callback".equals(action)) {
-//            String result = request.getParameter("status"); // success | failed
-//
-//            Booking booking = (Booking) session.getAttribute("booking");
-//            Showtime showtime = (Showtime) session.getAttribute("showtime");
-//            Map<Seat, BigDecimal> seatPrices =
-//                    (Map<Seat, BigDecimal>) session.getAttribute("seatPrices");
-//
-//            if (booking == null || showtime == null || seatPrices == null) {
-//                request.setAttribute("errorMessage", "Phiên thanh toán không hợp lệ hoặc đã hết hạn.");
-//                request.getRequestDispatcher("/view/customer/fail.jsp").forward(request, response);
-//                return;
-//            }
-//
-//            if (booking.getStatus() == Status.ISSUED) {
-//                response.sendRedirect(request.getContextPath() + "/tickets");
-//                return;
-//            }
-//
-//            // ✅ Thành công
-//            if ("success".equals(result)) {
-//
-//                // 🔄 Cập nhật trạng thái ghế: HOLD → CONFIRMED
-//                for (Map.Entry<Seat, BigDecimal> entry : seatPrices.entrySet()) {
-//                    Seat seat = entry.getKey();
-//                    BookingSeat bs = bookingService.findBookingSeatBySeatAndShowtime(seat.getId(), showtime.getId());
-//                    if (bs != null && bs.getStatus() == SeatBookedFormat.HOLD) {
-//                        bookingService.updateBookingSeatStatus(bs, SeatBookedFormat.CONFIRMED);
-//                    }
-//                }
-//
-//                // 1️⃣ Ghi bản thanh toán
-//                Payment payment = new Payment();
-//                payment.setBooking(booking);
-//                payment.setStatus(PaymentStatus.PAID);
-//                payment.setCreateAt(LocalDateTime.now());
-//                payment.setPaidAt(LocalDateTime.now());
-//                payment.setExpiredAt(LocalDateTime.now().plusMinutes(10));
-//
-//                booking.setPayment(payment);
-//
-//                paymentService.insert(payment);
-//
-//                // 2️⃣ Sinh vé cho từng ghế đã chọn
-//                booking.setTickets(new ArrayList<>());
-//                for (Map.Entry<Seat, BigDecimal> entry : seatPrices.entrySet()) {
-//                    Seat seat = entry.getKey();
-//                    BigDecimal price = entry.getValue();
-//
-//                    Ticket ticket = new Ticket();
-//                    ticket.setShowtime(showtime);
-//                    ticket.setSeat(seat);
-//                    ticket.setPrice(price.doubleValue());
-//                    ticket.setStatus(Status.ISSUED);
-//                    ticket.setCreatedAt(LocalDateTime.now());
-//                    ticket.setIssuedAt(LocalDateTime.now());
-//                    ticket.setBooking(booking);
-//
-//                    ticketService.insert(ticket);
-//
-//                    // Gắn ticket vào booking để giữ quan hệ đúng chiều
-//                    booking.getTickets().add(ticket);
-//                }
-//
-//                // 3️⃣ Cập nhật Booking
-//                booking.setStatus(Status.ISSUED);
-//                bookingService.updateBooking(booking);
-//
-//                // ✅ Chuyển LocalDateTime -> Date để JSP hiển thị bằng fmt
-//                java.util.Date paidAtDate = java.util.Date.from(
-//                        payment.getPaidAt()
-//                                .atZone(java.time.ZoneId.systemDefault())
-//                                .toInstant()
-//                );
-//
-//                // ✅ Gửi sang JSP
-//                request.setAttribute("payment", payment);
-//                request.setAttribute("booking", booking);
-//                request.setAttribute("seatPrices", seatPrices);
-//                request.setAttribute("showtime", showtime);
-//                request.setAttribute("paidAtDate", paidAtDate);
-//
-//                // 4️⃣ Xóa session tạm
-//                session.removeAttribute("seatPrices");
-//                session.removeAttribute("showtime");
-//                session.removeAttribute("booking");
-//
-//                url = "/view/customer/success.jsp";
-//            }
-//
-//            // ❌ Thất bại
-//            else {
-//                // 🔄 Cập nhật trạng thái ghế: HOLD → EXPIRED
-//                for (Map.Entry<Seat, BigDecimal> entry : seatPrices.entrySet()) {
-//                    Seat seat = entry.getKey();
-//                    BookingSeat bs = bookingService.findBookingSeatBySeatAndShowtime(seat.getId(), showtime.getId());
-//                    if (bs != null && bs.getStatus() == SeatBookedFormat.HOLD) {
-//                        bookingService.updateBookingSeatStatus(bs, SeatBookedFormat.EXPIRED);
-//                    }
-//                }
-//
-//                booking.setStatus(Status.CANCELLED);
-//                bookingService.updateBooking(booking);
-//                request.setAttribute("errorMessage", "Thanh toán thất bại hoặc đã hết thời gian.");
-//                url = "/view/customer/fail.jsp";
-//            }
-//        }
-//
-//        request.getRequestDispatcher(url).forward(request, response);
-//    }
-//}
 package controller;
 
 import model.*;
@@ -264,7 +118,6 @@ public class PaymentController extends HttpServlet {
                 payment.setCreateAt(LocalDateTime.now());
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setExpiredAt(LocalDateTime.now().plusMinutes(10));
-//                payment.setTotalAmount(totalAfter);
 
                 booking.setPayment(payment);
                 paymentService.insert(payment);
@@ -289,6 +142,8 @@ public class PaymentController extends HttpServlet {
 
                 // ✅ Ghi khuyến mãi đã chọn xuống bảng bookingPromotion
                 String[] selectedIds = (String[]) session.getAttribute("selectedPromotionIds");
+                List<Promotion> selectedPromos = new ArrayList<>();
+
                 if (selectedIds != null && selectedIds.length > 0) {
                     BookingPromotionService bpService = new BookingPromotionService();
                     for (String idStr : selectedIds) {
@@ -296,10 +151,16 @@ public class PaymentController extends HttpServlet {
                             long promoId = Long.parseLong(idStr);
                             System.out.println("💾 [PaymentController] Lưu promotionID=" + promoId + " vào booking=" + booking.getId());
                             bpService.addPromotionToBooking(booking.getId(), promoId);
+
+                            // ✅ Truy xuất đối tượng Promotion để hiển thị ở success.jsp
+                            Promotion promo = promotionService.getPromotionById(promoId);
+                            if (promo != null) selectedPromos.add(promo);
                         } catch (NumberFormatException ignored) {}
                     }
                 }
 
+                // ✅ Gửi danh sách khuyến mãi sang JSP
+                request.setAttribute("selectedPromos", selectedPromos);
 
                 java.util.Date paidAtDate = java.util.Date.from(
                         payment.getPaidAt().atZone(java.time.ZoneId.systemDefault()).toInstant());
