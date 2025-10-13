@@ -4,6 +4,8 @@ import dao.MovieDAO;
 import model.Cinema;
 import model.Movie;
 import model.Showtime;
+import service.BannerService;
+import model.Banner;
 import model.User;
 import model.Rating;
 import service.ShowtimeService;
@@ -12,24 +14,29 @@ import service.MovieService;
 import service.FavoriteService;
 import service.RatingService;
 import javax.persistence.EntityManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet({"/home", "/selectShowtime"})
 public class HomeController extends HttpServlet {
     private MovieService movieService = new MovieService();
     private CinemaService cinemaService = new CinemaService();
     private ShowtimeService showtimeService = new ShowtimeService();
-    private MovieDAO movieDAO = new MovieDAO() ;
     private FavoriteService favoriteService;
-
+    private BannerService bannerService = new BannerService();
     @Override
     public void init() throws ServletException {
         EntityManager em = util.DBConnection.getEmFactory().createEntityManager();
@@ -40,14 +47,27 @@ public class HomeController extends HttpServlet {
         String servletPath = req.getServletPath();
         try {
             if ("/home".equals(servletPath)) {
+                // Lấy danh sách phim và rạp
                 List<Movie> nowShowingMovies = movieService.getMoviesbyIsShowing();
                 List<Movie> upcomingMovies = movieService.getMoviesbyCommingSoon();
                 List<Cinema> cinemas = cinemaService.getCinemas();
+                // Lấy danh sách banner và sắp xếp theo created_at giảm dần
+                List<Banner> banners = bannerService.getAllBanners()
+                        .stream()
+                        .sorted(
+                                Comparator.comparing(
+                                        Banner::getCreated_at,
+                                        Comparator.nullsLast(Comparator.reverseOrder())
+                                )
+                        )
+                        .collect(Collectors.toList());
 
                 HttpSession session = req.getSession();
                 session.setAttribute("nowShowingMovies", nowShowingMovies);
                 session.setAttribute("upcomingMovies", upcomingMovies);
                 session.setAttribute("cinemas", cinemas);
+                session.setAttribute("banners", banners);
+                session.setAttribute("now", LocalDateTime.now());
 
                 RequestDispatcher rd = req.getRequestDispatcher("/view/customer/home.jsp");
                 rd.forward(req, resp);
@@ -114,7 +134,9 @@ public class HomeController extends HttpServlet {
                 }
             }
         } catch (SQLException e) {
-            throw new ServletException("Lỗi cơ sở dữ liệu", e);
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -123,5 +145,4 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         doGet(req, resp);
     }
-
 }

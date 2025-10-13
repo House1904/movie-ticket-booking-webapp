@@ -22,6 +22,10 @@ public class PartnerProfileController extends HttpServlet {
         HttpSession session = req.getSession();
         Partner partner = (Partner) session.getAttribute("user");
 
+        if (partner == null) {
+            resp.sendRedirect(req.getContextPath() + "/common/login.jsp");
+        }
+
         req.setAttribute("partner", partner);
         req.getRequestDispatcher("view/partner/profile.jsp").forward(req, resp);
     }

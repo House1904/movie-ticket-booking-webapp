@@ -52,7 +52,7 @@ public class AuthController extends HttpServlet {
                     if (account.getRole() == Role.ADMIN) {
                         Admin  admin = (Admin) account.getUser();
                         session.setAttribute("user", admin);
-                        response.sendRedirect(request.getContextPath() + "/admin.jsp");
+                        response.sendRedirect(request.getContextPath() + "/admin/home");
                     }
 
                     else if (account.getRole() == Role.PARTNER) {

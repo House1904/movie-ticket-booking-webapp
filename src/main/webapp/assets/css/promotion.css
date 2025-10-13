@@ -11,9 +11,17 @@ body {
     align-items: flex-start;
     padding: 40px 15px;
 }
-
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    z-index: 1000;
+}
 /* 🎁 Container chính */
 .container {
+    margin-top: 100px;
     max-width: 1000px;
     width: 100%;
 }
