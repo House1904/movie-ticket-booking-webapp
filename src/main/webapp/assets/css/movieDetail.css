@@ -60,33 +60,222 @@ gap: 12px;
 }
 
 .favorite-btn,
-.trailer-btn {
-border: none;
-background: #2c2c2c;
-color: #fff;
-padding: 10px 18px;
-border-radius: 8px;
-cursor: pointer;
-font-size: 1rem;
-transition: background 0.2s ease, color 0.2s ease;
+.trailer-btn,
+.book-ticket {
+    border: none;
+    background: #2c2c2c;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.favorite-btn.favorited {
+    background: #2c2c2c;
+    color: white;
+}
+
+.favorite-btn.favorited {
+    background-color: #c82333;
 }
 
 .favorite-btn:hover {
-background: #ff4757;
-color: white;
+    background: #ff4757;
+    color: white;
 }
 
 .trailer-btn {
-text-decoration: none;
-background: #3742fa;
-font-weight: bold;
+    text-decoration: none;
+    background: #3742fa;
 }
 
 .trailer-btn:hover {
-background: #5352ed;
+    background: #5352ed;
 }
 
 .desc {
-margin-top: 15px;
-line-height: 1.6;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+.book-ticket {
+    background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5);
+    box-shadow: 0 3px 10px rgba(147, 51, 234, 0.3);
+}
+
+.book-ticket:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
+}
+
+.rating-section {
+    margin: 50px auto;
+    max-width: 850px;
+    background: #1b1b1b;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.rating-section h3 {
+    color: #f1c40f;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #2c2c2c;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between; /* nút ở bên phải */
+    align-items: center;
+    letter-spacing: 0.5px;
+}
+
+.rating-section h3 button {
+    background: linear-gradient(135deg, #62b5b1, #7561b6, #3966b5);
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.rating-section h3 button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(28, 214, 206, 0.4);
+}
+
+/* Mỗi đánh giá */
+.rating-item {
+    background: #242424;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.rating-item:hover {
+    background: #2d2d2d;
+    transform: translateY(-2px);
+}
+
+/* Header của đánh giá (tên + ngày + sao) */
+.rating-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.rating-header strong {
+    color: #fff;
+    font-size: 1.05rem;
+}
+
+.rating-header .stars {
+    color: #f1c40f;
+    font-size: 1rem;
+}
+
+.rating-header .date {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-left: 10px;
+}
+
+/* Nội dung đánh giá */
+.rating-body h4 {
+    margin: 6px 0 4px;
+    font-size: 1.1rem;
+    color: #e0e0e0;
+}
+
+.rating-body p {
+    margin: 0;
+    color: #bfbfbf;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Khi không có đánh giá */
+.rating-section p.no-rating {
+    color: #aaa;
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.rating-popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.rating-popup .popup-content {
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    color: #fff;
+    position: relative;
+}
+
+.rating-popup .close-popup {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #f1c40f;
+}
+
+.rating-popup select,
+.rating-popup textarea,
+.rating-popup button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+}
+
+.rating-popup button {
+    background: #f1c40f;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.rating-popup button:hover {
+    background: #ffc107;
+}
+
+.movie-rating-summary {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #ffb400; /* màu vàng cho sao */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.movie-rating-summary .average-score,
+.movie-rating-summary .rating-count {
+    color: #ccc; /* màu chữ */
+    font-size: 13px;
 }

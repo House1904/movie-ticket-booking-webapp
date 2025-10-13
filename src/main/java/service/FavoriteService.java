@@ -13,7 +13,6 @@ import java.util.Collections;
 public class FavoriteService {
 
     private static final Logger logger = Logger.getLogger(FavoriteService.class.getName());
-
     private final FavoriteDAO favoriteDAO;
 
     public FavoriteService(FavoriteDAO favoriteDAO) {

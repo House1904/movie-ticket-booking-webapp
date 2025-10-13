@@ -56,9 +56,6 @@
                         btnEl.classList.remove('favorited');
                         // Optionally remove the card from favorite page
                         btnEl.closest('.movie-card').remove();
-                    } else if (data.message === 'not_logged_in') {
-                        alert("Vui lòng đăng nhập để thêm yêu thích!");
-                        window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
                     }
                 }).catch(err => console.error(err));
             });

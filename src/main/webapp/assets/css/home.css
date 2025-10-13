@@ -335,8 +335,8 @@ html, body,
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
-    text-decoration: none; /* Loại bỏ gạch dưới */
-    color: #ffffff; /* Màu chữ trắng */
+    text-decoration: none;
+    color: #ffffff;
 }
 
 /* Nút đặt vé */

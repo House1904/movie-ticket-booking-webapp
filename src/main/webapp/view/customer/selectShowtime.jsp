@@ -29,9 +29,8 @@
                         class="favorite-btn ${isFavorite ? 'favorited' : ''}"
                         data-id="${selectedMovie.id}">
                     <i class="fa fa-heart"></i>
-                    <span class="favorite-text">
-                        ${isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
-                    </span>
+                    <span class="favorite-text">${isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}</span>
+
                 </button>
 
 
@@ -43,35 +42,35 @@
         </div>
 
         <script>
-            const favoriteBtn = document.getElementById('favorite-btn');
-            if (favoriteBtn) {
-                const favoriteText = favoriteBtn.querySelector('.favorite-text');
+        const favoriteBtn = document.getElementById('favorite-btn');
+        if (favoriteBtn) {
+            const favoriteText = favoriteBtn.querySelector('.favorite-text');
 
-                favoriteBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const movieId = this.dataset.id;
+            favoriteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const movieId = this.dataset.id;
 
-                    fetch('<%=request.getContextPath()%>/favorite', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                        body: 'movieId=' + movieId
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'added') {
-                            favoriteBtn.classList.add('favorited');
-                            favoriteText.textContent = 'Bỏ yêu thích';
-                        } else if (data.status === 'removed') {
-                            favoriteBtn.classList.remove('favorited');
-                            favoriteText.textContent = 'Yêu thích';
-                        } else if (data.message === 'not_logged_in') {
-                            alert("Vui lòng đăng nhập để thêm yêu thích!");
-                            window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
-                        }
-                    })
-                    .catch(err => console.error(err));
-                });
-            }
+                fetch('<%=request.getContextPath()%>/favorite', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: 'movieId=' + movieId
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'added') {
+                        favoriteBtn.classList.add('favorited');
+                        favoriteText.textContent = 'Bỏ yêu thích';
+                    } else if (data.status === 'removed') {
+                        favoriteBtn.classList.remove('favorited');
+                        favoriteText.textContent = 'Yêu thích';
+                    } else if (data.message === 'not_logged_in') {
+                        alert("Vui lòng đăng nhập để thêm yêu thích!");
+                        window.location.href = '<%=request.getContextPath()%>/common/login.jsp';
+                    }
+                })
+                .catch(err => console.error(err));
+            });
+        }
         </script>
 
         <!-- Showtime Selection Section (Right) -->
@@ -133,6 +132,8 @@
     </div>
 </div>
 
+<c:set var="ratings" value="${requestScope.ratings}" />
+
 <!-- Include popup đánh giá -->
 <jsp:include page="ratingPopup.jsp" />
 
@@ -147,22 +148,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ratingBtn) {
         ratingBtn.addEventListener('click', function() {
             ratingPopup.style.display = 'flex';
-            // Xóa cũ trước khi load mới
             ratingList.innerHTML = '<p>Đang tải đánh giá...</p>';
 
             fetch('<%=request.getContextPath()%>/rating?movieId=' + movieId)
                 .then(res => res.json())
                 .then(data => {
                     ratingList.innerHTML = '';
-                    if (data.length === 0) {
+                    if (!data || data.length === 0) {
                         ratingList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
                     } else {
                         data.forEach(r => {
+                            const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+                            const createdAt = new Date(r.createdAt).toLocaleString();
                             const div = document.createElement('div');
                             div.className = 'rating-item';
                             div.innerHTML = `
-                                <div class="rating-stars">${'★'.repeat(r.stars)}${'☆'.repeat(10 - r.stars)}</div>
-                                <p><strong>${r.username}</strong>: ${r.comment}</p>
+                                <div class="rating-header">
+                                    <strong>${r.customerName}</strong>
+                                    <span class="stars">${stars}</span>
+                                    <span class="rating-date">${createdAt}</span>
+                                </div>
+                                <div class="rating-body">
+                                    <p>${r.content || ''}</p>
+                                </div>
                             `;
                             ratingList.appendChild(div);
                         });

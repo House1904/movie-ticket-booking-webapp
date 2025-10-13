@@ -31,7 +31,10 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-      String action = request.getParameter("action");
+        String action = request.getParameter("action");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 
         if ("login".equals(action)) {
             String username = request.getParameter("username");
