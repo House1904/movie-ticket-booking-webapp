@@ -27,6 +27,7 @@
                 <li><a href="${pageContext.request.contextPath}/promotion">Quản lý khuyến mãi</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/articles">Quản lý tin tức</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/banners">Quản lý banner</a></li>
+                <li><a href="<%= request.getContextPath() %>/manageMovie">Quản lý movie</a></li>
             </ul>
         </li>
     </ul>
