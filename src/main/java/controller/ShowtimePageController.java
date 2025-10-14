@@ -6,6 +6,8 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.sql.SQLException;
 
@@ -81,15 +83,30 @@ public class ShowtimePageController extends HttpServlet{
                     throw new RuntimeException(e);
                 }
 
+//                // Gom các showtime theo từng movie
+//                Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
+//                LocalDateTime now = LocalDateTime.now();
+//                for (Showtime s : showtimes) {
+//                    Movie movie = s.getMovie();
+//                    movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
+//                }
+//
+//                req.setAttribute("now", now);
+//                req.setAttribute("movieShowtimes", movieShowtimes);
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
-                LocalDateTime now = LocalDateTime.now();
+                Map<Long, Boolean> disableMap = new HashMap<>();
+                ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");
+                ZonedDateTime nowInHCM = ZonedDateTime.now(zone);
                 for (Showtime s : showtimes) {
                     Movie movie = s.getMovie();
+                    ZonedDateTime showtimeInHCM = s.getStartTime().atZone(zone);
+                    boolean disable = showtimeInHCM.isBefore(nowInHCM); // true nếu đã qua
+                    disableMap.put(s.getId(), disable);
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
-                req.setAttribute("now", now);
+                req.setAttribute("disableMap", disableMap);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
 

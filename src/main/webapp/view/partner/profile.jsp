@@ -64,7 +64,6 @@
                                         🎬 <strong>${cinema.name}</strong>
                                         <small class="text-muted">(${cinema.address})</small>
                                     </span>
-                                    <a href="${pageContext.request.contextPath}/cinema/detail?id=${cinema.id}" class="btn btn-sm btn-outline-primary">Xem</a>
                                 </li>
                             </c:forEach>
                         </ul>

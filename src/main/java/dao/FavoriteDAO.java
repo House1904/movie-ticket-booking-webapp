@@ -55,9 +55,9 @@ public class FavoriteDAO {
     }
 
     public List<Favorite> findByUser(User user) {
-        String jpql = "SELECT f FROM Favorite f " +
+        String jpql = "SELECT DISTINCT f FROM Favorite f " +
                 "JOIN FETCH f.movie m " +
-                "LEFT JOIN FETCH m.genre " + // <- thêm fetch genre
+                "LEFT JOIN FETCH m.genre " +
                 "WHERE f.user = :user";
         TypedQuery<Favorite> query = em.createQuery(jpql, Favorite.class);
         query.setParameter("user", user);

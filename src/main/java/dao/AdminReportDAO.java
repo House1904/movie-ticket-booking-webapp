@@ -115,12 +115,13 @@ public class AdminReportDAO {
                     "FROM Ticket t "+
                     "JOIN t.showtime s "+
                     "JOIN s.movie m "+
-                    "WHERE t.createdAt BETWEEN :start AND :end "+
+//                    "WHERE t.createdAt BETWEEN :start AND :end "+
                     "GROUP BY m.title "+
-                    " ORDER BY SUM(t.price) DESC";
+//                    " ORDER BY SUM(t.price) DESC";
+                    "ORDER BY SUM(t.price) DESC";
             return em.createQuery(jpql, Object[].class)
-                    .setParameter("start", start)
-                    .setParameter("end", end)
+//                    .setParameter("start", start)
+//                    .setParameter("end", end)
                     .setMaxResults(5)
                     .getResultList();
         } finally {
