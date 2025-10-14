@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @WebServlet("/booking")
 public class BookingController extends HttpServlet {
     private BookingService bookingService = new BookingService();
@@ -28,11 +29,12 @@ public class BookingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        bookingService.deletedBookingSeat();
 
         String url = "";
         String action = request.getParameter("action");
         if ("showtimeSl".equals(action)) {
-            bookingService.deletedBookingSeat();
+
 
             HttpSession session = request.getSession();
             long showtimeID = Long.parseLong(request.getParameter("showtimeID"));
@@ -131,6 +133,7 @@ public class BookingController extends HttpServlet {
 
         request.getRequestDispatcher(url).forward(request, response);
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/view/customer/booking.jsp").forward(request, response);

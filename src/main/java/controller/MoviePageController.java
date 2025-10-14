@@ -61,6 +61,7 @@ public class MoviePageController extends HttpServlet {
             movies = movieService.getMovies();
         }
 
+
         try {
             genreList = movieService.getGenres();
             session.setAttribute("genreList", genreList);

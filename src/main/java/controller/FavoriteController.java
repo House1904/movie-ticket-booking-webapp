@@ -90,6 +90,7 @@ public class FavoriteController extends HttpServlet {
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
         String currentURL = "";
+
         if (user == null) {
             currentURL = request.getRequestURI() +
                     (request.getQueryString() != null ? "?" + request.getQueryString() : "");

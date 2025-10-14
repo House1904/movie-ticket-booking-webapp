@@ -4,19 +4,14 @@
 
 <html>
 <head>
-    <title>Thanh toán VietQR</title>
+    <title>Thanh toán VNPay</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/payment_qr.css">
 </head>
 <body>
 <div class="qr-wrapper">
     <div class="qr-card">
-        <h2 class="qr-title">💳 Quét mã QR để thanh toán</h2>
-        <p class="qr-sub">Vui lòng quét mã bằng ứng dụng ngân hàng hoặc ví điện tử để hoàn tất giao dịch.</p>
-
-        <c:set var="total" value="0" />
-        <c:forEach var="entry" items="${seatPrices}">
-            <c:set var="total" value="${total + entry.value}" />
-        </c:forEach>
+        <h2 class="qr-title">💳 Thanh toán qua VNPay hoặc quét mã bên dưới</h2>
+        <p class="qr-sub">Bạn sẽ được chuyển đến cổng thanh toán VNPay để hoàn tất giao dịch.</p>
 
         <div class="qr-grid">
             <!-- Cột trái: QR -->
@@ -26,7 +21,6 @@
                      alt="QR Code">
             </div>
 
-            <!-- Cột phải: Thông tin -->
             <div class="info">
                 <h4>Chi tiết thanh toán</h4>
                 <ul class="info-list">
@@ -45,18 +39,15 @@
             </div>
         </div>
 
-        <!-- Bộ đếm thời gian -->
         <div class="countdown">
             <span class="dot"></span>
             <span id="timer">⏳ Còn lại: 60s</span>
         </div>
 
-        <!-- Nút hành động -->
         <div class="actions">
-            <form id="successForm" action="${pageContext.request.contextPath}/payment" method="post">
-                <input type="hidden" name="action" value="callback">
-                <input type="hidden" name="status" value="success">
-                <button type="submit" class="btn btn-success">Tôi đã thanh toán</button>
+            <form action="${pageContext.request.contextPath}/payment" method="post">
+                <input type="hidden" name="action" value="createVNPay">
+                <button type="submit" class="btn btn-primary">Thanh toán qua VNPay</button>
             </form>
 
             <form id="failForm" action="${pageContext.request.contextPath}/payment" method="post">
@@ -68,22 +59,17 @@
     </div>
 </div>
 
-<!-- Countdown -->
 <script>
     (function(){
         let timeLeft = 60;
         const timer = document.getElementById("timer");
         const failForm = document.getElementById("failForm");
-
-        function render(){
-            timer.textContent = "⏳ Còn lại: " + timeLeft + "s";
-        }
+        const render = () => timer.textContent = "⏳ Còn lại: " + timeLeft + "s";
         render();
-
         const countdown = setInterval(() => {
             timeLeft--;
             render();
-            if(timeLeft <= 0){
+            if (timeLeft <= 0) {
                 clearInterval(countdown);
                 failForm.submit();
             }

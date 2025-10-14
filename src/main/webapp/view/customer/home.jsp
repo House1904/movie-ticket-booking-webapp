@@ -147,6 +147,7 @@
             });
         }, 3000);
     }
+
     function scrollCarousel(direction) {
         const container = document.querySelector('.now-showing-posters');
         const scrollAmount = 315;

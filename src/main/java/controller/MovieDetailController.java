@@ -93,6 +93,7 @@ public class MovieDetailController extends HttpServlet {
 
             }
 
+
             request.setAttribute("isFavorited", isFavorited);
 
             Customer customer = (Customer) user; // ép kiểu sang Customer

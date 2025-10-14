@@ -25,7 +25,6 @@
             <th>ID</th>
             <th>Tên phòng</th>
             <th>Định dạng</th>
-            <th>Ngày tạo</th>
             <th>Hành động</th>
         </tr>
         <c:forEach var="auditorium" items="${auditoriums}">

@@ -34,6 +34,7 @@ public class    RatingController extends HttpServlet {
             String currentURL = req.getRequestURI() +
                     (req.getQueryString() != null ? "?" + req.getQueryString() : "");
             session.setAttribute("redirectAfterLogin", currentURL);
+
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().write("{\"error\": \"Chưa đăng nhập\"}");
             return;

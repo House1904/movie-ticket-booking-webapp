@@ -6,6 +6,8 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.sql.SQLException;
 
@@ -83,15 +85,20 @@ public class ShowtimePageController extends HttpServlet{
 
                 // Gom các showtime theo từng movie
                 Map<Movie, List<Showtime>> movieShowtimes = new LinkedHashMap<>();
-                LocalDateTime now = LocalDateTime.now();
+                Map<Showtime, Boolean> disableMap = new HashMap<>();
+                ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");
+                LocalDateTime nowInHCM = LocalDateTime.now(zone);
                 for (Showtime s : showtimes) {
                     Movie movie = s.getMovie();
+                    boolean disable = s.getStartTime().isBefore(nowInHCM); // true nếu đã qua
+                    disableMap.put(s, disable);
                     movieShowtimes.computeIfAbsent(movie, k -> new ArrayList<>()).add(s);
                 }
 
-                req.setAttribute("now", now);
+                req.setAttribute("disableMap", disableMap);
                 req.setAttribute("movieShowtimes", movieShowtimes);
             }
+
             String from = req.getParameter("from");
             if (from == null || from.isEmpty()) {
                 req.getRequestDispatcher("/view/customer/showtime.jsp").forward(req, resp);

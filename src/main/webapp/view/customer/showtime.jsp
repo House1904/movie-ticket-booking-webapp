@@ -1,5 +1,5 @@
 <%@ include file="/common/header.jsp" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.time.LocalDate"%>
@@ -80,22 +80,15 @@
                             <img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster">
                             <div class="showtime-buttons">
                                 <c:forEach var="s" items="${showtimes}">
-                                    <c:choose>
-                                        <c:when test="${s.startTime lt now}">
-                                            <button type="button" class="time-btn past" disabled>
-                                                    ${fn:substring(s.startTime, 11, 16)}
-                                            </button>
-                                        </c:when>
-                                        <c:otherwise>
+                                    <c:set var="disableButton" value="${disableMap[s]}" />
                                             <form action="booking" method="post" style="display:inline;">
                                                 <input type="hidden" name="showtimeID" value="${s.id}">
                                                 <input type="hidden" name="action" value="showtimeSl">
-                                                <button type="submit" class="time-btn">
-                                                        ${fn:substring(s.startTime, 11, 16)}
+                                                <button type="button" class="time-btn ${disableButton ? 'past' : ''}"
+                                                    ${disableButton ? 'disabled' : ''}>
+                                                        ${fn:substring(s.startTime.toString(), 11, 16)}
                                                 </button>
                                             </form>
-                                        </c:otherwise>
-                                    </c:choose>
                                 </c:forEach>
                             </div>
                         </div>
