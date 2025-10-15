@@ -42,6 +42,7 @@ public class FavoriteService {
     // Lấy danh sách yêu thích của user
     public List<Favorite> getFavoritesByUser(User user) {
         List<Favorite> favorites = favoriteDAO.findByUser(user);
+        favorites.removeIf(f -> f.getMovie() == null);
         // Ép load genre trước khi session đóng
         for (Favorite f : favorites) {
             f.getMovie().getGenre().size(); // chỉ để trigger load

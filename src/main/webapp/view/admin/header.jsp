@@ -7,7 +7,7 @@
 <div class="header">
     <!-- Logo -->
     <div class="logo">
-        <a href="<%= request.getContextPath() %>/admin/home">
+        <a href="<%= request.getContextPath() %>/admin">
             <img alt="ICON" src="<%= request.getContextPath() %>/assets/images/LogoWeb.png">
         </a>
     </div>
@@ -27,6 +27,7 @@
                 <li><a href="${pageContext.request.contextPath}/promotion">Quản lý khuyến mãi</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/articles">Quản lý tin tức</a></li>
                 <li><a href="<%= request.getContextPath() %>/admin/banners">Quản lý banner</a></li>
+                <li><a href="<%= request.getContextPath() %>/manageMovie">Quản lý movie</a></li>
             </ul>
         </li>
     </ul>
